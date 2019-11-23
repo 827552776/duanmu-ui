@@ -8,6 +8,7 @@ import * as role from './moudules/role'
 import * as menu from './moudules/menu'
 import * as dict from './moudules/dict'
 import * as log from './moudules/log'
+import * as order from './moudules/order'
 
 
 // 默认全部导出
@@ -18,5 +19,6 @@ export default {
     role,
     menu,
     dict,
-    log
+    log,
+	order
 }
