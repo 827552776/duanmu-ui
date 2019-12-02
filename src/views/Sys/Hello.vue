@@ -49,7 +49,7 @@
 						<el-input v-model="orderReg.remarks" type="textarea" autosize style="width:455px"></el-input>
 					</el-form-item>
 				</el-col>
-			
+
 				<el-col :span="5" >
 					<el-form-item>
 						<el-button type="success" size="mini" @click="save">保存</el-button>
@@ -127,7 +127,6 @@
 						<el-col :span="4">
 							<el-form-item label="工装名称:" >
 								<el-input v-model="dispa.frockNm"  style="width:150px"></el-input>
-								</el-date-picker>
 							</el-form-item>
 						</el-col>
 						<el-col :span="5">
@@ -256,11 +255,11 @@
 			}).then(() => {
 						let params = Object.assign({}, this.orderReg)
 						this.$api.order.save(params).then((res) => {
-							
+
 							if(res.code == 200) {
 								this.$message({ message: '操作成功', type: 'success' })
 								this.saveDispa()
-								
+
 								} else {
 							this.$message({
 								type: 'error',
@@ -268,17 +267,17 @@
 							});
 
 						}
-							
+
 						})
 					})
-				
-			
+
+
 		},
 		//保存派工单
 		saveDispa(){
 			let params = Object.assign({}, this.dispa)
 			this.$api.order.saveDispa(params).then((res) => {
-				
+
 				if(res.code == 200) {
 					this.$message({ message: '操作成功', type: 'success' })
 					} else {
@@ -286,9 +285,9 @@
 					type: 'error',
 					message: '删除失败!' + response.data.msg
 				});
-			
+
 			}
-				
+
 			})
 		}
 		},
