@@ -1,4 +1,4 @@
-/* 
+/*
  * 接口统一集成模块
  */
 import * as login from './moudules/login'
@@ -11,6 +11,9 @@ import * as log from './moudules/log'
 import * as order from './moudules/order'
 import * as check from './moudules/check'
 import * as parts from './moudules/parts'
+import * as stock from './moudules/stock'
+import * as access from './moudules/access'
+import * as customer from './moudules/customer'
 
 
 // 默认全部导出
@@ -24,5 +27,8 @@ export default {
     log,
 	order,
 	check,
-	parts
+	parts,
+  stock,
+  access,
+  customer
 }
