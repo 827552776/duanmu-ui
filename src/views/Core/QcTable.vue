@@ -9,11 +9,11 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="280" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="220" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">工艺编制</el-button>
-					 <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">外协</el-button>
-				  <el-button type="danger" size="mini"  @click="trans(scope.$index, scope.row)">结束生产</el-button>
+				  <el-button type="success" size="mini"  @click="isok(scope.$index, scope.row)">合格品</el-button>
+				  <el-button type="danger" size="mini" v-if = "scope.row.attribute=='通用件'" @click="again(scope.$index, scope.row)">打回重做</el-button>
+					<el-button type="danger" size="mini" v-if = "scope.row.attribute=='标准件'" @click="retrn(scope.$index, scope.row)">标件退回</el-button>
         </template>
 			
       </el-table-column>
@@ -118,14 +118,14 @@ export default {
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
 		},
-		split: function (index, row) {
-		  this.$emit('split', {index:index, row:row})
+		isok: function (index, row) {
+		  this.$emit('isok', {index:index, row:row})
 		},
-		helpShow: function (index, row) {
-		  this.$emit('helpShow', {index:index, row:row})
+		again: function (index, row) {
+		  this.$emit('again', {index:index, row:row})
 		},
-		trans: function (index, row) {
-		  this.$emit('trans', {index:index, row:row})
+		retrn: function (index, row) {
+		  this.$emit('retrn', {index:index, row:row})
 		},
     // 删除
 		handleDelete: function (index, row) {

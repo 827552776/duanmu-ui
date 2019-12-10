@@ -3,23 +3,23 @@
     <!--表格栏-->
     <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
-          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:80%;" >
+          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
+      <el-table-column type="index" width="40" ></el-table-column>
       <el-table-column v-for="column in columns" header-align="center" align="center"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="280" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">工艺编制</el-button>
-					 <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">外协</el-button>
-				  <el-button type="danger" size="mini"  @click="trans(scope.$index, scope.row)">结束生产</el-button>
+					<el-button  size="mini" v-if = "scope.row.ordSts=='A'||scope.row.ordSts=='B'" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+           <el-button type="danger" size="mini" v-if = "scope.row.ordSts=='A'||scope.row.ordSts=='B'" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
-			
       </el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
+     
       <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize" style="float:right;">
       </el-pagination>
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-// import KtButton from "@/views/Core/KtButton"
+import KtButton from "@/views/Core/KtButton"
 export default {
   name: 'KtTable',
   components:{
-			// KtButton
+			KtButton
 	},
   props: {
     columns: Array, // 表格列配置
@@ -117,15 +117,6 @@ export default {
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
-		},
-		split: function (index, row) {
-		  this.$emit('split', {index:index, row:row})
-		},
-		helpShow: function (index, row) {
-		  this.$emit('helpShow', {index:index, row:row})
-		},
-		trans: function (index, row) {
-		  this.$emit('trans', {index:index, row:row})
 		},
     // 删除
 		handleDelete: function (index, row) {

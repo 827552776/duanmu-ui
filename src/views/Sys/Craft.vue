@@ -34,77 +34,13 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<bz-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @split="split">
+		<bz-table :height="350"  :data="pageResult" :columns="filterColumns"
+		 @findPage="findPage" @split="split" @trans="trans" @helpShow="helpShow">
 		</bz-table>
-		<el-dialog :title="'预估成本费用'" width="70%" :visible.sync="dialogVisible" :close-on-click-modal="false">
-			<el-form :inline="true" :model="arr" label-position="right" label-width="80px" size="mini" ref="arr">
-				<el-form-item label="ID" v-if='false' prop="id">
-					<el-input v-model="arr.id"></el-input>
-				</el-form-item>
-				<el-form-item label="FID" prop="fId">
-					<el-input v-model="arr.fId"></el-input>
-				</el-form-item>
-				<el-row>
-					<el-col :span="7">
-						<el-form-item label="材料费:" prop="cai">
-							<el-input v-model="arr.cai" style="width:180px;">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
-						<el-form-item label="焊材费:" prop="hanCai">
-							<el-input v-model="arr.hanCai" style="width:180px;">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
-						<el-form-item label="热处理:" prop="reCh">
-							<el-input v-model="arr.reCh" placeholder="" style="width:180px"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="7">
-						<el-form-item label="外委加工:" prop="waiWei">
-							<el-input v-model="arr.waiWei" placeholder="" style="width:180px"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
-						<el-form-item label="外购费:" prop="waiGou">
-							<el-input v-model="arr.waiGou" placeholder="" style="width:180px"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
-						<el-form-item label="运费:" prop="yunFei">
-							<el-input v-model="arr.yunFei" placeholder="" style="width:180px"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="7">
-						<el-form-item label="工时费:" prop="gongShi">
-							<el-input v-model="arr.gongShi" placeholder="" style="width:180px"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
-						<el-form-item label="其他费用:" prop="others">
-							<el-input v-model="arr.others" placeholder="" style="width:180px"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
-						<el-form-item>
-							<el-button type="success" size="mini" @click="save">保存</el-button>
-							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
-							<!-- <el-button type="success" size="mini" @click="resetForm('refname')">清空</el-button> -->
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
-		</el-dialog>
+
 		<el-dialog :title="'工艺编制'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
 			<div>
-				<el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
+				<el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="true" :hit="true" @close="handleClose(tag)">
 					{{tag}}
 				</el-tag>
 				<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" style="width: 80px;"
@@ -113,6 +49,85 @@
 				<el-button v-else class="button-new-tag" size="small" @click="showInput"><i class="el-icon-circle-plus"></i></el-button>
 				<el-button type="success" size="mini" @click="saveCraft">保存</el-button>
 			</div>
+		</el-dialog>
+			<el-dialog :title="'外协信息'" width="60%" :visible.sync="dialogVisible2" :close-on-click-modal="false" 
+			:show-close="false">
+			<el-form :inline="true" :model="help" label-position="right" label-width="80px" size="mini" ref="help">
+				<el-form-item label="ID" v-if='false' prop="id">
+					<el-input v-model="help.id"></el-input>
+				</el-form-item>
+				<el-form-item label="FID" v-if='false' prop="fId">
+					<el-input v-model="help.fId"></el-input>
+				</el-form-item>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="具体业务:" prop="work">
+							<el-input v-model="help.work" style="width:160px;">
+							</el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="外协厂家:" prop="helpNm">
+							<el-select v-model="help.helpNm" placeholder="请选择" style="width:160px;">
+								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="开始时间:" prop="startDate">
+							<el-date-picker style="width: 160px;" v-model="help.startDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="结束时间:" prop="endDate">
+									<el-date-picker style="width: 160px;" v-model="help.endDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+									</el-date-picker>
+								</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="价格:" prop="price" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="help.price" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+			
+					<el-col :span="7">
+						<el-form-item label="外协备注:" prop="helpRemarks" >
+							<el-input v-model="help.helpRemarks" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+				
+					<el-col :span="7" :offset="17">
+						<el-form-item>
+							<el-button type="success" size="mini" @click="saveHelp">保存</el-button>
+							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+			<el-table :data="tableData" style="width: 98%" @row-click = "deleteParts">
+				<el-table-column type="index" width="50"></el-table-column>
+				<el-table-column prop="work" label="具体业务" width="140"></el-table-column>
+				<el-table-column prop="helpNm" label="外协厂家" width="130"></el-table-column>
+				<el-table-column prop="startDate" label="开始时间" width="130"></el-table-column>
+				<el-table-column prop="endDate" label="结束时间" width="130"></el-table-column>
+				<el-table-column prop="price" label="价格" width="80"></el-table-column>
+				<el-table-column prop="helpRemarks" label="备注" width="120"></el-table-column>
+				<el-table-column label="操作" width="100">
+					<template slot-scope="scope">
+						<el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+				
+				
+				
+			
 		</el-dialog>
 	</div>
 </template>
@@ -153,17 +168,15 @@
 					buyMaterial: '',
 					remarks: ''
 				},
-				arr: {
+				help: {
 					id: '',
 					fId: '',
-					hanCai: '',
-					cai: '',
-					reCh: '',
-					waiWei: '',
-					waiGou: '',
-					yunFei: '',
-					gongShi: '',
-					others: ''
+					work: '',
+					helpNm: '',
+					startDate: '',
+					endDate: '',
+					price: '',
+					helpRemarks: ''
 				},
 				parts: {
 					id: '',
@@ -174,8 +187,8 @@
 					ask: '',
 					inputValue: ''
 				},
-				dialogVisible: false,
 				dialogVisible1: false,
+				dialogVisible2: false,
 				columns: [],
 				filterColumns: [],
 				pageRequest: {
@@ -185,10 +198,16 @@
 				pageResult: {},
 				operation: false,
 				editLoading: false,
+				selectInvTend: []
 
 			}
 		},
 		methods: {
+			getSelectInvTend() {
+					this.$api.customer.query().then((res) => {
+						this.selectInvTend = res.data
+					})
+			},
 			handleClose(tag) {
 				this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
 			},
@@ -208,6 +227,26 @@
 				this.inputVisible = false;
 				this.inputValue = '';
 			},
+			//更改生产状态，进入质检状态
+			handleEdit(params){
+				this.parts = Object.assign({}, params.row)
+				this.$api.parts.updateStsB(this.parts).then((res) => {
+					if (res.code == 200) {
+						this.$message({
+							message: '操作成功',
+							type: 'success'
+						})
+						this.findPage(null)
+					} else {
+						this.$message({
+							type: 'error',
+							message: '删除失败!'
+						});
+				
+					}
+				
+				})
+			},
 			//分页条件查询部件信息
 			findPage: function(data) {
 				if (data !== null) {
@@ -223,20 +262,21 @@
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
-			queryTags(){
-					
-					this.$api.parts.queryTags(this.parts).then((res) => {
-						var m =res.msg
-				    this.dynamicTags = m.split(",")
+			//列出工艺流程
+			queryTags() {
+
+				this.$api.parts.queryTags(this.parts).then((res) => {
+					var m = res.msg
+					if (m == ""||m == null) {
+						this.dynamicTags = []
+					} else {
+						this.dynamicTags = m.split(",")
+					}
+
 				})
 			},
 			//保存工艺编制
 			saveCraft() {
-				this.$confirm('是否执行本操作?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
 					this.parts.inputValue = this.dynamicTags.join()
 					let params = Object.assign({}, this.parts)
 					this.$api.parts.saveCraft(params).then((res) => {
@@ -255,35 +295,50 @@
 						}
 
 					})
+				
+			},
+				off(){
+				 this.$refs['help'].resetFields()
+				 this.dialogVisible2 = false
+				},
+				//保存外协信息
+				saveHelp() {
+					let params = Object.assign({}, this.help)
+					this.$api.help.saveHelp(params).then((res) => {
+						if (res.code == 200) {
+							this.$message({
+								message: '操作成功',
+								type: 'success'
+							})
+							this.$refs['help'].resetFields()
+							this.dialogVisible2 = false
+						} else {
+							this.$message({
+								type: 'error',
+								message: '删除失败!'
+							});
+			
+						}
+			
+					})
+				
+			},
+			//查询外协信息
+			queryHelp() {
+				this.$api.help.queryHelp(this.parts).then((res) => {
+					this.tableData = res.data
 				})
 			},
-			updateStsC(params) {
-				this.orderReg = Object.assign({}, params.row)
-
-				this.$api.order.updateStsC(this.orderReg).then((res) => {
-					if (res.code == 200) {
-						this.$message({
-							message: '操作成功',
-							type: 'success'
-						})
-						this.findPage(null)
-					} else {
-						this.$message({
-							type: 'error',
-							message: '删除失败!'
-						});
-
-					}
-
-				})
+			edit(row){
+				this.help = row
 			},
 			trans(params) {
-				this.$confirm('是否执行本操作?', '提示', {
+				this.$confirm('确定要完成生产，进入质检程序?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.updateStsC(params)
+					this.handleEdit(params)
 				})
 			},
 			//显示工艺编制页面
@@ -292,6 +347,14 @@
 				this.parts = Object.assign({}, params.row)
 				this.queryTags()
 			},
+			//显示外协信息页面
+			helpShow: function(params) {
+				this.dialogVisible2 = true
+				this.parts = Object.assign({}, params.row)
+				this.help.fId = this.parts.id
+				this.queryHelp()
+				this.getSelectInvTend()
+				},
 			
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {

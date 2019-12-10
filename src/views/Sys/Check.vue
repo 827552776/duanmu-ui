@@ -34,8 +34,8 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<ch-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @handleEdit="handleEdit" @split="split" @trans="trans">
+		<ch-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit"
+		 @split="split" @trans="trans">
 		</ch-table>
 		<el-dialog :title="'预估成本费用'" width="55%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="arr" label-position="right" label-width="90px" size="mini" ref="arr" :rules="sub1Rules">
@@ -92,7 +92,7 @@
 							<el-input v-model="arr.others" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="6" :offset='2'>
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
 							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -102,7 +102,7 @@
 				</el-row>
 			</el-form>
 		</el-dialog>
-		<el-dialog :title="'部件拆分'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
+		<el-dialog :title="'部件拆分'" width="60%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
 			<el-form :inline="true" :model="parts" label-position="right" label-width="80px" size="mini" ref="parts">
 				<el-form-item label="ID" v-if='false' prop="id">
 					<el-input v-model="parts.id"></el-input>
@@ -111,34 +111,62 @@
 					<el-input v-model="parts.fId"></el-input>
 				</el-form-item>
 				<el-row>
-					<el-col :span="9" :offset="2">
+					<el-col :span="9">
 						<el-form-item label="部件名称:" prop="name">
-							<el-input v-model="parts.name" style="width:180px;">
+							<el-input v-model="parts.name" style="width:160px;">
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="9" :offset="2">
-						<el-form-item label="部件规格:" prop="specs">
-							<el-input v-model="parts.specs" style="width:180px;">
+					<el-col :span="7">
+						<el-form-item label="部件属性:" prop="attribute">
+							<el-select v-model="parts.attribute" placeholder="请选择" style="width:160px;">
+								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="部件数量:" prop="quantity" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="parts.quantity" style="width:160px;">
 							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="9" :offset="2">
+					<el-col :span="9">
+						<el-form-item label="部件规格:" prop="specs">
+							<el-input v-model="parts.specs" style="width:160px;">
+							</el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
 						<el-form-item label="部件型号:" prop="modle">
-							<el-input v-model="parts.modle" placeholder="" style="width:180px"></el-input>
+							<el-input v-model="parts.modle" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
 
-					<el-col :span="9" :offset="2">
+					<el-col :span="7">
 						<el-form-item label="技术要求:" prop="ask">
-							<el-input v-model="parts.ask" placeholder="" style="width:180px"></el-input>
+							<el-input v-model="parts.ask" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="7" :offset="16">
+					<el-col :span="9">
+						<el-form-item label="是否外购:" prop="isBuy">
+							<el-select v-model="parts.isBuy" placeholder="请选择" style="width:160px;" @change="change">
+								<el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7" >
+						<el-form-item v-if="this.parts.isBuy =='是'" label="供应商:" >
+							<el-input v-model="parts.supplier" style="width:160px"></el-input>
+						</el-form-item>
+
+					</el-col>
+					<el-col :span="7" :offset="1">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveSplit">保存</el-button>
 							<el-button :size="size" @click.native="dialogVisible1 = false">{{$t('action.cancel')}}</el-button>
@@ -146,6 +174,15 @@
 					</el-col>
 				</el-row>
 			</el-form>
+			<el-table :data="tableData" style="width: 98%" @row-click = "deleteParts">
+				<el-table-column type="index" width="50"></el-table-column>
+				<el-table-column prop="name" label="部件名称" width="150"></el-table-column>
+				<el-table-column prop="attribute" label="部件属性" width="150"></el-table-column>
+				<el-table-column prop="quantity" label="部件数量" width="150"></el-table-column>
+				<el-table-column prop="specs" label="部件规格" width="150"></el-table-column>
+				<el-table-column prop="modle" label="部件型号" width="150"></el-table-column>
+				<el-table-column prop="ask" label="技术要求" width="150"></el-table-column>
+			</el-table>
 		</el-dialog>
 	</div>
 </template>
@@ -166,14 +203,14 @@
 			TableColumnFilterDialog
 		},
 		data() {
-			var valiNumberPass1 = (rule, value, callback) => {//包含小数的数字
-            let reg = /^[+-]?(0|([1-9]\d*))(\.\d+)?$/g;
-            if (!reg.test(value)) {
-                callback(new Error('请输入数字'));
-            } else {
-                callback();
-            }
-        };
+			var valiNumberPass1 = (rule, value, callback) => { //包含小数的数字
+				let reg = /^[+-]?(0|([1-9]\d*))(\.\d+)?$/g;
+				if (!reg.test(value)) {
+					callback(new Error('请输入数字'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				sub1Rules: {
 
@@ -210,6 +247,20 @@
 						trigger: "blur"
 					}],
 				},
+				options: [{
+					value: '通用件',
+					label: '通用件'
+				}, {
+					value: '标准件',
+					label: '标准件'
+				}],
+				options1: [{
+					value: '是',
+					label: '是'
+				}, {
+					value: '否',
+					label: '否'
+				}],
 
 				dynamicTags: [],
 				inputVisible: false,
@@ -248,9 +299,13 @@
 					id: '',
 					fId: '',
 					name: '',
+					attribute: '',
+					quantity: '',
 					specs: '',
 					modle: '',
-					ask: ''
+					ask: '',
+					supplier:'',
+					isBuy:'否',
 				},
 				dialogVisible: false,
 				dialogVisible1: false,
@@ -267,6 +322,16 @@
 			}
 		},
 		methods: {
+			change(val){
+				if(val == '否'){
+					this.parts.supplier = ''}
+			},
+			//查询部件信息
+			queryParts() {
+				this.$api.parts.queryParts(this.orderReg).then((res) => {
+					this.tableData = res.data
+				})
+			},
 			findPage: function(data) {
 				if (data !== null) {
 					this.pageRequest = data.pageRequest
@@ -333,6 +398,33 @@
 					})
 				})
 			},
+			//删除已拆部件
+			deleteParts(row){
+				this.$confirm('确定要删除该部件?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+				let part = Object.assign({},row)
+				this.$api.parts.deleteParts(part).then((res) => {
+					if (res.code == 200) {
+						this.$message({
+							message: '操作成功',
+							type: 'success'
+						})
+						this.queryParts()
+					} else {
+						this.$message({
+							type: 'error',
+							message: '删除失败!'
+						});
+				
+					}
+				
+				})
+				})
+			},
+			//更改订单状态，进入拆单环节
 			updateStsB() {
 				let params = Object.assign({}, this.orderReg)
 				this.$api.order.updateSts(params).then((res) => {
@@ -354,6 +446,7 @@
 
 				})
 			},
+			//更改订单状态，进入生产环节
 			updateStsC(params) {
 				this.orderReg = Object.assign({}, params.row)
 
@@ -388,6 +481,7 @@
 				this.dialogVisible1 = true
 				this.orderReg = Object.assign({}, params.row)
 				this.parts.fId = this.orderReg.id
+				this.queryParts()
 			},
 			// 显示费用预估界面
 			handleEdit: function(params) {
@@ -422,6 +516,11 @@
 						minWidth: 80
 					},
 					{
+						prop: "buyMaterial",
+						label: "模具号",
+						minWidth: 70
+					},
+					{
 						prop: "quantity",
 						label: "数量",
 						minWidth: 80
@@ -433,14 +532,10 @@
 					},
 					{
 						prop: "dispatchNo",
-						label: "派工单号",
+						label: "派工号",
 						minWidth: 100
 					},
-					{
-						prop: "buyMaterial",
-						label: "购置新料",
-						minWidth: 70
-					},
+					
 					{
 						prop: "remarks",
 						label: "备注",

@@ -8,10 +8,27 @@ export const save = (data) => {
     })
 }
 
+//保存 运费
+export const saveFare = (data) => {
+    return axios({
+        url: '/fare/save',
+        method: 'post',
+        data
+    })
+}
+
 //保存 派工单
 export const saveDispa = (data) => {
     return axios({
         url: '/dispa/save',
+        method: 'post',
+        data
+    })
+}
+//查询 派工单
+export const queryDispa = (data) => {
+    return axios({
+        url: '/dispa/query',
         method: 'post',
         data
     })
