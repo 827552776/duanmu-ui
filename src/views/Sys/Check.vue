@@ -3,7 +3,7 @@
 		<div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
 			<el-form :inline="true" :model="filters" :size="size">
 				<el-form-item>
-					<el-input v-model="filters.dispatchNo" placeholder="派工单号"></el-input>
+					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
 				<el-form-item>
 				</el-form-item>
@@ -102,7 +102,7 @@
 				</el-row>
 			</el-form>
 		</el-dialog>
-		<el-dialog :title="'部件拆分'" width="60%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
+		<el-dialog :title="'部件拆分'" width="60%" :visible.sync="dialogVisible1" :close-on-click-modal="false" @close="restParts">
 			<el-form :inline="true" :model="parts" label-position="right" label-width="80px" size="mini" ref="parts">
 				<el-form-item label="ID" v-if='false' prop="id">
 					<el-input v-model="parts.id"></el-input>
@@ -146,7 +146,7 @@
 					</el-col>
 
 					<el-col :span="7">
-						<el-form-item label="技术要求:" prop="ask">
+						<el-form-item label="用途:" prop="ask">
 							<el-input v-model="parts.ask" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
@@ -161,8 +161,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="7" >
-						<el-form-item v-if="this.parts.isBuy =='是'" label="供应商:" >
-							<el-input v-model="parts.supplier" style="width:160px"></el-input>
+						<el-form-item v-if="this.parts.isBuy =='是'" label="供应商:" prop="supplier">
+							<el-select v-model="parts.supplier" placeholder="请选择" size="mini" clearable style="width:160px">
+								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
+								</el-option>
+							</el-select>
 						</el-form-item>
 
 					</el-col>
@@ -181,7 +184,7 @@
 				<el-table-column prop="quantity" label="部件数量" width="150"></el-table-column>
 				<el-table-column prop="specs" label="部件规格" width="150"></el-table-column>
 				<el-table-column prop="modle" label="部件型号" width="150"></el-table-column>
-				<el-table-column prop="ask" label="技术要求" width="150"></el-table-column>
+				<el-table-column prop="ask" label="用途" width="150"></el-table-column>
 			</el-table>
 		</el-dialog>
 	</div>
@@ -247,12 +250,19 @@
 						trigger: "blur"
 					}],
 				},
+				selectInvTend: [],
+				customerParam:{
+					attribute:'供应商'
+				},
 				options: [{
 					value: '通用件',
 					label: '通用件'
 				}, {
 					value: '标准件',
 					label: '标准件'
+				},{
+					value: '整体定制',
+					label: '整体定制'
 				}],
 				options1: [{
 					value: '是',
@@ -268,9 +278,7 @@
 				tableData: [],
 				size: 'mini',
 				filters: {
-					lotNo: '',
-					custNm: '',
-					dispatchNo: ''
+					mouldNm: ''
 				},
 				orderReg: {
 					id: '',
@@ -322,6 +330,11 @@
 			}
 		},
 		methods: {
+			getSelectInvTend() {
+				this.$api.customer.query(this.customerParam).then((res) => {
+					this.selectInvTend = res.data
+				})
+			},
 			change(val){
 				if(val == '否'){
 					this.parts.supplier = ''}
@@ -337,9 +350,9 @@
 					this.pageRequest = data.pageRequest
 				}
 				this.pageRequest.columnFilters = {
-					dispatchNo: {
-						name: 'dispatchNo',
-						value: this.filters.dispatchNo
+					mouldNm: {
+						name: 'mouldNm',
+						value: this.filters.mouldNm
 					}
 				}
 				this.$api.order.findPageAb(this.pageRequest).then((res) => {
@@ -384,7 +397,6 @@
 								message: '操作成功',
 								type: 'success'
 							})
-							this.$refs['parts'].resetFields()
 							this.dialogVisible1 = false
 							this.findPage(null)
 						} else {
@@ -397,6 +409,9 @@
 
 					})
 				})
+			},
+			restParts(){
+				this.$refs['parts'].resetFields()
 			},
 			//删除已拆部件
 			deleteParts(row){
@@ -482,6 +497,7 @@
 				this.orderReg = Object.assign({}, params.row)
 				this.parts.fId = this.orderReg.id
 				this.queryParts()
+				this.getSelectInvTend()
 			},
 			// 显示费用预估界面
 			handleEdit: function(params) {
@@ -506,7 +522,7 @@
 						minWidth: 100
 					},
 					{
-						prop: "custNm",
+						prop: "cust",
 						label: "客户名称",
 						minWidth: 100
 					},

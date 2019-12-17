@@ -34,11 +34,11 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<bz-table :height="350"  :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @split="split" @trans="trans" @helpShow="helpShow">
-		</bz-table>
+		<bb-table :height="350"  :data="pageResult" :columns="filterColumns"
+		 @findPage="findPage" @split="split">
+		</bb-table>
 
-		<el-dialog :title="'流程控制'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false" :before-close="saveCraft">
+		<el-dialog :title="'流程控制'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false" >
 			<div>
 				<el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="true" :hit="true" @close="handleClose(tag)">
 					{{tag}}
@@ -47,6 +47,7 @@
 				 @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
 				</el-input>
 				<el-button v-else class="button-new-tag" size="small" @click="showInput"><i class="el-icon-circle-plus"></i></el-button>
+				<el-button type="success" size="mini" @click="saveCraft">保存</el-button>
 			</div>
 		</el-dialog>
 			<el-dialog :title="'外协信息'" width="60%" :visible.sync="dialogVisible2" :close-on-click-modal="false" 
@@ -133,7 +134,7 @@
 
 <script>
 	import PopupTreeInput from "@/components/PopupTreeInput"
-	import BzTable from "@/views/Core/BzTable"
+	import BbTable from "@/views/Core/BbTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 	import {
@@ -142,7 +143,7 @@
 	export default {
 		components: {
 			PopupTreeInput,
-			BzTable,
+			BbTable,
 			KtButton,
 			TableColumnFilterDialog
 		},
@@ -184,7 +185,8 @@
 					specs: '',
 					modle: '',
 					ask: '',
-					inputValue: ''
+					inputValue: '',
+					flow:''
 				},
 				dialogVisible1: false,
 				dialogVisible2: false,
@@ -232,7 +234,7 @@
 			//更改生产状态，进入质检状态
 			handleEdit(params){
 				this.parts = Object.assign({}, params.row)
-				this.$api.parts.updateStsC(this.parts).then((res) => {
+				this.$api.parts.updateStsB(this.parts).then((res) => {
 					if (res.code == 200) {
 						this.$message({
 							message: '操作成功',
@@ -260,7 +262,7 @@
 						value: this.filters.name
 					}
 				}
-				this.$api.parts.findPage1(this.pageRequest).then((res) => {
+				this.$api.parts.findPage(this.pageRequest).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
@@ -279,21 +281,25 @@
 			},
 			//保存工艺编制
 			saveCraft() {
+					this.$confirm('确定要保存工艺编制吗?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
 					this.parts.inputValue = this.dynamicTags.join()
 					let params = Object.assign({}, this.parts)
-					this.$api.parts.saveCraft(params).then((res) => {
+					this.$api.parts.saveCraftbefor(params).then((res) => {
 						if (res.code == 200) {
 							this.dialogVisible1 = false
+						    this.findPage(null)
 						} else {
 							this.$message({
 								type: 'error',
 								message: '删除失败!'
 							});
-
 						}
-
 					})
-				
+				})
 			},
 				off(){
 				 this.$refs['help'].resetFields()

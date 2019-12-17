@@ -16,6 +16,14 @@ export const saveFare = (data) => {
         data
     })
 }
+//查询 运费
+export const queryFare = (data) => {
+    return axios({
+        url: '/fare/query',
+        method: 'post',
+        data
+    })
+}
 
 //保存 派工单
 export const saveDispa = (data) => {
@@ -85,4 +93,11 @@ export const findPageAb = (data) => {
         method: 'post',
         data
     })
+}
+//获取ID
+export const queryPrimaryKey = (data) => {
+	    return axios({
+	        url: '/order/queryPrimaryKey',
+	        method: 'get'
+	    })
 }

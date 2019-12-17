@@ -7,15 +7,16 @@ import axios from '../axios'
 // 保存
 export const save = (data) => {
     return axios({
-        url: '/dict/save',
+        url: '/customer/save',
         method: 'post',
         data
     })
 }
 // 删除
-export const batchDelete = (data) => {
+// 删除 订单
+export const deleteCustomer = (data) => {
     return axios({
-        url: '/dict/delete',
+        url: '/customer/delete',
         method: 'post',
         data
     })
@@ -32,7 +33,7 @@ export const findPage = (data) => {
 export const query = (data) => {
     return axios({
         url: '/customer/query',
-        method: 'get',
+        method: 'post',
         data
     })
 }

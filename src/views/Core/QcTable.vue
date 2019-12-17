@@ -13,7 +13,7 @@
         <template slot-scope="scope">
 				  <el-button type="success" size="mini"  @click="isok(scope.$index, scope.row)">合格品</el-button>
 				  <el-button type="danger" size="mini" v-if = "scope.row.attribute=='通用件'" @click="again(scope.$index, scope.row)">打回重做</el-button>
-					<el-button type="danger" size="mini" v-if = "scope.row.attribute=='标准件'" @click="retrn(scope.$index, scope.row)">标件退回</el-button>
+					<el-button type="danger" size="mini" v-if = "scope.row.attribute=='标准件'||scope.row.attribute=='整体定制'" @click="retrn(scope.$index, scope.row)">标件退回</el-button>
         </template>
 			
       </el-table-column>

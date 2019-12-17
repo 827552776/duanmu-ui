@@ -6,10 +6,10 @@
 					<el-input v-model="filters.cust" placeholder="客户名称"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
+					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
+					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
 			</el-form>
 		</div>
@@ -37,8 +37,8 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<fa-table :height="350" :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
+		<fa-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit"
+		 @query="query">
 		</fa-table>
 
 
@@ -53,35 +53,41 @@
 					<el-input v-model="fare.fId"></el-input>
 				</el-form-item>
 				<el-row>
-					<el-col :span="8" :offset="2">
+					<el-col :span="7" >
 						<el-form-item label="运费类型:" prop="fareType">
-							<el-select v-model="fare.fareType" placeholder="请选择" style="width:160px;">
+							<el-select v-model="fare.fareType" placeholder="请选择" style="width:130px;">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="9" :offset="2">
+					<el-col :span="9" >
 						<el-form-item label="运费描述:" prop="descri">
-							<el-input v-model="fare.descri" placeholder="" style="width:180px"></el-input>
+							<el-input v-model="fare.descri" placeholder="" style="width:170px"></el-input>
 						</el-form-item>
 					</el-col>
-					</el-row>
-					<el-row>
-					<el-col :span="8" :offset="2">
-						<el-form-item label="具体费用:" prop="price" :rules="[{ type: 'number', message: '必须为数字值'}]">
-							<el-input v-model.number="fare.price" placeholder="" style="width:160px"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="9" :offset="2">
-						<el-form-item label="日期:" prop="delvDate">
-							<el-date-picker style="width: 180px;" v-model="fare.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-							</el-date-picker>
+					<el-col :span="7" >
+						<el-form-item label="物流:" prop="logis">
+							<el-select v-model="fare.logis" placeholder="请选择" size="mini" clearable style="width:103px">
+								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="8" :offset="13">
+					<el-col :span="7" >
+						<el-form-item label="具体费用:" prop="price" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="fare.price" placeholder="" style="width:130px"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="9" >
+						<el-form-item label="日期:" prop="delvDate">
+							<el-date-picker style="width: 170px;" v-model="fare.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7" :offset="1">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
 							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -89,6 +95,16 @@
 					</el-col>
 				</el-row>
 			</el-form>
+		</el-dialog>
+		<el-dialog title="该订单运费列表" :visible.sync="dialogTableVisible" @close="close">
+			<el-table :data="gridData"  show-summary>
+				<el-table-column type="index" width="50"></el-table-column>
+				<el-table-column prop="fareType" label="运费类型" width="120"></el-table-column>
+				<el-table-column prop="descri" label="运费描述" width="180"></el-table-column>
+				<el-table-column prop="logis" label="物流" width="150"></el-table-column>
+				<el-table-column prop="delvDate" label="日期" width="150"></el-table-column>
+				<el-table-column prop="price" label="具体费用" width="120"></el-table-column>
+			</el-table>
 		</el-dialog>
 	</div>
 
@@ -114,6 +130,7 @@
 				size: 'mini',
 				filters: {
 					cust: '',
+					mouldNm:''
 				},
 				columns: [],
 				filterColumns: [],
@@ -123,6 +140,7 @@
 				},
 				pageResult: {},
 				dialogVisible: false,
+				dialogTableVisible: false,
 				operation: false,
 				editLoading: false,
 				dataFormRules: {
@@ -138,20 +156,21 @@
 				}, {
 					value: '外协',
 					label: '外协'
-				},{
+				}, {
 					value: '采购',
 					label: '采购'
-				},{
+				}, {
 					value: '其他',
 					label: '其他'
 				}],
-				fare:{
-					id:'',
-					fId:'',
-					fareType:'',
-					descri:'',
-					price:'',
-					delvDate:''
+				fare: {
+					id: '',
+					fId: '',
+					fareType: '',
+					descri: '',
+					logis:'',
+					price: '',
+					delvDate: ''
 				},
 				orderReg: {
 					id: '',
@@ -165,9 +184,19 @@
 					remarks: ''
 				},
 				isShow: false,
+				gridData: [],
+				selectInvTend: [],
+				customerParam:{
+					attribute:'物流'
+				}
 			}
 		},
 		methods: {
+			getSelectInvTend() {
+				this.$api.customer.query(this.customerParam).then((res) => {
+					this.selectInvTend = res.data
+				})
+			},
 			findPage: function(data) {
 				if (data !== null) {
 					this.pageRequest = data.pageRequest
@@ -176,22 +205,38 @@
 					cust: {
 						name: 'cust',
 						value: this.filters.cust
+					},
+					mouldNm:{
+						name:  'mouldNm',
+						value:this.filters.mouldNm
 					}
 				}
 				this.$api.order.findPage(this.pageRequest).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
-			// 显示编辑界面
+			// 显示运费录入界面
 			handleEdit: function(params) {
 				this.dialogVisible = true
 				this.operation = false
 				this.orderReg = Object.assign({}, params.row)
 				this.fare.fId = this.orderReg.id
-				
+				this.getSelectInvTend()
+
 			},
-			
-		
+			//查询运费信息
+			query(params) {
+				this.dialogTableVisible = true
+				this.orderReg = Object.assign({}, params.row)
+				this.fare.fId = this.orderReg.id
+				let param = Object.assign({}, this.fare)
+				this.$api.order.queryFare(param).then((res) => {
+					this.gridData = res.data
+				})
+			},
+			close(){
+				this.gridData = []
+			},
 			//保存运费
 			save() {
 				this.$confirm('是否执行本操作?', '提示', {
@@ -204,10 +249,10 @@
 						if (res.code == 200) {
 							this.$message({
 								type: 'success',
-								message: '保存成功!' 
+								message: '保存成功!'
 							});
-						this.$refs['fare'].resetFields()
-						this.dialogVisible = false
+							this.$refs['fare'].resetFields()
+							this.dialogVisible = false
 						} else {
 							this.$message({
 								type: 'error',
@@ -245,6 +290,11 @@
 					{
 						prop: "mouldNm",
 						label: "模具名称",
+						minWidth: 120
+					},
+					{
+						prop: "buyMaterial",
+						label: "模具号",
 						minWidth: 80
 					},
 					{
@@ -263,14 +313,14 @@
 						minWidth: 100
 					},
 					{
-						prop: "buyMaterial",
-						label: "购置新料",
-						minWidth: 70
+						prop: "sts",
+						label: "订单状态",
+						minWidth: 100
 					},
 					{
 						prop: "remarks",
 						label: "备注",
-						minWidth: 180
+						minWidth: 150
 					},
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
 					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},

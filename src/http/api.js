@@ -15,6 +15,7 @@ import * as stock from './moudules/stock'
 import * as access from './moudules/access'
 import * as customer from './moudules/customer'
 import * as help from './moudules/help'
+import * as unqu from './moudules/unqu'
 
 
 
@@ -33,5 +34,6 @@ export default {
 	stock,
 	access,
 	customer,
-	help
+	help,
+	unqu
 }

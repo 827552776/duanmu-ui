@@ -1,9 +1,17 @@
 import axios from '../axios'
 
-// 分页查询生产过程中部件信息
+// 分页查询工艺编制部件信息
 export const findPage = (data) => {
     return axios({
         url: '/parts/findPage',
+        method: 'post',
+        data
+    })
+}
+// 分页查询生产过程中部件信息
+export const findPage1 = (data) => {
+    return axios({
+        url: '/parts/findPage1',
         method: 'post',
         data
     })
@@ -24,10 +32,34 @@ export const findPagePr = (data) => {
         data
     })
 }
-//保存工艺流程
+// 分页查询生产采购部件信息
+export const findPagePp = (data) => {
+    return axios({
+        url: '/parts/findPagePp',
+        method: 'post',
+        data
+    })
+}
+//修改工艺流程
 export const saveCraft = (data) => {
     return axios({
         url: '/parts/saveCraft',
+        method: 'post',
+        data
+    })
+}
+//保存工艺流程
+export const saveCraftbefor = (data) => {
+    return axios({
+        url: '/parts/saveCraftbefor',
+        method: 'post',
+        data
+    })
+}
+//保存临时采购计划
+export const savePurch = (data) => {
+    return axios({
+        url: '/parts/savePurch',
         method: 'post',
         data
     })
@@ -49,11 +81,19 @@ export const queryParts = (data) => {
         data
     })
 }
-
 //更改部件生产状态
 export const updateStsB = (data) => {
     return axios({
         url: '/parts/updateStsB',
+        method: 'post',
+        data
+    })
+}
+
+//更改部件生产状态,进入质检环节
+export const updateStsC = (data) => {
+    return axios({
+        url: '/parts/updateStsC',
         method: 'post',
         data
     })
@@ -69,9 +109,9 @@ export const updateStsA = (data) => {
 }
 
 //更改部件生产状态
-export const updateStsC = (data) => {
+export const updateStsD = (data) => {
     return axios({
-        url: '/parts/updateStsC',
+        url: '/parts/updateStsD',
         method: 'post',
         data
     })

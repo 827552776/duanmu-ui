@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column :label="$t('action.operation')" width="280" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">工艺编制</el-button>
+				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">流程控制</el-button>
 					 <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">外协</el-button>
 				  <el-button type="danger" size="mini"  @click="trans(scope.$index, scope.row)">结束生产</el-button>
         </template>

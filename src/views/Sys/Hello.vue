@@ -6,6 +6,9 @@
 					<el-input v-model="filters.cust" placeholder="客户名称"></el-input>
 				</el-form-item>
 				<el-form-item>
+					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
+				</el-form-item>
+				<el-form-item>
 					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
 				<el-form-item>
@@ -46,7 +49,7 @@
 
 		<el-dialog :title="operation?'新增':'编辑'" width="90%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="orderReg" label-position="right" label-width="80px" size="mini" ref="orderReg">
-				<el-form-item label="ID" v-if="isShow" prop="id">
+				<el-form-item label="ID"  prop="id" v-if="isShow">
 					<el-input v-model="orderReg.id"></el-input>
 				</el-form-item>
 				<el-row>
@@ -100,7 +103,7 @@
 
 					<el-col :span="5">
 						<el-form-item>
-							<el-button type="success" size="mini" @click="save">保存</el-button>
+							<el-button type="success" size="mini" @click="saveButton">保存</el-button>
 							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
 							<el-button type="danger" size="mini" @click="reset">清空全部</el-button>
 						</el-form-item>
@@ -112,6 +115,9 @@
 					<el-form :inline="true" :model="dispa" label-position="right" label-width="80px" size="mini" ref="dispa">
 						<el-form-item label="ID" prop="id" v-if="isShow">
 							<el-input v-model="dispa.id"></el-input>
+						</el-form-item>
+						<el-form-item label="FID" prop="fId" v-if="isShow">
+							<el-input v-model="dispa.fId"></el-input>
 						</el-form-item>
 						<el-row>
 							<el-col :span="4">
@@ -241,7 +247,7 @@
 						</el-row>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="附件" name="second">上传附件</el-tab-pane>
+				<!-- <el-tab-pane label="附件" name="second">上传附件</el-tab-pane> -->
 			</el-tabs>
 		</el-dialog>
 	</div>
@@ -267,15 +273,14 @@
 			return {
 				size: 'mini',
 				filters: {
-					lotNo: '',
 					cust: '',
-					dispatchNo: ''
+					mouldNm: ''
 				},
 				columns: [],
 				filterColumns: [],
 				pageRequest: {
 					pageNum: 1,
-					pageSize: 5
+					pageSize: 10
 				},
 				pageResult: {},
 				dialogVisible: false,
@@ -301,6 +306,7 @@
 				},
 				dispa: {
 					id: '',
+					fId:'',
 					dispatchNo: '',
 					dispaNo: '',
 					category: '',
@@ -326,7 +332,10 @@
 				},
 				activeName: 'first',
 				isShow: false,
-				selectInvTend: []
+				selectInvTend: [],
+				customerParam:{
+					attribute:'客户'
+				}
 			}
 		},
 		methods: {
@@ -347,6 +356,10 @@
 					cust: {
 						name: 'cust',
 						value: this.filters.cust
+					},
+					mouldNm: {
+						name: 'mouldNm',
+						value: this.filters.mouldNm
 					}
 				}
 				this.$api.order.findPage(this.pageRequest).then((res) => {
@@ -380,13 +393,11 @@
 			},
 			//保存按钮
 			saveButton() {
-				if (this.orderReg.dispatchNo === '') {
-					alert('派工单号不能为空')
-				} else if (this.dispa.dispatchNo === '') {
-					alert('派工单号不能为空')
-				} else {
-					this.save()
+				if(this.orderReg.id==''||this.orderReg.id==null){
+					this.getId()
 				}
+				    this.save()
+				
 			},
 			//保存订单
 			save() {
@@ -422,15 +433,20 @@
 							type: 'error',
 							message: '删除失败!' + response.data.msg
 						});
-					
 					}
 					})
+			},
+			getId(){
+				this.$api.order.queryPrimaryKey().then((res) => {
+						this.orderReg.id  = res.msg
+						this.dispa.fId = res.msg
+					})
+				
 			},
 			//保存派工单
 			saveDispa() {
 				let params = Object.assign({}, this.dispa)
 				this.$api.order.saveDispa(params).then((res) => {
-
 					if (res.code == 200) {
 						this.$message({
 							message: '操作成功',
@@ -438,10 +454,14 @@
 						})
 						this.dialogVisible = false
 						this.findPage(null)
+						this.orderReg.id = '',
 						this.orderReg.mouldNm = '',
+						this.orderReg.buyMaterial = '',
 							this.orderReg.quantity = '',
 							this.orderReg.company = '',
 							this.orderReg.remarks = '',
+							this.dispa.id = '',
+							this.dispa.fId ='',
 							this.dispa.productNo = '',
 							this.dispa.markNo = '',
 							this.dispa.frockNo = '',
@@ -456,7 +476,6 @@
 							this.dispa.mouldQuota = '',
 							this.dispa.completeQuan = '',
 							this.dispa.dispaRemarks = ''
-
 					} else {
 						this.$message({
 							type: 'error',
@@ -495,7 +514,7 @@
 					{
 						prop: "mouldNm",
 						label: "模具名称",
-						minWidth: 80
+						minWidth: 120
 					},
 					{
 						prop: "buyMaterial",
@@ -518,9 +537,14 @@
 						minWidth: 100
 					},
 					{
+						prop: "sts",
+						label: "订单状态",
+						minWidth: 100
+					},
+					{
 						prop: "remarks",
 						label: "备注",
-						minWidth: 180
+						minWidth: 150
 					},
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
 					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
@@ -529,7 +553,7 @@
 				this.filterColumns = JSON.parse(JSON.stringify(this.columns));
 			},
 			getSelectInvTend() {
-				this.$api.customer.query().then((res) => {
+				this.$api.customer.query(this.customerParam).then((res) => {
 					this.selectInvTend = res.data
 				})
 			}

@@ -48,6 +48,34 @@
 			  	</el-col>
 			  </el-row>
 		</el-dialog>
+		<el-dialog :title="'不合格部件退回'" width="30%" :visible.sync="dialogVisible2" :close-on-click-modal="false">
+			<el-form :inline="true" :model="unqu" label-position="right" label-width="120px" size="mini" ref="unqu">
+				<el-form-item label="ID" v-if='false' prop="id">
+					<el-input v-model="unqu.id"></el-input>
+				</el-form-item>
+				<el-form-item label="FID" v-if='false' prop="fId">
+					<el-input v-model="unqu.fId"></el-input>
+				</el-form-item>
+				<el-row>
+					<el-col :span="22">
+						<el-form-item label="不合格原因:" prop="textarea">
+							<el-input type="textarea" v-model="unqu.unquCause" style="width:250px;">
+							</el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				</el-row>
+				<el-row>
+				
+					<el-col :span="7" :offset="17">
+						<el-form-item>
+							<el-button type="success" size="mini" @click="saveUnqu">确定</el-button>
+							<el-button :size="size" @click.native="dialogVisible2 = false">{{$t('action.cancel')}}</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+		</el-dialog>
 	</div>
 </template>
 
@@ -84,7 +112,13 @@
 					ask: '',
 					inputValue: ''
 				},
+				unqu:{
+					id:'',
+					fId:'',
+					unquCause:''
+				},
 				dialogVisible1: false,
+				dialogVisible2: false,
 				columns: [],
 				filterColumns: [],
 				pageRequest: {
@@ -100,7 +134,7 @@
 		methods: {
 			isok(params){
 				this.parts = Object.assign({},params.row)
-				this.$api.parts.updateStsC(this.parts).then((res) => {
+				this.$api.parts.updateStsD(this.parts).then((res) => {
 					if (res.code == 200) {
 						this.$message({
 							message: '操作成功',
@@ -158,8 +192,7 @@
 					})
 					},
 			//更改生产状态,不合格通件返工
-			handleEdit(params){
-				this.parts = Object.assign({}, params.row)
+			handleEdit(){
 				this.$api.parts.updateStsA(this.parts).then((res) => {
 					if (res.code == 200) {
 						this.$message({
@@ -192,16 +225,38 @@
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
-			
+			//保存不合格通用件信息
+			saveUnqu(){
+				this.$api.unqu.save(this.unqu).then((res) => {
+					if (res.code == 200) {
+						this.handleEdit()
+						this.$message({
+							message: '操作成功',
+							type: 'success'
+						})
+						this.dialogVisible2 = false
+					} else {
+						this.$message({
+							type: 'error',
+							message: '删除失败!'
+						});
+				
+					}
+				
+				})
+			},
 			
 			again(params) {
-				this.$confirm('确定要重新排产?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.handleEdit(params)
-				})
+				this.dialogVisible2 = true
+				this.parts = Object.assign({}, params.row)
+				this.unqu.fId = this.parts.id
+// 				this.$confirm('确定要重新排产?', '提示', {
+// 					confirmButtonText: '确定',
+// 					cancelButtonText: '取消',
+// 					type: 'warning'
+// 				}).then(() => {
+// 					this.handleEdit(params)
+// 				})
 			},
 			retrn(params) {
 				this.dialogVisible1 = true
