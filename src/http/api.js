@@ -14,7 +14,9 @@ import * as parts from './moudules/parts'
 import * as stock from './moudules/stock'
 import * as access from './moudules/access'
 import * as customer from './moudules/customer'
-
+import * as material from './moudules/material'
+import * as accessMaterial from './moudules/accessMaterial'
+import * as welding from './moudules/welding'
 
 // 默认全部导出
 export default {
@@ -30,5 +32,8 @@ export default {
 	parts,
   stock,
   access,
-  customer
+  customer,
+  material,
+  accessMaterial,
+  welding
 }

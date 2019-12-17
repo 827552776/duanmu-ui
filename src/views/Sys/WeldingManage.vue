@@ -12,21 +12,12 @@
         <el-form-item>
           <kt-button icon="fa fa-plus" :label="$t('新增')" perms="sys:dict:add" type="primary" @click="handleAdd" />
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('刀具')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('配件')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('焊丝')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('碳棒')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('其他')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <kt-button icon="fa fa-plus" :label="$t('刀具')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item>-->
+<!--          <kt-button icon="fa fa-plus" :label="$t('配件')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
+<!--        </el-form-item>-->
       </el-form>
     </div>
     <!--表格内容栏-->
@@ -41,22 +32,28 @@
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="名称" prop="label">
-          <el-input v-model="dataForm.trName" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="value">
-          <el-input v-model="dataForm.trType" auto-complete="off"></el-input>
+        <el-form-item label="库存数量" prop="value">
+          <el-input v-model="dataForm.number" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="细分" prop="type">
-          <el-input v-model="dataForm.trSubdivide" auto-complete="off"></el-input>
+        <el-form-item label="单位" prop="type">
+          <el-input v-model="dataForm.company" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="数量" prop="sort">
-          <el-input v-model="dataForm.trNumber" auto-complete="off"></el-input>
+        <el-form-item label="价格" prop="sort">
+          <el-input v-model="dataForm.price" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="价格 " prop="description">
-          <el-input v-model="dataForm.trPrice" auto-complete="off" type="textarea"></el-input>
+        <el-form-item label="实盘数 " prop="description">
+          <el-input v-model="dataForm.sureNumber" auto-complete="off" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="差额 " prop="description">
+          <el-input v-model="dataForm.difference" auto-complete="off" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="预警数量" prop="description">
+          <el-input v-model="dataForm.typeNumber" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
-          <el-input v-model="dataForm.trRemarks" auto-complete="off" type="textarea"></el-input>
+          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -64,13 +61,14 @@
         <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       </div>
     </el-dialog>
+    <!-- 出库弹出界面   -->
     <el-dialog :title="operationStock?'入库':'出库'" width="40%" :visible.sync="editDialogVisibleIn" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="入库数量" prop="label">
-          <el-input v-model="dataForm.inNumber" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.intNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -78,6 +76,7 @@
         <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       </div>
     </el-dialog>
+    <!--  入库显示界面  -->
     <el-dialog :title="operationStock?'入库':'出库'" width="40%" :visible.sync="editDialogVisibleOut" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
@@ -114,12 +113,17 @@
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:50},
-                    {prop:"trName", label:"名称", minWidth:100},
-                    {prop:"trType", label:"类型", minWidth:100},
-                    {prop:"trSubdivide", label:"细分", minWidth:80},
-                    {prop:"trNumber", label:"数量", minWidth:80},
-                    {prop:"trPrice", label:"价格", minWidth:120},
-                    {prop:"trRemarks", label:"备注", minWidth:120},
+                    {prop:"name", label:"名称", minWidth:100},
+                    {prop:"number", label:"库存数量", minWidth:100},
+                    {prop:"company", label:"单位", minWidth:80},
+                    {prop:"price", label:"价格", minWidth:80},
+                    // {prop:"outNumber", label:"出库数量", minWidth:120},
+                    // {prop:"intNumber", label:"入库数量", minWidth:120},
+                    // {prop:"type", label:"预警状态", minWidth:120},
+                    {prop:"typeNumber", label:"预警数量", minWidth:120},
+                    {prop:"sureNumber", label:"实盘数", minWidth:120},
+                    {prop:"difference", label:"差额", minWidth:120},
+                    {prop:"remarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
@@ -145,15 +149,18 @@
                 // 新增编辑界面数据
                 dataForm: {
                     id: 0,
-                    trName: '',
-                    trType: '',
-                    trSubdivide: '',
-                    trNumber: '',
-                    trPrice: '',
-                    trRemarks: '',
-                    inNumber:'',
-                    outNumber:'',
-                    typeN:'0'
+                    name: '',
+                    number: '',
+                    company: '',
+                    price: '',
+                    outNumber: 0,
+                    intNumber: 0,
+                    type: 0,
+                    typeNumber: '',
+                    sureNumber: '',
+                    remarks: '',
+                    difference:''
+
                 }
             }
         },
@@ -164,7 +171,7 @@
                     this.pageRequest = data.pageRequest
                 }
                 this.pageRequest.columnFilters = {trName: {name:'trName', value:this.filters.trName}}
-                this.$api.stock.findPage(this.pageRequest).then((res) => {
+                this.$api.welding.findPage(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },
@@ -178,15 +185,17 @@
                 this.operation = true
                 this.dataForm = {
                     id: 0,
-                    trName: '',
-                    trType: '',
-                    trSubdivide: '',
-                    trNumber: '',
-                    trPrice: '',
-                    trRemarks: '',
-                    intNumber: '',
-                    outNumber: '',
-                    typeN:'0'
+                    name: '',
+                    number: '',
+                    company: '',
+                    price: '',
+                    outNumber: 0,
+                    intNumber: 0,
+                    type: 0,
+                    typeNumber: '',
+                    sureNumber: '',
+                    remarks: '',
+                    difference:''
                 }
             },
             //入库显示界面
@@ -215,7 +224,7 @@
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
                             let params = Object.assign({}, this.dataForm)
-                            this.$api.stock.save(params).then((res) => {
+                            this.$api.welding.save(params).then((res) => {
                                 if(res.code == 200) {
                                     this.$message({ message: '操作成功', type: 'success' })
                                 } else {

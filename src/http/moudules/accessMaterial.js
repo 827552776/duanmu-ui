@@ -1,12 +1,13 @@
 import axios from '../axios'
+
 /*
-* 入库管理
+* 字典管理模块
 */
 
 // 保存
 export const save = (data) => {
   return axios({
-    url: '/access/save',
+    url: '/accessMaterial/save',
     method: 'post',
     data
   })
@@ -14,23 +15,24 @@ export const save = (data) => {
 //确认
 export const saveConfirm = (data) => {
   return axios({
-    url: '/access/saveConfirm',
+    url: '/accessMaterial/saveConfirm',
     method: 'post',
     data
   })
 }
 //确认
-export const saveConfirmOut = (data) => {
+export const saveConfirmInt = (data) => {
   return axios({
-    url: '/accessOut/saveConfirm',
+    url: '/accessMaterial/saveConfirmInt',
     method: 'post',
     data
   })
 }
-// 删除saveConfirm
+
+// 删除
 export const batchDelete = (data) => {
   return axios({
-    url: '/access/delete',
+    url: '/accessMaterial/delete',
     method: 'post',
     data
   })
@@ -38,17 +40,17 @@ export const batchDelete = (data) => {
 // 分页查询
 export const findPage = (data) => {
   return axios({
-    url: '/access/access',
+    url: '/accessMaterial/find',
     method: 'post',
     data
   })
 }
-//
 // 分页查询
-export const findPageOut = (data) => {
+export const findPageA = (data) => {
   return axios({
-    url: '/accessOut/access',
+    url: '/accessMaterial/findA',
     method: 'post',
     data
   })
 }
+
