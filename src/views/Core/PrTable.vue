@@ -3,24 +3,24 @@
     <!--表格栏-->
     <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
-          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" >
-      <el-table-column type="selection" width="40" v-if="showBatchDelete & showOperation"></el-table-column>
+          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:80%;" >
       <el-table-column v-for="column in columns" header-align="center" align="center"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="220" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-          <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />
-          <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />
+			<el-button type="success" size="mini" v-if="scope.row.attribute =='标准件'" @click="isok(scope.$index, scope.row)">已购</el-button>
+			<el-button  size="mini" v-if="scope.row.attribute =='整体定制'&&scope.row.sts=='A'" @click="again(scope.$index, scope.row)">开始定制</el-button>
+			<el-button type="success" size="mini" v-if="scope.row.attribute =='整体定制'&&scope.row.sts=='B'" @click="isok(scope.$index, scope.row)">完成定制</el-button>
+				
         </template>
+			
       </el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <kt-button :label="$t('action.batchDelete')" :perms="permsDelete" :size="size" type="danger" @click="handleBatchDelete()" 
-        :disabled="this.selections.length===0" style="float:left;" v-if="showBatchDelete & showOperation"/>
       <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize" style="float:right;">
       </el-pagination>
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import KtButton from "@/views/Core/KtButton"
+// import KtButton from "@/views/Core/KtButton"
 export default {
   name: 'KtTable',
   components:{
-			KtButton
+			// KtButton
 	},
   props: {
     columns: Array, // 表格列配置
@@ -50,7 +50,7 @@ export default {
     },
     maxHeight: {  // 表格最大高度
       type: Number,
-      default: 600
+      default: 420
     },
     height: {  // 表格最大高度
       type: Number,
@@ -118,6 +118,15 @@ export default {
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
+		},
+		isok: function (index, row) {
+		  this.$emit('isok', {index:index, row:row})
+		},
+		again: function (index, row) {
+		  this.$emit('again', {index:index, row:row})
+		},
+		retrn: function (index, row) {
+		  this.$emit('retrn', {index:index, row:row})
 		},
     // 删除
 		handleDelete: function (index, row) {

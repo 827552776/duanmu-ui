@@ -3,8 +3,8 @@
     <!--表格栏-->
     <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
-          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" >
-      <el-table-column type="selection" width="40" v-if="showBatchDelete & showOperation"></el-table-column>
+          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
+      <el-table-column type="index" width="40" ></el-table-column>
       <el-table-column v-for="column in columns" header-align="center" align="center"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
@@ -12,15 +12,13 @@
       </el-table-column>
       <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-          <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />
-          <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />
+					<el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">录入</el-button>
+					<el-button  size="mini"  @click="query(scope.$index, scope.row)">查询</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <kt-button :label="$t('action.batchDelete')" :perms="permsDelete" :size="size" type="danger" @click="handleBatchDelete()" 
-        :disabled="this.selections.length===0" style="float:left;" v-if="showBatchDelete & showOperation"/>
       <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize" style="float:right;">
       </el-pagination>
@@ -54,7 +52,7 @@ export default {
     },
     height: {  // 表格最大高度
       type: Number,
-      default: 250
+      default: 600
     },
     showOperation: {  // 是否显示操作组件
       type: Boolean,
@@ -118,6 +116,9 @@ export default {
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
+		},
+		query: function (index, row) {
+		  this.$emit('query', {index:index, row:row})
 		},
     // 删除
 		handleDelete: function (index, row) {

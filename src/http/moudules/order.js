@@ -8,10 +8,35 @@ export const save = (data) => {
     })
 }
 
+//保存 运费
+export const saveFare = (data) => {
+    return axios({
+        url: '/fare/save',
+        method: 'post',
+        data
+    })
+}
+//查询 运费
+export const queryFare = (data) => {
+    return axios({
+        url: '/fare/query',
+        method: 'post',
+        data
+    })
+}
+
 //保存 派工单
 export const saveDispa = (data) => {
     return axios({
         url: '/dispa/save',
+        method: 'post',
+        data
+    })
+}
+//查询 派工单
+export const queryDispa = (data) => {
+    return axios({
+        url: '/dispa/query',
         method: 'post',
         data
     })
@@ -68,4 +93,11 @@ export const findPageAb = (data) => {
         method: 'post',
         data
     })
+}
+//获取ID
+export const queryPrimaryKey = (data) => {
+	    return axios({
+	        url: '/order/queryPrimaryKey',
+	        method: 'get'
+	    })
 }

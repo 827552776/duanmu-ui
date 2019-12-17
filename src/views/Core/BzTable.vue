@@ -9,10 +9,11 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="280" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">工艺编制</el-button>
-				
+				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">流程控制</el-button>
+					 <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">外协</el-button>
+				  <el-button type="danger" size="mini"  @click="trans(scope.$index, scope.row)">结束生产</el-button>
         </template>
 			
       </el-table-column>
@@ -119,6 +120,9 @@ export default {
 		},
 		split: function (index, row) {
 		  this.$emit('split', {index:index, row:row})
+		},
+		helpShow: function (index, row) {
+		  this.$emit('helpShow', {index:index, row:row})
 		},
 		trans: function (index, row) {
 		  this.$emit('trans', {index:index, row:row})

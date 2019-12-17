@@ -7,15 +7,16 @@ import axios from '../axios'
 // 保存
 export const save = (data) => {
     return axios({
-        url: '/dict/save',
+        url: '/customer/save',
         method: 'post',
         data
     })
 }
 // 删除
-export const batchDelete = (data) => {
+// 删除 订单
+export const deleteCustomer = (data) => {
     return axios({
-        url: '/dict/delete',
+        url: '/customer/delete',
         method: 'post',
         data
     })
@@ -24,6 +25,14 @@ export const batchDelete = (data) => {
 export const findPage = (data) => {
     return axios({
         url: '/customer/findPage',
+        method: 'post',
+        data
+    })
+}
+// 不带分页 查询
+export const query = (data) => {
+    return axios({
+        url: '/customer/query',
         method: 'post',
         data
     })

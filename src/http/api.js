@@ -17,6 +17,10 @@ import * as customer from './moudules/customer'
 import * as material from './moudules/material'
 import * as accessMaterial from './moudules/accessMaterial'
 import * as welding from './moudules/welding'
+import * as help from './moudules/help'
+import * as unqu from './moudules/unqu'
+
+
 
 // 默认全部导出
 export default {
@@ -35,5 +39,7 @@ export default {
   customer,
   material,
   accessMaterial,
-  welding
+  welding,
+	help,
+	unqu
 }
