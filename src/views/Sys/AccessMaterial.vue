@@ -12,9 +12,9 @@
         <el-form-item>
           <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />
         </el-form-item>
-        <!--        <el-form-item>-->
-        <!--          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
-        <!--        </el-form-item>-->
+<!--        <el-form-item>-->
+<!--          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
+<!--        </el-form-item>-->
       </el-form>
     </div>
     <!--表格内容栏-->
@@ -24,48 +24,47 @@
     </ku-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
-      <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
+      <el-form :model="dataForm" label-width="120px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="名称" prop="label">
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="value">
-          <el-input v-model="dataForm.type" auto-complete="off"></el-input>
+        <el-form-item label="模具自用数" prop="value">
+          <el-input v-model="dataForm.number" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="领用人" prop="type">
-          <el-input v-model="dataForm.modeBy" auto-complete="off"></el-input>
-        </el-form-item>
-
-        <el-form-item label="领用类型">
-          <el-select v-model="dataForm.mode" auto-complete="off" placeholder="请选择">
-            <el-option label="借" value="借"></el-option>
-            <el-option label="换" value="换"></el-option>
-            <el-option label="领" value="领"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="出库时间" prop="sort">
+        <el-form-item label="自用出库时间" prop="sort">
           <el-date-picker
-            v-model="dataForm.outTime"
+            v-model="dataForm.trTime"
             type="date"
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-<!--        <el-form-item label="入库时间" prop="sort">-->
-<!--          <el-date-picker-->
-<!--            v-model="dataForm.intTime"-->
-<!--            type="date"-->
-<!--            placeholder="选择日期">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
-        <el-form-item label="出库数量 " prop="description">
-          <el-input v-model="dataForm.outNumber" auto-complete="off" type="textarea"></el-input>
+        <el-form-item label="外协单位" prop="type">
+          <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>
         </el-form-item>
-<!--        <el-form-item label="入库数量 " prop="description">-->
-<!--          <el-input v-model="dataForm.number" auto-complete="off" type="textarea"></el-input>-->
-<!--        </el-form-item>-->
-        <el-form-item label="出库单价" prop="remarks">
+        <el-form-item label="外协时间" prop="sort">
+          <el-date-picker
+            v-model="dataForm.wxTime"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="外协入库时间" prop="sort">
+          <el-date-picker
+            v-model="dataForm.wxInt"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="外协数量 " prop="description">
+          <el-input v-model="dataForm.wxNumber" auto-complete="off" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="外协价格 " prop="description">
+          <el-input v-model="dataForm.wxPrice" auto-complete="off" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="工艺备注" prop="remarks">
           <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
       </el-form>
@@ -108,16 +107,18 @@
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
-                    {prop:"name", label:"名称", minWidth:100},
-                    {prop:"type", label:"类型", minWidth:100},
-                    {prop:"modeBy", label:"领用人", minWidth:100},
-                    {prop:"mode", label:"领用方式", minWidth:100},
-                    {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
-                    // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"outNumber", label:"出库数量", minWidth:100},
-                    // {prop:"number", label:"入库数量", minWidth:100},
-                    {prop:"state", label:"状态", minWidth:80},
-                    {prop:"remarks", label:"出库单价", minWidth:120},
+                    {prop:"name", label:"材料名称", minWidth:100},
+                    {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"intNumber", label:"入库数量", minWidth:100},
+                    {prop:"number", label:"模具自用数", minWidth:100},
+                    {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"waixie", label:"外协单位", minWidth:100},
+                    {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"wxNumber", label:"外协数量", minWidth:80},
+                    {prop:"wxPrice", label:"外协价格", minWidth:80},
+                    {prop:"type", label:"状态", minWidth:80},
+                    {prop:"remarks", label:"工艺备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
@@ -138,14 +139,16 @@
                 dataForm: {
                     id: 0,
                     name: '',
-                    type: '',
-                    modeBy: '',
-                    mode: '',
-                    outTime: '',
                     intTime: '',
-                    outNumber:'',
-                    state:2,
-                    number:'',
+                    intNumber: '',
+                    number: '',
+                    trTime: '',
+                    waixie: '',
+                    wxTime:'',
+                    type:0,
+                    wxInt:'',
+                    wxNumber:'',
+                    wxPrice:'',
                     remarks:''
                 }
             }
@@ -157,7 +160,7 @@
                     this.pageRequest = data.pageRequest
                 }
                 this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}}
-                this.$api.access.findPageOut(this.pageRequest).then((res) => {
+                this.$api.accessMaterial.findPage(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },
@@ -172,14 +175,16 @@
                 this.dataForm = {
                     id: 0,
                     name: '',
-                    type: '',
-                    modeBy: '',
-                    mode: '',
-                    outTime: '',
-                    inTime: '',
-                    outNumber:'',
-                    state:2,
-                    number:'',
+                    intTime: '',
+                    intNumber: '',
+                    number: '',
+                    trTime: '',
+                    waixie: '',
+                    wxTime:'',
+                    type:0,
+                    wxInt:'',
+                    wxNumber:'',
+                    wxPrice:'',
                     remarks:''
                 }
             },
@@ -201,7 +206,7 @@
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
                             let params = Object.assign({}, this.dataForm)
-                            this.$api.access.save(params).then((res) => {
+                            this.$api.accessMaterial.save(params).then((res) => {
                                 if(res.code == 200) {
                                     this.$message({ message: '操作成功', type: 'success' })
                                 } else {
@@ -223,7 +228,7 @@
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
                             let params = Object.assign({}, this.dataForm)
-                            this.$api.access.saveConfirmOut(params).then((res) => {
+                            this.$api.accessMaterial.saveConfirm(params).then((res) => {
                                 if(res.code == 200) {
                                     this.$message({ message: '操作成功', type: 'success' })
                                 } else {
@@ -243,7 +248,7 @@
                 return format(row[column.property])
             }
         },
-        name: "Access"
+        name: "AccessStock"
     }
 </script>
 

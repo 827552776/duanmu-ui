@@ -14,6 +14,9 @@ import * as parts from './moudules/parts'
 import * as stock from './moudules/stock'
 import * as access from './moudules/access'
 import * as customer from './moudules/customer'
+import * as material from './moudules/material'
+import * as accessMaterial from './moudules/accessMaterial'
+import * as welding from './moudules/welding'
 import * as help from './moudules/help'
 import * as unqu from './moudules/unqu'
 
@@ -31,9 +34,12 @@ export default {
 	order,
 	check,
 	parts,
-	stock,
-	access,
-	customer,
+  stock,
+  access,
+  customer,
+  material,
+  accessMaterial,
+  welding,
 	help,
 	unqu
 }
