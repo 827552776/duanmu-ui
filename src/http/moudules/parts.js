@@ -40,6 +40,14 @@ export const findPagePp = (data) => {
         data
     })
 }
+//分页查询合格品待入库部件信息
+export const findPageD = (data) => {
+    return axios({
+        url: '/parts/findPageD',
+        method: 'post',
+        data
+    })
+}
 //修改工艺流程
 export const saveCraft = (data) => {
     return axios({
