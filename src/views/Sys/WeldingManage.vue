@@ -31,8 +31,14 @@
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="名称" prop="label">
+        <el-form-item label="焊材名称" prop="label">
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="焊材型号" prop="label">
+          <el-input v-model="dataForm.model" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="焊材来源" prop="label">
+          <el-input v-model="dataForm.source" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="库存数量" prop="value">
           <el-input v-model="dataForm.number" auto-complete="off"></el-input>
@@ -113,7 +119,9 @@
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:50},
-                    {prop:"name", label:"名称", minWidth:100},
+                    {prop:"name", label:"焊材名称", minWidth:100},
+                    {prop:"model", label:"焊材型号", minWidth:100},
+                    {prop:"source", label:"焊材来源", minWidth:100},
                     {prop:"number", label:"库存数量", minWidth:100},
                     {prop:"company", label:"单位", minWidth:80},
                     {prop:"price", label:"价格", minWidth:80},
@@ -150,6 +158,8 @@
                 dataForm: {
                     id: 0,
                     name: '',
+                    model: '',
+                    source: '',
                     number: '',
                     company: '',
                     price: '',
@@ -186,6 +196,8 @@
                 this.dataForm = {
                     id: 0,
                     name: '',
+                    model: '',
+                    source: '',
                     number: '',
                     company: '',
                     price: '',

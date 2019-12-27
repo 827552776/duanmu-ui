@@ -4,70 +4,66 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="名称"></el-input>
+<!--          <el-input v-model="filters.name" placeholder="名称"></el-input>-->
+          <el-select v-model="filters.type" auto-complete="off" placeholder="请选择">
+            <el-option label="已出库" value="1"></el-option>
+            <el-option label="已入库" value="3"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('入库录入')" perms="sys:accessMaterial:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-<!--        <el-form-item>-->
-<!--          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
-<!--        </el-form-item>-->
+
       </el-form>
     </div>
     <!--表格内容栏-->
-    <ku-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:accessMaterial:delete"
+    <ku-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </ku-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
-      <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
+      <el-form :model="dataForm" label-width="120px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="材料名称" prop="label">
+        <el-form-item label="名称" prop="label">
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="模具名称" prop="label">
-          <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
+        <el-form-item label="模具自用数" prop="value">
+          <el-input v-model="dataForm.number" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="入库数量" prop="value">
-          <el-input v-model="dataForm.intNumber" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="入库时间" prop="sort">
+        <el-form-item label="自用出库时间" prop="sort">
           <el-date-picker
-            v-model="dataForm.intTime"
+            v-model="dataForm.trTime"
             type="date"
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-<!--        <el-form-item label="外协单位" prop="type">-->
-<!--          <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="外协时间" prop="sort">-->
-<!--          <el-date-picker-->
-<!--            v-model="dataForm.wxTime"-->
-<!--            type="date"-->
-<!--            placeholder="选择日期">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="外协入库时间" prop="sort">-->
-<!--          <el-date-picker-->
-<!--            v-model="dataForm.wxInt"-->
-<!--            type="date"-->
-<!--            placeholder="选择日期">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="外协数量 " prop="description">-->
-<!--          <el-input v-model="dataForm.wxNumber" auto-complete="off" type="textarea"></el-input>-->
-<!--        </el-form-item>-->
-        <el-form-item label="入库价格 " prop="description">
+        <el-form-item label="外协单位" prop="type">
+          <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="外协时间" prop="sort">
+          <el-date-picker
+            v-model="dataForm.wxTime"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="外协入库时间" prop="sort">
+          <el-date-picker
+            v-model="dataForm.wxInt"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="外协数量 " prop="description">
+          <el-input v-model="dataForm.wxNumber" auto-complete="off" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="外协价格 " prop="description">
           <el-input v-model="dataForm.wxPrice" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
-        <el-form-item label="备注" prop="remarks">
+        <el-form-item label="工艺备注" prop="remarks">
           <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
       </el-form>
@@ -93,34 +89,32 @@
 
 <script>
     import KtButton from "../Core/KtButton";
-    import KtTable from "../Core/KtTable";
     import { format } from "@/utils/datetime"
     import KuTable from "../Core/KuTable";
     export default {
         components:{
-            KtTable,
             KtButton,
             KuTable
         },
         data() {
             return {
-                size: 'small',
+                size: 'medium',
                 filters: {
-                    name: ''
+                    type: ''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
-                    {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"mName", label:"模具名称", minWidth:100},
+                    {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"intNumber", label:"入库数量", minWidth:100},
-                    // {prop:"number", label:"模具自用数", minWidth:100},
-                    // {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
-                    // {prop:"waixie", label:"外协单位", minWidth:100},
-                    // {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
-                    // {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
-                    // {prop:"wxNumber", label:"外协数量", minWidth:80},
-                    {prop:"wxPrice", label:"入库价格", minWidth:80},
+                    {prop:"number", label:"模具自用数", minWidth:100},
+                    {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"waixie", label:"外协单位", minWidth:100},
+                    {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"wxNumber", label:"外协数量", minWidth:80},
+                    {prop:"wxPrice", label:"外协价格", minWidth:80},
                     {prop:"type", label:"状态", minWidth:80},
                     {prop:"remarks", label:"工艺备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
@@ -142,7 +136,6 @@
                 // 新增编辑界面数据
                 dataForm: {
                     id: 0,
-                    mName:'',
                     name: '',
                     intTime: '',
                     intNumber: '',
@@ -150,7 +143,7 @@
                     trTime: '',
                     waixie: '',
                     wxTime:'',
-                    type:2,
+                    type:0,
                     wxInt:'',
                     wxNumber:'',
                     wxPrice:'',
@@ -164,8 +157,8 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}}
-                this.$api.accessMaterial.findPageA(this.pageRequest).then((res) => {
+                this.pageRequest.columnFilters = {type: {name:'type', value:this.filters.type}}
+                this.$api.accessMaterial.findPage1(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },
@@ -179,7 +172,6 @@
                 this.operation = true
                 this.dataForm = {
                     id: 0,
-                    mName:'',
                     name: '',
                     intTime: '',
                     intNumber: '',
@@ -187,7 +179,7 @@
                     trTime: '',
                     waixie: '',
                     wxTime:'',
-                    type:2,
+                    type:0,
                     wxInt:'',
                     wxNumber:'',
                     wxPrice:'',
@@ -234,7 +226,7 @@
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
                             let params = Object.assign({}, this.dataForm)
-                            this.$api.accessMaterial.saveConfirmInt(params).then((res) => {
+                            this.$api.accessMaterial.saveConfirm(params).then((res) => {
                                 if(res.code == 200) {
                                     this.$message({ message: '操作成功', type: 'success' })
                                 } else {

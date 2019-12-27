@@ -28,8 +28,11 @@
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="名称" prop="label">
+        <el-form-item label="材料名称" prop="label">
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="模具名称" prop="label">
+          <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="模具自用数" prop="value">
           <el-input v-model="dataForm.number" auto-complete="off"></el-input>
@@ -108,8 +111,9 @@
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"材料名称", minWidth:100},
-                    {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"intNumber", label:"入库数量", minWidth:100},
+                    {prop:"mName", label:"模具名称", minWidth:100},
+                    // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
+                    // {prop:"intNumber", label:"入库数量", minWidth:100},
                     {prop:"number", label:"模具自用数", minWidth:100},
                     {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"waixie", label:"外协单位", minWidth:100},
@@ -139,6 +143,7 @@
                 dataForm: {
                     id: 0,
                     name: '',
+                    mName:'',
                     intTime: '',
                     intNumber: '',
                     number: '',
@@ -175,6 +180,7 @@
                 this.dataForm = {
                     id: 0,
                     name: '',
+                    mName:'',
                     intTime: '',
                     intNumber: '',
                     number: '',

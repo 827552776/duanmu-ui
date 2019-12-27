@@ -9,22 +9,13 @@
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('新增')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('刀具')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('配件')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
       </el-form>
     </div>
     <!--表格内容栏-->
-    <kf-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <kf-y-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
-    </kf-table>
+    </kf-y-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
@@ -96,13 +87,12 @@
 
 <script>
   import KtButton from "../Core/KtButton";
-  import KtTable from "../Core/KtTable";
   import { format } from "@/utils/datetime"
   import KfTable from "../Core/KfTable";
+  import KfYTable from "../Core/KfYTable";
     export default {
         components:{
-            KfTable,
-            KtTable,
+            KfYTable,
             KtButton
         },
         data() {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-tooltip content="导出" placement="top">
-      <el-button icon="fa fa-file-excel-o" @click="leading"></el-button>
-    </el-tooltip>
+<!--    <el-tooltip content="导出" placement="top">-->
+<!--      <el-button icon="fa fa-file-excel-o" @click="leading"></el-button>-->
+<!--    </el-tooltip>-->
     <!--表格栏-->
     <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange"
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
@@ -13,14 +13,14 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="360" fixed="right" v-if="showOperation" header-align="center" align="center">
-        <template slot-scope="scope">
-          <kt-button icon="fa fa-edit" :label="$t('入库')" :perms="permsEdit" :size="size" @click="handleEditIt(scope.$index, scope.row)" />
-          <kt-button icon="fa fa-edit" :label="$t('出库')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />
-          <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />
-          <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />
-        </template>
-      </el-table-column>
+<!--      <el-table-column :label="$t('action.operation')" width="360" fixed="right" v-if="showOperation" header-align="center" align="center">-->
+<!--        <template slot-scope="scope">-->
+<!--&lt;!&ndash;          <kt-button icon="fa fa-edit" :label="$t('入库')" :perms="permsEdit" :size="size" @click="handleEditIt(scope.$index, scope.row)" />&ndash;&gt;-->
+<!--&lt;!&ndash;          <kt-button icon="fa fa-edit" :label="$t('出库')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />&ndash;&gt;-->
+<!--&lt;!&ndash;          <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />&ndash;&gt;-->
+<!--&lt;!&ndash;          <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />&ndash;&gt;-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
