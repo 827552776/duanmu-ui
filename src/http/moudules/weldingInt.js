@@ -7,7 +7,7 @@ import axios from '../axios'
 // 保存
 export const save = (data) => {
   return axios({
-    url: '/accessMaterial/save',
+    url: '/weldingIn/save',
     method: 'post',
     data
   })
@@ -15,7 +15,7 @@ export const save = (data) => {
 //确认
 export const saveConfirm = (data) => {
   return axios({
-    url: '/accessMaterial/saveConfirm',
+    url: '/weldingIn/saveConfirm',
     method: 'post',
     data
   })
@@ -23,7 +23,7 @@ export const saveConfirm = (data) => {
 //确认
 export const saveConfirmInt = (data) => {
   return axios({
-    url: '/accessMaterial/saveConfirmInt',
+    url: '/weldingIn/saveConfirmInt',
     method: 'post',
     data
   })
@@ -32,7 +32,7 @@ export const saveConfirmInt = (data) => {
 // 删除
 export const batchDelete = (data) => {
   return axios({
-    url: '/accessMaterial/delete',
+    url: '/weldingIn/delete',
     method: 'post',
     data
   })
@@ -40,14 +40,14 @@ export const batchDelete = (data) => {
 // 分页查询
 export const findPage = (data) => {
   return axios({
-    url: '/accessMaterial/find',
+    url: '/weldingIn/find',
     method: 'post',
     data
   })
 }
 export const findPage1 = (data) => {
   return axios({
-    url: '/accessMaterial/findR',
+    url: '/weldingIn/findR',
     method: 'post',
     data
   })
@@ -55,7 +55,7 @@ export const findPage1 = (data) => {
 // 分页查询
 export const findPageA = (data) => {
   return axios({
-    url: '/accessMaterial/findA',
+    url: '/weldingIn/findA',
     method: 'post',
     data
   })

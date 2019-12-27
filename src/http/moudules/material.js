@@ -15,7 +15,7 @@ export const save = (data) => {
 // 删除
 export const batchDelete = (data) => {
   return axios({
-    url: '/dict/delete',
+    url: '/material/delete',
     method: 'post',
     data
   })
@@ -37,11 +37,11 @@ export const findPageAb = (data) => {
   })
 }
 // 导出Excel
-export const exportExcel = (data) => {
+export const exportExcel = (params) => {
   return axios({
     url: '/material/exportExcel',
     method: 'post',
-    data
+    params
   })
 }
 

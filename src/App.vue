@@ -12,6 +12,7 @@ export default {
 
 <style>
 #app {
+  /*background-image: url(./assets/login_back.jpg);*/
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

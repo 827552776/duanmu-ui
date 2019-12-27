@@ -12,21 +12,6 @@
         <el-form-item>
           <kt-button icon="fa fa-plus" :label="$t('新增')" perms="sys:dict:add" type="primary" @click="handleAdd" />
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('刀具')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('配件')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('焊丝')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('碳棒')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('其他')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
       </el-form>
     </div>
     <!--表格内容栏-->
@@ -54,6 +39,9 @@
         </el-form-item>
         <el-form-item label="价格 " prop="description">
           <el-input v-model="dataForm.trPrice" auto-complete="off" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="预警数量" prop="description">
+          <el-input v-model="dataForm.typeNumber" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
           <el-input v-model="dataForm.trRemarks" auto-complete="off" type="textarea"></el-input>
@@ -119,6 +107,8 @@
                     {prop:"trSubdivide", label:"细分", minWidth:80},
                     {prop:"trNumber", label:"数量", minWidth:80},
                     {prop:"trPrice", label:"价格", minWidth:120},
+                    {prop:"type", label:"预警状态", minWidth:120},
+                    {prop:"typeNumber", label:"预警数量", minWidth:120},
                     {prop:"trRemarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
@@ -153,7 +143,8 @@
                     trRemarks: '',
                     inNumber:'',
                     outNumber:'',
-                    typeN:'0'
+                    type:'0',
+                    typeNumber:''
                 }
             }
         },
@@ -186,7 +177,8 @@
                     trRemarks: '',
                     intNumber: '',
                     outNumber: '',
-                    typeN:'0'
+                    type:'0',
+                    typeNumber:''
                 }
             },
             //入库显示界面

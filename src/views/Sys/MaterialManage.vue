@@ -15,18 +15,12 @@
         <el-form-item>
           <kt-button icon="fa fa-plus" :label="$t('新增')" perms="sys:dict:add" type="primary" @click="handleAdd" />
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('导出数据')" perms="sys:dict:add" type="primary" @click="exportExcel" />
-        </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('配件')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
       </el-form>
     </div>
     <!--表格内容栏-->
     <kf-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
-              @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
+              @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </kf-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
@@ -101,15 +95,15 @@
 </template>
 
 <script>
+    import PopupTreeInput from "@/components/PopupTreeInput"
   import KtButton from "../Core/KtButton";
-  import KtTable from "../Core/KtTable";
-  import { format } from "@/utils/datetime"
+  import { format } from "@/utils/datetime";
   import KfTable from "../Core/KfTable";
     export default {
         components:{
             KfTable,
-            KtTable,
-            KtButton
+            KtButton,
+       PopupTreeInput
         },
         data() {
             return {
@@ -137,7 +131,7 @@
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 50 },
                 pageResult: {},
 
                 operation: false, // true:新增, false:编辑
@@ -174,18 +168,18 @@
             }
         },
         methods: {
-            //导出Excel
-            exportExcel:function (params){
-                // this.params = params
-                this.$api.material.exportExcel(params)
-                    .then((res) =>{
-                    if(res.code == 200){
-                        this.$message({ message: '导出成功', type: 'success' })
-                    }else{
-                        this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                    }
-                })
-            },
+            // //导出Excel
+            // exportExcel:function (params){
+            //     // this.params = params
+            //     this.$api.material.exportExcel(params)
+            //         .then((res) =>{
+            //         if(res.code == 200){
+            //             this.$message({ message: '导出成功', type: 'success' })
+            //         }else{
+            //             this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+            //         }
+            //     })
+            // },
             // 获取分页数据
             findPage: function (data) {
                 if(data !== null) {
@@ -198,7 +192,7 @@
             },
             // 批量删除
             handleDelete: function (data) {
-                this.$api.dict.batchDelete(data.params).then(data!=null?data.callback:'')
+                this.$api.material.batchDelete(data.params).then(data!=null?data.callback:'')
             },
             // 显示新增界面
             handleAdd: function () {
