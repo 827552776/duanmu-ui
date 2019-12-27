@@ -113,8 +113,8 @@
 				<el-table-column type="index" width="50"></el-table-column>
 				<el-table-column prop="work" label="具体业务" width="140"></el-table-column>
 				<el-table-column prop="helpNm" label="外协厂家" width="130"></el-table-column>
-				<el-table-column prop="startDate" label="开始时间" width="130"></el-table-column>
-				<el-table-column prop="endDate" label="结束时间" width="130"></el-table-column>
+				<el-table-column prop="startDate" label="开始时间" width="130"  :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="endDate" label="结束时间" width="130"  :formatter="dateFormat"></el-table-column>
 				<el-table-column prop="price" label="价格" width="80"></el-table-column>
 				<el-table-column prop="helpRemarks" label="备注" width="120"></el-table-column>
 				<el-table-column label="操作" width="100">
@@ -344,6 +344,10 @@
 				this.dialogVisible1 = true
 				this.parts = Object.assign({}, params.row)
 				this.queryTags()
+			},
+				// 时间格式化
+			dateFormat: function (row, column, cellValue, index){
+			  return format(row[column.property])
 			},
 			//显示外协信息页面
 			helpShow: function(params) {

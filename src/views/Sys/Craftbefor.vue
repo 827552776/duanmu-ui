@@ -38,7 +38,7 @@
 		 @findPage="findPage" @split="split">
 		</bb-table>
 
-		<el-dialog :title="'流程控制'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false" >
+		<el-dialog :title="'流程编制'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false" >
 			<div>
 				<el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="true" :hit="true" @close="handleClose(tag)">
 					{{tag}}

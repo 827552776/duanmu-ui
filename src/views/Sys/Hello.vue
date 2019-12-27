@@ -49,7 +49,7 @@
 
 		<el-dialog :title="operation?'新增':'编辑'" width="90%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="orderReg" label-position="right" label-width="80px" size="mini" ref="orderReg">
-				<el-form-item label="ID"  prop="id" v-if="isShow">
+				<el-form-item label="ID" prop="id" v-if="isShow">
 					<el-input v-model="orderReg.id"></el-input>
 				</el-form-item>
 				<el-row>
@@ -162,7 +162,7 @@
 								</el-form-item>
 							</el-col>
 							<el-col :span="5">
-								<el-form-item label="产品名称:"  prop="productNo">
+								<el-form-item label="产品名称:" prop="productNo">
 									<el-input v-model="dispa.productNo" style="width:150px"></el-input>
 								</el-form-item>
 							</el-col>
@@ -306,7 +306,7 @@
 				},
 				dispa: {
 					id: '',
-					fId:'',
+					fId: '',
 					dispatchNo: '',
 					dispaNo: '',
 					category: '',
@@ -333,15 +333,15 @@
 				activeName: 'first',
 				isShow: false,
 				selectInvTend: [],
-				customerParam:{
-					attribute:'客户'
+				customerParam: {
+					attribute: '客户'
 				}
 			}
 		},
 		methods: {
-			change(val){
-				if(val != this.orderReg.dispatchNo){
-				   alert('两个派工号必须一致！！')
+			change(val) {
+				if (val != this.orderReg.dispatchNo) {
+					alert('两个派工号必须一致！！')
 				}
 			},
 			// 批量删除
@@ -379,25 +379,25 @@
 				this.dialogVisible = true
 				this.operation = true
 				this.getSelectInvTend()
-// 				this.orderReg = {
-// 					id: '',
-// 					lotNo: '',
-// 					custNm: '',
-// 					mouldNm: '',
-// 					quantity: '',
-// 					company: '',
-// 					dispatchNo: '',
-// 					buyMaterial: '',
-// 					remarks: ''
-// 				}
+				// 				this.orderReg = {
+				// 					id: '',
+				// 					lotNo: '',
+				// 					custNm: '',
+				// 					mouldNm: '',
+				// 					quantity: '',
+				// 					company: '',
+				// 					dispatchNo: '',
+				// 					buyMaterial: '',
+				// 					remarks: ''
+				// 				}
 			},
 			//保存按钮
 			saveButton() {
-				if(this.orderReg.id==''||this.orderReg.id==null){
+				if (this.orderReg.id == '' || this.orderReg.id == null) {
 					this.getId()
 				}
-				    this.save()
-				
+				this.save()
+
 			},
 			//保存订单
 			save() {
@@ -423,25 +423,25 @@
 
 
 			},
-			queryDispa(reg){
+			queryDispa(reg) {
 				let params = Object.assign({}, reg)
 				this.$api.order.queryDispa(params).then((res) => {
 					if (res.code == 200) {
-						   this.dispa = res.data
+						this.dispa = res.data
 					} else {
 						this.$message({
 							type: 'error',
 							message: '删除失败!' + response.data.msg
 						});
 					}
-					})
+				})
 			},
-			getId(){
+			getId() {
 				this.$api.order.queryPrimaryKey().then((res) => {
-						this.orderReg.id  = res.msg
-						this.dispa.fId = res.msg
-					})
-				
+					this.orderReg.id = res.msg
+					this.dispa.fId = res.msg
+				})
+
 			},
 			//保存派工单
 			saveDispa() {
@@ -455,13 +455,13 @@
 						this.dialogVisible = false
 						this.findPage(null)
 						this.orderReg.id = '',
-						this.orderReg.mouldNm = '',
-						this.orderReg.buyMaterial = '',
+							this.orderReg.mouldNm = '',
+							this.orderReg.buyMaterial = '',
 							this.orderReg.quantity = '',
 							this.orderReg.company = '',
 							this.orderReg.remarks = '',
 							this.dispa.id = '',
-							this.dispa.fId ='',
+							this.dispa.fId = '',
 							this.dispa.productNo = '',
 							this.dispa.markNo = '',
 							this.dispa.frockNo = '',
@@ -551,6 +551,10 @@
 					// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
 				]
 				this.filterColumns = JSON.parse(JSON.stringify(this.columns));
+			},
+			// 时间格式化
+			dateFormat: function(row, column, cellValue, index) {
+				return format(row[column.property])
 			},
 			getSelectInvTend() {
 				this.$api.customer.query(this.customerParam).then((res) => {

@@ -32,6 +32,14 @@ export const findPagePr = (data) => {
         data
     })
 }
+// 分页查询车间领料部件信息
+export const findPagePi = (data) => {
+    return axios({
+        url: '/parts/findPagePi',
+        method: 'post',
+        data
+    })
+}
 // 分页查询生产采购部件信息
 export const findPagePp = (data) => {
     return axios({
@@ -106,7 +114,14 @@ export const updateStsC = (data) => {
         data
     })
 }
-
+//已领料
+export const updatePick = (data) => {
+    return axios({
+        url: '/parts/updatePick',
+        method: 'post',
+        data
+    })
+}
 //更改部件生产状态
 export const updateStsA = (data) => {
     return axios({
