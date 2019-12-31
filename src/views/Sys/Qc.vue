@@ -58,7 +58,20 @@
 				</el-form-item>
 				<el-row>
 					<el-col :span="22">
-						<el-form-item label="不合格原因:" prop="textarea">
+						
+						<el-form-item label="返修工艺:" prop="craft">
+							<el-input  v-model="unqu.craft" style="width:200px;">
+							</el-input>
+						</el-form-item>
+						<el-form-item label="返修成本:" prop="price">
+							<el-input  v-model="unqu.price" style="width:200px;">
+							</el-input>
+						</el-form-item>
+						<el-form-item label="责任人:" prop="liable">
+							<el-input  v-model="unqu.liable" style="width:200px;">
+							</el-input>
+						</el-form-item>
+						<el-form-item label="不合格原因:" prop="unquCause">
 							<el-input type="textarea" v-model="unqu.unquCause" style="width:250px;">
 							</el-input>
 						</el-form-item>
@@ -67,7 +80,7 @@
 				</el-row>
 				<el-row>
 				
-					<el-col :span="7" :offset="17">
+					<el-col :span="8" :offset="13">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveUnqu">确定</el-button>
 							<el-button :size="size" @click.native="dialogVisible2 = false">{{$t('action.cancel')}}</el-button>
@@ -115,7 +128,10 @@
 				unqu:{
 					id:'',
 					fId:'',
-					unquCause:''
+					unquCause:'',
+					craft:'',
+					liable:'',
+					price:''
 				},
 				dialogVisible1: false,
 				dialogVisible2: false,
@@ -234,6 +250,7 @@
 							message: '操作成功',
 							type: 'success'
 						})
+						this.$refs['unqu'].resetFields()
 						this.dialogVisible2 = false
 					} else {
 						this.$message({

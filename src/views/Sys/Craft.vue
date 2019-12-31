@@ -299,8 +299,17 @@
 				 this.$refs['help'].resetFields()
 				 this.dialogVisible2 = false
 				},
+				saveHelp(){
+					this.$confirm('确定要保存外协信息吗?', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(() => {
+						this.saveHel()
+					})
+				},
 				//保存外协信息
-				saveHelp() {
+				saveHel() {
 					let params = Object.assign({}, this.help)
 					this.$api.help.saveHelp(params).then((res) => {
 						if (res.code == 200) {

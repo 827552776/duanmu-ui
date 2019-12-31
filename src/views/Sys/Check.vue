@@ -20,10 +20,10 @@
 						<el-tooltip content="列显示" placement="top">
 							<el-button icon="fa fa-filter" @click="displayFilterColumnsDialog"></el-button>
 						</el-tooltip>
-						<el-tooltip content="导出" placement="top">
+						<el-tooltip content="" placement="top">
 							<el-button icon="fa fa-file-excel-o"></el-button>
 						</el-tooltip>
-						<el-tooltip content="导入" placement="top">
+						<el-tooltip content="" placement="top">
 							<el-button icon="fa fa-file-excel-o"></el-button>
 						</el-tooltip>
 					</el-button-group>
@@ -37,7 +37,7 @@
 		<ch-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit"
 		 @split="split" @trans="trans">
 		</ch-table>
-		<el-dialog :title="'预估成本费用'" width="55%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+		<el-dialog :title="'预估成本费用'" width="60%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="arr" label-position="right" label-width="90px" size="mini" ref="arr" :rules="sub1Rules">
 				<el-form-item label="ID" v-if='false' prop="id">
 					<el-input v-model="arr.id"></el-input>
@@ -48,48 +48,48 @@
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="材料费:" prop="cai">
-							<el-input v-model="arr.cai" style="width:160px;">
+							<el-input v-model="arr.cai" style="width:150px;">
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="焊材费:" prop="hanCai">
-							<el-input v-model="arr.hanCai" style="width:160px;">
+							<el-input v-model="arr.hanCai" style="width:150px;">
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="热处理:" prop="reCh">
-							<el-input v-model="arr.reCh" placeholder="" style="width:160px"></el-input>
+							<el-input v-model="arr.reCh" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="外委:" prop="waiWei">
-							<el-input v-model="arr.waiWei" placeholder="" style="width:160px"></el-input>
+							<el-input v-model="arr.waiWei" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="外购费:" prop="waiGou">
-							<el-input v-model="arr.waiGou" placeholder="" style="width:160px"></el-input>
+							<el-input v-model="arr.waiGou" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="运费:" prop="yunFei">
-							<el-input v-model="arr.yunFei" placeholder="" style="width:160px"></el-input>
+							<el-input v-model="arr.yunFei" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="工时费:" prop="gongShi">
-							<el-input v-model="arr.gongShi" placeholder="" style="width:160px"></el-input>
+							<el-input v-model="arr.gongShi" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="其他费用:" prop="others">
-							<el-input v-model="arr.others" placeholder="" style="width:160px"></el-input>
+							<el-input v-model="arr.others" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6" :offset='2'>

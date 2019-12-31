@@ -46,14 +46,14 @@
 
 		<el-dialog :title="operation?'新增':'运费录入'" width="50%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="fare" label-position="right" label-width="90px" size="mini" ref="fare">
-				<el-form-item label="ID" v-if="isShow" prop="id">
+				<el-form-item label="ID"  prop="id" v-if="isShow">
 					<el-input v-model="fare.id"></el-input>
 				</el-form-item>
-				<el-form-item label="FID" v-if="isShow" prop="fId">
+				<el-form-item label="FID"  prop="fId" v-if="isShow">
 					<el-input v-model="fare.fId"></el-input>
 				</el-form-item>
 				<el-row>
-					<el-col :span="7" >
+					<el-col :span="8">
 						<el-form-item label="运费类型:" prop="fareType">
 							<el-select v-model="fare.fareType" placeholder="请选择" style="width:130px;">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -61,12 +61,12 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="9" >
+					<el-col :span="9">
 						<el-form-item label="运费描述:" prop="descri">
 							<el-input v-model="fare.descri" placeholder="" style="width:170px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7" >
+					<el-col :span="7">
 						<el-form-item label="物流:" prop="logis">
 							<el-select v-model="fare.logis" placeholder="请选择" size="mini" clearable style="width:103px">
 								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
@@ -76,18 +76,18 @@
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="7" >
+					<el-col :span="8">
 						<el-form-item label="具体费用:" prop="price" :rules="[{ type: 'number', message: '必须为数字值'}]">
 							<el-input v-model.number="fare.price" placeholder="" style="width:130px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="9" >
+					<el-col :span="9">
 						<el-form-item label="日期:" prop="delvDate">
 							<el-date-picker style="width: 170px;" v-model="fare.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7" :offset="1">
+					<el-col :span="7">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
 							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -96,14 +96,23 @@
 				</el-row>
 			</el-form>
 		</el-dialog>
-		<el-dialog title="该订单运费列表" :visible.sync="dialogTableVisible" @close="close">
-			<el-table :data="gridData"  show-summary>
+		<el-dialog title="该订单运费列表" :visible.sync="dialogTableVisible" @close="close" width="57%">
+			<el-table :data="gridData" show-summary>
 				<el-table-column type="index" width="50"></el-table-column>
 				<el-table-column prop="fareType" label="运费类型" width="120"></el-table-column>
 				<el-table-column prop="descri" label="运费描述" width="180"></el-table-column>
 				<el-table-column prop="logis" label="物流" width="150"></el-table-column>
-				<el-table-column prop="delvDate" label="日期" width="150"></el-table-column>
-				<el-table-column prop="price" label="具体费用" width="120"></el-table-column>
+				<el-table-column prop="delvDate" label="日期" width="150" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="price" label="具体费用" width="120">
+					<template slot-scope="scope">
+						<el-input v-model.number="scope.row.price"  placeholder="请输入价格" size="small"></el-input>
+					</template>
+				</el-table-column>
+				<el-table-column label="操作">
+					<template slot-scope="scope">
+						<el-button size="mini"  @click="handleClick(scope.row)">确认修改</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
 		</el-dialog>
 	</div>
@@ -130,7 +139,7 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm:''
+					mouldNm: ''
 				},
 				columns: [],
 				filterColumns: [],
@@ -168,7 +177,7 @@
 					fId: '',
 					fareType: '',
 					descri: '',
-					logis:'',
+					logis: '',
 					price: '',
 					delvDate: ''
 				},
@@ -186,12 +195,49 @@
 				isShow: false,
 				gridData: [],
 				selectInvTend: [],
-				customerParam:{
-					attribute:'物流'
+				customerParam: {
+					attribute: '物流'
 				}
 			}
 		},
 		methods: {
+			handleClick(row) {
+				this.$confirm('是否执行本操作?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.fare.id = row.id
+					this.fare.fId = row.fId
+					this.fare.fareType = row.fareType
+					this.fare.descri = row.descri
+					this.fare.logis = row.logis
+					this.fare.price = row.price
+					this.fare.delvDate = row.delvDate
+					let params = Object.assign({}, this.fare)
+					this.$api.order.saveFare(params).then((res) => {
+						if (res.code == 200) {
+							this.$message({
+								type: 'success',
+								message: '保存成功!'
+							});
+							this.$refs['fare'].resetFields()
+							this.dialogVisible = false
+						} else {
+							this.$message({
+								type: 'error',
+								message: '保存失败!' + response.data.msg
+							});
+				
+						}
+				
+					})
+				})
+			},
+			// 时间格式化
+			dateFormat: function (row, column, cellValue, index){
+			  return format(row[column.property])
+			},
 			getSelectInvTend() {
 				this.$api.customer.query(this.customerParam).then((res) => {
 					this.selectInvTend = res.data
@@ -206,9 +252,9 @@
 						name: 'cust',
 						value: this.filters.cust
 					},
-					mouldNm:{
-						name:  'mouldNm',
-						value:this.filters.mouldNm
+					mouldNm: {
+						name: 'mouldNm',
+						value: this.filters.mouldNm
 					}
 				}
 				this.$api.order.findPage(this.pageRequest).then((res) => {
@@ -221,6 +267,7 @@
 				this.operation = false
 				this.orderReg = Object.assign({}, params.row)
 				this.fare.fId = this.orderReg.id
+				this.fare.id == null
 				this.getSelectInvTend()
 
 			},
@@ -234,7 +281,7 @@
 					this.gridData = res.data
 				})
 			},
-			close(){
+			close() {
 				this.gridData = []
 			},
 			//保存运费

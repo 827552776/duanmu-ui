@@ -1,5 +1,5 @@
 import axios from '../axios'
-//保存 订单
+//保存 订单（锻造）
 export const save = (data) => {
     return axios({
         url: '/order/save',
@@ -7,7 +7,14 @@ export const save = (data) => {
         data
     })
 }
-
+//保存 订单（铸造）
+export const save1 = (data) => {
+    return axios({
+        url: '/order/save1',
+        method: 'post',
+        data
+    })
+}
 //保存 运费
 export const saveFare = (data) => {
     return axios({
@@ -77,10 +84,18 @@ export const deleteDispa = (data) => {
     })
 }
 
-// 分页查询全部
+// 分页查询全部（锻造）
 export const findPage = (data) => {
     return axios({
         url: '/order/findPage',
+        method: 'post',
+        data
+    })
+}
+// 分页查询全部（铸造）
+export const findPage1 = (data) => {
+    return axios({
+        url: '/order/findPageZhu',
         method: 'post',
         data
     })

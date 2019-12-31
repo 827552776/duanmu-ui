@@ -298,7 +298,7 @@
 				},
 				orderReg: {
 					id: '',
-					shuxing:'锻造',
+					shuxing:'铸造',
 					lotNo: '',
 					cust: '',
 					mouldNm: '',
@@ -366,7 +366,7 @@
 						value: this.filters.mouldNm
 					}
 				}
-				this.$api.order.findPage(this.pageRequest).then((res) => {
+				this.$api.order.findPage1(this.pageRequest).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
