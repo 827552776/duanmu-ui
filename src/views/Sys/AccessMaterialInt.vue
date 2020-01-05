@@ -26,16 +26,22 @@
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
-          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="材料名称" prop="label">
-          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.name" auto-complete="off"/>
+        </el-form-item>
+        <el-form-item label="材质" prop="label">
+          <el-input v-model="dataForm.texture" auto-complete="off"/>
+        </el-form-item>
+        <el-form-item label="单位" prop="label">
+          <el-input v-model="dataForm.company" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="模具名称" prop="label">
-          <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.mName" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="入库数量" prop="value">
-          <el-input v-model="dataForm.intNumber" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.intNumber" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="入库时间" prop="sort">
           <el-date-picker
@@ -65,10 +71,10 @@
 <!--          <el-input v-model="dataForm.wxNumber" auto-complete="off" type="textarea"></el-input>-->
 <!--        </el-form-item>-->
         <el-form-item label="入库价格 " prop="description">
-          <el-input v-model="dataForm.wxPrice" auto-complete="off" type="textarea"></el-input>
+          <el-input v-model="dataForm.wxPrice" auto-complete="off" type="textarea"/>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
-          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
+          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -79,7 +85,7 @@
     <el-dialog :title="确认" width="40%" :visible.sync="editDialogVisible1" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
-          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"/>
         </el-form-item>
         <h1>确认</h1>
       </el-form>
@@ -111,16 +117,18 @@
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"材料名称", minWidth:100},
+                    {prop:"company", label:"单位", minWidth:100},
+                    {prop:"texture", label:"材质", minWidth:100},
                     {prop:"mName", label:"模具名称", minWidth:100},
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"intNumber", label:"入库数量", minWidth:100},
+                    {prop:"intNumber", label:"入库数量", minWidth:120},
                     // {prop:"number", label:"模具自用数", minWidth:100},
                     // {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"waixie", label:"外协单位", minWidth:100},
                     // {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"wxNumber", label:"外协数量", minWidth:80},
-                    {prop:"wxPrice", label:"入库价格", minWidth:80},
+                    {prop:"wxPrice", label:"入库价格", minWidth:120},
                     {prop:"type", label:"状态", minWidth:80},
                     {prop:"remarks", label:"工艺备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
@@ -142,6 +150,8 @@
                 // 新增编辑界面数据
                 dataForm: {
                     id: 0,
+                  company:'',
+                  texture:'',
                     mName:'',
                     name: '',
                     intTime: '',
@@ -180,6 +190,8 @@
                 this.dataForm = {
                     id: 0,
                     mName:'',
+                    company:'',
+                    texture:'',
                     name: '',
                     intTime: '',
                     intNumber: '',
