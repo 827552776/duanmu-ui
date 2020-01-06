@@ -46,7 +46,7 @@
 				<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" style="width: 80px;"
 				 @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
 				</el-input>
-				<el-button v-else class="button-new-tag" size="small" @click="showInput"><i class="el-icon-circle-plus"></i></el-button>
+				<!-- <el-button v-else class="button-new-tag" size="small" @click="showInput"><i class="el-icon-circle-plus"></i></el-button> -->
 			</div>
 		</el-dialog>
 			<el-dialog :title="'外协信息'" width="60%" :visible.sync="dialogVisible2" :close-on-click-modal="false" 

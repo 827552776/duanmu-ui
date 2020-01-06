@@ -9,7 +9,7 @@
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
+					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:user:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
 				<el-form-item>
 					<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
@@ -52,7 +52,7 @@
 				<el-form-item label="ID" prop="id" v-if="isShow">
 					<el-input v-model="orderReg.id"></el-input>
 				</el-form-item>
-				<el-form-item label="属性" prop="shuxing" >
+				<el-form-item label="属性" prop="shuxing" v-if="isShow">
 					<el-input v-model="orderReg.shuxing"></el-input>
 				</el-form-item>
 				<el-row>
