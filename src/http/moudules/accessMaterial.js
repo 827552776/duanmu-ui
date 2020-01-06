@@ -55,7 +55,7 @@ export const findPage1 = (data) => {
 // 分页查询
 export const findPageA = (data) => {
   return axios({
-    url: '/accessMaterial/findA',
+    url: '/MaterialInt/find',
     method: 'post',
     data
   })

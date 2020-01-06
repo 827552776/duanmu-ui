@@ -31,6 +31,18 @@
         <el-form-item label="材料名称" prop="label">
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="单位" prop="label">
+          <el-input v-model="dataForm.company" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="材质" prop="label">
+          <el-input v-model="dataForm.texture" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="派工号" prop="label">
+          <el-input v-model="dataForm.dispatch" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="批号" prop="label">
+          <el-input v-model="dataForm.batch" auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="模具名称" prop="label">
           <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
         </el-form-item>
@@ -112,6 +124,10 @@
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"mName", label:"模具名称", minWidth:100},
+                  {prop:"company", label:"单位", minWidth:100},
+                  {prop:"texture", label:"材质", minWidth:100},
+                  {prop:"dispatch", label:"派工号", minWidth:100},
+                  {prop:"batch", label:"批号", minWidth:100},
                     // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"intNumber", label:"入库数量", minWidth:100},
                     {prop:"number", label:"模具自用数", minWidth:100},
@@ -143,6 +159,10 @@
                 dataForm: {
                     id: 0,
                     name: '',
+                    company:'',
+                    texture:'',
+                    dispatch:'',
+                    batch:'',
                     mName:'',
                     intTime: '',
                     intNumber: '',
@@ -179,6 +199,10 @@
                 this.operation = true
                 this.dataForm = {
                     id: 0,
+                    company:'',
+                    texture:'',
+                    dispatch:'',
+                    batch:'',
                     name: '',
                     mName:'',
                     intTime: '',
