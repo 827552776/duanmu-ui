@@ -37,16 +37,19 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<oq-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
-		</oq-table>
+		<re-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit">
+		</re-table>
+
+
+
+
 	</div>
 
 </template>
 
 <script>
 	import PopupTreeInput from "@/components/PopupTreeInput"
-	import OqTable from "@/views/Core/OqTable"
+	import ReTable from "@/views/Core/ReTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 	import {
@@ -55,7 +58,7 @@
 	export default {
 		components: {
 			PopupTreeInput,
-			OqTable,
+			ReTable,
 			KtButton,
 			TableColumnFilterDialog
 		},
@@ -70,10 +73,11 @@
 				filterColumns: [],
 				pageRequest: {
 					pageNum: 1,
-					pageSize: 10
+					pageSize: 5
 				},
 				pageResult: {},
 				dialogVisible: false,
+				dialogTableVisible: false,
 				operation: false,
 				editLoading: false,
 				dataFormRules: {
@@ -83,9 +87,30 @@
 						trigger: 'blur'
 					}]
 				},
+				options: [{
+					value: '派工拉货',
+					label: '派工拉货'
+				}, {
+					value: '外协',
+					label: '外协'
+				}, {
+					value: '采购',
+					label: '采购'
+				}, {
+					value: '其他',
+					label: '其他'
+				}],
+				fare: {
+					id: '',
+					fId: '',
+					fareType: '',
+					descri: '',
+					logis: '',
+					price: '',
+					delvDate: ''
+				},
 				orderReg: {
 					id: '',
-					shuxing:'锻造',
 					lotNo: '',
 					cust: '',
 					mouldNm: '',
@@ -95,41 +120,27 @@
 					buyMaterial: '',
 					remarks: ''
 				},
-				dispa: {
-					id: '',
-					fId: '',
-					dispatchNo: '',
-					dispaNo: '',
-					category: '',
-					supplier: '',
-					contractNo: '',
-					dispaMakeTime: '',
-					useUnit: '',
-					productNo: '',
-					markNo: '',
-					frockNo: '',
-					frockNm: '',
-					units: '',
-					dispaQuantity: '',
-					dispaContent: '',
-					dispaBasis: '',
-					delvDate: '',
-					techCon: '',
-					quality: '',
-					price: '',
-					mouldQuota: '',
-					completeQuan: '',
-					dispaRemarks: ''
-				},
-				activeName: 'first',
 				isShow: false,
+				gridData: [],
 				selectInvTend: [],
 				customerParam: {
-					attribute: '客户'
+					attribute: '物流'
 				}
 			}
 		},
 		methods: {
+			handleEdit: function(params) {
+				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:URforkitty.ureport.xml' + '&id=' + params.row.id)
+				},
+			// 时间格式化
+			dateFormat: function (row, column, cellValue, index){
+			  return format(row[column.property])
+			},
+			getSelectInvTend() {
+				this.$api.customer.query(this.customerParam).then((res) => {
+					this.selectInvTend = res.data
+				})
+			},
 			findPage: function(data) {
 				if (data !== null) {
 					this.pageRequest = data.pageRequest
@@ -148,20 +159,8 @@
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
-
-			
-			queryDispa(reg) {
-				let params = Object.assign({}, reg)
-				this.$api.order.queryDispa(params).then((res) => {
-					if (res.code == 200) {
-						this.dispa = res.data
-					} else {
-						this.$message({
-							type: 'error',
-							message: '删除失败!' + response.data.msg
-						});
-					}
-				})
+			close() {
+				this.gridData = []
 			},
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {
@@ -175,93 +174,56 @@
 			// 处理表格列过滤显示
 			initColumns: function() {
 				this.columns = [{
-										prop: "lotNo",
-										label: "产品批号",
-										minWidth: 100
-									},
-									{
-										prop: "cust",
-										label: "客户名称",
-										minWidth: 100
-									},
-									{
-										prop: "mouldNm",
-										label: "模具名称",
-										minWidth: 120
-									},
-				// 					{
-				// 						prop: "buyMaterial",
-				// 						label: "模具号",
-				// 						minWidth: 80
-				// 					},
-									{
-										prop: "quantity",
-										label: "派工数量",
-										minWidth: 100
-									},
-									{
-										prop: "wareNum",
-										label: "入库数量",
-										minWidth: 100
-									},
-									{
-										prop: "wareDate",
-										label: "入库时间",
-										minWidth: 100,
-									},
-									{
-										prop: "outNum",
-										label: "出库数量",
-										minWidth: 100
-									},
-									{
-										prop: "outDate",
-										label: "出库时间",
-										minWidth: 100,
-									},
-									{
-										prop: "company",
-										label: "单位",
-										minWidth: 80
-									},
-									{
-										prop: "dispatchNo",
-										label: "派工号",
-										minWidth: 100
-									},
-									{
-										prop: "shuxing",
-										label: "属性",
-										minWidth: 80
-									},
-				// 					{
-				// 						prop: "sts",
-				// 						label: "订单状态",
-				// 						minWidth: 100
-				// 					},
-									{
-										prop: "remarks",
-										label: "备注",
-										minWidth: 80
-									},
-									// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
-									// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
-									// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
-								]
+						prop: "lotNo",
+						label: "产品批号",
+						minWidth: 100
+					},
+					{
+						prop: "cust",
+						label: "客户名称",
+						minWidth: 100
+					},
+					{
+						prop: "mouldNm",
+						label: "模具名称",
+						minWidth: 120
+					},
+					{
+						prop: "quantity",
+						label: "数量",
+						minWidth: 80
+					},
+					{
+						prop: "company",
+						label: "单位",
+						minWidth: 80
+					},
+					{
+						prop: "dispatchNo",
+						label: "派工号",
+						minWidth: 100
+					},
+// 					{
+// 						prop: "sts",
+// 						label: "订单状态",
+// 						minWidth: 100
+// 					},
+					{
+						prop: "shuxing",
+						label: "属性",
+						minWidth: 100
+					},
+					{
+						prop: "remarks",
+						label: "备注",
+						minWidth: 150
+					},
+					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
+					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
+					// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
+				]
 				this.filterColumns = JSON.parse(JSON.stringify(this.columns));
 			},
-			handleEdit: function(params) {
-				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:URforkitty.ureport.xml' + '&id=' + params.row.id)
-				},
-			// 时间格式化
-			dateFormat: function(row, column, cellValue, index) {
-				return format(row[column.property])
-			},
-			getSelectInvTend() {
-				this.$api.customer.query(this.customerParam).then((res) => {
-					this.selectInvTend = res.data
-				})
-			}
 		},
 		mounted() {
 			this.initColumns()

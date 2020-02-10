@@ -40,6 +40,22 @@ export const saveDispa = (data) => {
         data
     })
 }
+//保存 入库信息
+export const saveWare = (data) => {
+    return axios({
+        url: '/order/updateWare',
+        method: 'post',
+        data
+    })
+}
+//保存 出库信息
+export const saveOut = (data) => {
+    return axios({
+        url: '/order/updateOut',
+        method: 'post',
+        data
+    })
+}
 //查询 派工单
 export const queryDispa = (data) => {
     return axios({
@@ -84,7 +100,7 @@ export const deleteDispa = (data) => {
     })
 }
 
-// 分页查询全部（锻造）
+// 分页查询（全部）
 export const findPage = (data) => {
     return axios({
         url: '/order/findPage',
@@ -92,7 +108,15 @@ export const findPage = (data) => {
         data
     })
 }
-// 分页查询全部（铸造）
+// 分页查询合格通用件
+export const findPageQuery = (data) => {
+    return axios({
+        url: '/order/findPageQuery',
+        method: 'post',
+        data
+    })
+}
+// 分页查询（铸造）
 export const findPage1 = (data) => {
     return axios({
         url: '/order/findPageZhu',

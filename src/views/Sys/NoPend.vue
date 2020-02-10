@@ -19,7 +19,7 @@
 							<el-button icon="fa fa-refresh" @click="findPage(null)"></el-button>
 						</el-tooltip>
 						<el-tooltip content="导出" placement="top">
-							<el-button icon="fa fa-file-excel-o" @click="leading"> 导出excel</el-button>
+							<el-button icon="fa fa-file-excel-o" @click="leading"></el-button>
 						</el-tooltip>
 					</el-button-group>
 				</el-form-item>
@@ -35,25 +35,41 @@
 			<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
 			<el-table-column type="index" width="50">
 			</el-table-column>
+			<el-table-column prop="lotNo" label="批号" width="100">
+			</el-table-column>
 			<el-table-column prop="cust" label="客户名称" width="120">
 			</el-table-column>
-			<el-table-column prop="lotNo" label="批号" width="120">
+			<el-table-column prop="mouldNm" label="模具名称" width="150">
 			</el-table-column>
-			<el-table-column prop="dispatchNo" label="派工号" width="150">
+			<el-table-column prop="dispatchNo" label="派工号" width="100">
+			</el-table-column>
+			<el-table-column prop="attribute" label="属性" width="100">
 			</el-table-column>
 			<el-table-column prop="name" label="部件名称" width="120">
 			</el-table-column>
 			<el-table-column prop="modle" label="部件型号" width="150">
 			</el-table-column>
-			<el-table-column prop="st" label="生产进程" width="150">
+			<el-table-column prop="specs" label="规格" width="130" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="flow" label="工艺编制"  show-overflow-tooltip>
+			<el-table-column prop="ask" label="用途" width="130" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="inputValue" label="工艺进程"  show-overflow-tooltip>
+			<el-table-column prop="quantity" label="数量" width="100">
+			</el-table-column>
+			<el-table-column label="操作">
+				<template slot-scope="scope">
+					<el-button size="mini"  @click="handleClick(scope.row)">查看</el-button>
+				</template>
 			</el-table-column>
 		</el-table>
 
-		<el-dialog :title="''" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
+		<el-dialog :title="'不合格产品判定信息'" width="42%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+			<el-table :data="gridData" show-summary>
+				<el-table-column type="index" width="50"></el-table-column>
+				<el-table-column prop="liable" label="责任人" width="150"></el-table-column>
+				<el-table-column prop="craft" label="返修工艺" width="150"></el-table-column>
+				<el-table-column prop="unquCause" label="不合格原因" width="180" ></el-table-column>
+				<el-table-column prop="price" label="返修成本" width="130"></el-table-column>
+			</el-table>
 		</el-dialog>
 	</div>
 </template>
@@ -93,7 +109,15 @@
 					ask: '',
 					inputValue: ''
 				},
-				dialogVisible1: false,
+				unqu:{
+					id:'',
+					fId:'',
+					liable:'',
+					price:0,
+					craft:'',
+					unquCause:''
+				},
+				dialogVisible: false,
 				columns: [],
 				filterColumns: [],
 				pageRequest: {
@@ -103,10 +127,19 @@
 				pageResult: [],
 				operation: false,
 				editLoading: false,
+				gridData:[]
 
 			}
 		},
 		methods: {
+			handleClick(row){
+				this.dialogVisible = true
+				this.unqu.fId = row.id
+				let param = Object.assign({}, this.unqu)
+				this.$api.unqu.query(param).then((res) => {
+					this.gridData = res.data
+				})
+			},
 			//选择导出数据
 			handleSelectionChange(val) {
 				this.multipleSelection = val
@@ -166,7 +199,7 @@
 			//分页条件查询部件信息
 			findPage: function() {
 				let params = Object.assign({}, this.filters)
-				this.$api.parts.findPagePp(params).then((res) => {
+				this.$api.parts.findPageDn(params).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},

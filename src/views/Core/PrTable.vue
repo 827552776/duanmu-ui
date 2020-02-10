@@ -11,6 +11,7 @@
       </el-table-column>
       <el-table-column :label="$t('action.operation')" width="220" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
+			<el-button type="success" size="mini" v-if="scope.row.temPurch == '是'" @click="print(scope.$index, scope.row)">打印</el-button>
 			<el-button type="success" size="mini" v-if="scope.row.attribute =='标准件'" @click="isok(scope.$index, scope.row)">已购</el-button>
 			<el-button  size="mini" v-if="scope.row.attribute =='整体定制'&&scope.row.sts=='A'" @click="again(scope.$index, scope.row)">开始定制</el-button>
 			<el-button type="success" size="mini" v-if="scope.row.attribute =='整体定制' && scope.row.sts=='B'" @click="isok(scope.$index, scope.row)">完成定制</el-button>
@@ -117,6 +118,9 @@ export default {
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
+		},
+		print: function (index, row) {
+		  this.$emit('print', {index:index, row:row})
 		},
 		isok: function (index, row) {
 		  this.$emit('isok', {index:index, row:row})

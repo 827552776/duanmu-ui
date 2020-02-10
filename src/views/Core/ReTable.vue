@@ -10,11 +10,9 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="280" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-					<el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">运费录入</el-button>
-					<el-button  size="mini"  @click="query(scope.$index, scope.row)">运费查询</el-button>
-					<el-button  size="mini"  @click="help(scope.$index, scope.row)">外协</el-button>
+					<el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,9 +115,6 @@ export default {
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
-		},
-		help: function (index, row) {
-		  this.$emit('help', {index:index, row:row})
 		},
 		query: function (index, row) {
 		  this.$emit('query', {index:index, row:row})

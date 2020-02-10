@@ -8,6 +8,14 @@ export const save = (data) => {
         data
     })
 }
+// 保存实际成本费用
+export const save1 = (data) => {
+    return axios({
+        url: '/check/save1',
+        method: 'post',
+        data
+    })
+}
 
 // 保存拆单信息
 export const saveSplit = (data) => {

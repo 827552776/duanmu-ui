@@ -5,15 +5,17 @@
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
           :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
       <el-table-column type="index" width="40" ></el-table-column>
-      <el-table-column v-for="column in columns" header-align="center" align="center"
+      <el-table-column v-for="column in columns" header-align="center" align="center" show-overflow-tooltip	="true"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="250" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-					<el-button  size="mini" v-if = "scope.row.ordSts=='A'||scope.row.ordSts=='B'" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-           <el-button type="danger" size="mini" v-if = "scope.row.ordSts=='A'||scope.row.ordSts=='B'" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+			<el-button  type="success" size="mini" v-if = "scope.row.ordSts=='A'" @click="Warehous(scope.$index, scope.row)">确认入库</el-button>
+			<el-button  type="danger" size="mini" v-if = "scope.row.ordSts!='A'&&scope.row.isOut!='1'" @click="Outhous(scope.$index, scope.row)">出库</el-button>
+					<el-button  size="mini" v-if = "scope.row.ordSts=='A'" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+           <el-button type="danger" size="mini" v-if = "scope.row.ordSts=='A'" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -114,6 +116,14 @@ export default {
       this.pageRequest.pageNum = pageNum
       this.findPage()
     },
+	 // 入库确认
+		Warehous: function (index, row) {
+	  this.$emit('Warehous', {index:index, row:row})
+		},
+		// 出库确认
+		Outhous: function (index, row) {
+	  this.$emit('Outhous', {index:index, row:row})
+		},
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})

@@ -48,10 +48,26 @@ export const findPagePp = (data) => {
         data
     })
 }
-//分页查询合格品待入库部件信息
+//分页查询合格品部件信息
 export const findPageD = (data) => {
     return axios({
         url: '/parts/findPageD',
+        method: 'post',
+        data
+    })
+}
+//分页查询可以打印成本核算的订单
+export const findPageDcost = (data) => {
+    return axios({
+        url: '/parts/findPageDcost',
+        method: 'post',
+        data
+    })
+}
+//分页查询不合格品部件信息
+export const findPageDn = (data) => {
+    return axios({
+        url: '/parts/findPageDn',
         method: 'post',
         data
     })

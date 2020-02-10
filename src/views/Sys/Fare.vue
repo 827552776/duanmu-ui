@@ -38,7 +38,7 @@
 		</div>
 		<!--表格内容栏-->
 		<fa-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit"
-		 @query="query">
+		 @query="query" @help="helpShow">
 		</fa-table>
 
 
@@ -68,10 +68,7 @@
 					</el-col>
 					<el-col :span="7">
 						<el-form-item label="物流:" prop="logis">
-							<el-select v-model="fare.logis" placeholder="请选择" size="mini" clearable style="width:103px">
-								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
-								</el-option>
-							</el-select>
+							<el-input v-model="fare.logis" placeholder="" style="width:103px"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -115,6 +112,98 @@
 				</el-table-column>
 			</el-table>
 		</el-dialog>
+		<el-dialog :title="'外协信息'" width="65%" :visible.sync="dialogVisible2" :close-on-click-modal="false" :show-close="false">
+			<el-form :inline="true" :model="help" label-position="right" label-width="80px" size="mini" ref="help">
+				<el-form-item label="ID" v-if='false' prop="id">
+					<el-input v-model="help.id"></el-input>
+				</el-form-item>
+				<el-form-item label="FID" v-if='false' prop="fId">
+					<el-input v-model="help.fId"></el-input>
+				</el-form-item>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="具体业务:" prop="work">
+							<el-input v-model="help.work" style="width:160px;">
+							</el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="开始时间:" prop="startDate">
+							<el-date-picker style="width: 160px;" v-model="help.startDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="结束时间:" prop="endDate">
+							<el-date-picker style="width: 160px;" v-model="help.endDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					
+				</el-row>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="数量:" prop="helpQuan">
+							<el-input v-model="help.helpQuan" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="价格:" prop="price">
+							<el-input v-model="help.price" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="付款时间:" prop="payDate">
+							<el-date-picker style="width: 160px;" v-model="help.payDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+		
+					
+				</el-row>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="外协厂家:" prop="helpNm">
+							<el-select v-model="help.helpNm" placeholder="请选择" style="width:160px;">
+								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="外协备注:" prop="helpRemarks">
+							<el-input v-model="help.helpRemarks" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7" >
+						<el-form-item>
+							<el-button type="success" size="mini" @click="saveHelp">保存</el-button>
+							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+			<el-table :data="tableData" style="width: 100%" @row-click="deleteParts">
+				<el-table-column type="index" width="50"></el-table-column>
+				<el-table-column prop="work" label="具体业务" width="100"></el-table-column>
+				<el-table-column prop="helpQuan" label="数量" width="80"></el-table-column>
+				<el-table-column prop="helpNm" label="外协厂家" width="120"></el-table-column>
+				<el-table-column prop="startDate" label="开始时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="endDate" label="结束时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="price" label="价格" width="80"></el-table-column>
+				<el-table-column prop="payDate" label="付款时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="helpRemarks" label="备注" width="120"></el-table-column>
+				<el-table-column label="操作" width="80">
+					<template slot-scope="scope">
+						<el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+		
+		
+		
+		
+		</el-dialog>
 	</div>
 
 </template>
@@ -150,6 +239,7 @@
 				pageResult: {},
 				dialogVisible: false,
 				dialogTableVisible: false,
+				dialogVisible2: false,
 				operation: false,
 				editLoading: false,
 				dataFormRules: {
@@ -181,6 +271,21 @@
 					price: '',
 					delvDate: ''
 				},
+				help: {
+					id: '',
+					fId: '',
+					work: '',
+					helpNm: '',
+					startDate: '',
+					endDate: '',
+					price: '',
+					helpRemarks: '',
+					payDate:'',
+					helpQuan:''
+				},
+				core:{
+					id:''
+				},
 				orderReg: {
 					id: '',
 					lotNo: '',
@@ -196,8 +301,9 @@
 				gridData: [],
 				selectInvTend: [],
 				customerParam: {
-					attribute: '物流'
-				}
+					attribute: '外协厂家'
+				},
+				
 			}
 		},
 		methods: {
@@ -234,6 +340,63 @@
 					})
 				})
 			},
+			//显示外协信息页面
+			helpShow: function(params) {
+				this.dialogVisible2 = true
+			    this.core = Object.assign({}, params.row)
+				this.help.fId = this.core.id
+				this.help.id = null
+				this.queryHelp()
+				this.getSelectInvTend()
+			},
+			//外协信息保存按钮
+			saveHelp() {
+				this.$confirm('确定要保存外协信息吗?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.saveHel()
+				})
+			},
+			//外协信息取消按钮
+			off() {
+				this.$refs['help'].resetFields()
+				this.tableData = []
+				this.dialogVisible2 = false
+			},
+			//保存外协信息
+			saveHel() {
+				let params = Object.assign({}, this.help)
+				this.$api.help.saveHelp(params).then((res) => {
+					if (res.code == 200) {
+						this.$message({
+							message: '操作成功',
+							type: 'success'
+						})
+						this.$refs['help'].resetFields()
+						this.tableData = []
+						this.dialogVisible2 = false
+					} else {
+						this.$message({
+							type: 'error',
+							message: '删除失败!'
+						});
+
+					}
+
+				})
+
+			},
+			//查询外协信息
+			queryHelp() {
+				this.$api.help.queryHelp(this.core).then((res) => {
+					this.tableData = res.data
+				})
+			},
+			edit(row) {
+				this.help = row
+			},
 			// 时间格式化
 			dateFormat: function (row, column, cellValue, index){
 			  return format(row[column.property])
@@ -268,7 +431,7 @@
 				this.orderReg = Object.assign({}, params.row)
 				this.fare.fId = this.orderReg.id
 				this.fare.id == null
-				this.getSelectInvTend()
+				
 
 			},
 			//查询运费信息
@@ -340,11 +503,6 @@
 						minWidth: 120
 					},
 					{
-						prop: "buyMaterial",
-						label: "模具号",
-						minWidth: 80
-					},
-					{
 						prop: "quantity",
 						label: "数量",
 						minWidth: 80
@@ -360,10 +518,15 @@
 						minWidth: 100
 					},
 					{
-						prop: "sts",
-						label: "订单状态",
+						prop: "shuxing",
+						label: "属性",
 						minWidth: 100
 					},
+// 					{
+// 						prop: "sts",
+// 						label: "订单状态",
+// 						minWidth: 100
+// 					},
 					{
 						prop: "remarks",
 						label: "备注",

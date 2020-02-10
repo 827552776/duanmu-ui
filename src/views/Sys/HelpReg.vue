@@ -34,9 +34,9 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<bz-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @split="split" @trans="trans"
+		<hl-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @split="split" @trans="trans"
 		 @helpShow="helpShow">
-		</bz-table>
+		</hl-table>
 
 		<el-dialog :title="'流程控制'" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false" :before-close="saveCraft">
 			<div>
@@ -49,55 +49,90 @@
 				<!-- <el-button v-else class="button-new-tag" size="small" @click="showInput"><i class="el-icon-circle-plus"></i></el-button> -->
 			</div>
 		</el-dialog>
-		<el-dialog :title="'录入生产费用'" width="50%" :visible.sync="dialogVisible2" :close-on-click-modal="false">
-			<el-form :inline="true" :model="arr" label-position="right" label-width="90px" size="mini" ref="arr" :rules="sub1Rules">
+		<el-dialog :title="'外协信息'" width="60%" :visible.sync="dialogVisible2" :close-on-click-modal="false" :show-close="false">
+			<el-form :inline="true" :model="help" label-position="right" label-width="80px" size="mini" ref="help">
 				<el-form-item label="ID" v-if='false' prop="id">
-					<el-input v-model="arr.id"></el-input>
+					<el-input v-model="help.id"></el-input>
 				</el-form-item>
 				<el-form-item label="FID" v-if='false' prop="fId">
-					<el-input v-model="arr.fId"></el-input>
+					<el-input v-model="help.fId"></el-input>
 				</el-form-item>
-				<!-- <el-row>
-					<el-col :span="8">
-						<el-form-item label="材料费:" prop="cai">
-							<el-input v-model="arr.cai" style="width:150px;">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="焊材费:" prop="hanCai">
-							<el-input v-model="arr.hanCai" style="width:150px;">
-							</el-input>
-						</el-form-item>
-					</el-col>
-				</el-row> -->
 				<el-row>
-					<el-col :span="8">
-						<el-form-item label="热处理:" prop="reCh">
-							<el-input v-model="arr.reCh" placeholder="" style="width:150px"></el-input>
+					<el-col :span="9">
+						<el-form-item label="具体业务:" prop="work">
+							<el-input v-model="help.work" style="width:160px;">
+							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="工时费:" prop="gongShi">
-							<el-input v-model="arr.gongShi" placeholder="" style="width:150px"></el-input>
+					<el-col :span="7">
+						<el-form-item label="外协厂家:" prop="helpNm">
+							<el-select v-model="help.helpNm" placeholder="请选择" style="width:160px;">
+								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="6" :offset='1'>
+					<el-col :span="7">
+						<el-form-item label="开始时间:" prop="startDate">
+							<el-date-picker style="width: 160px;" v-model="help.startDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="结束时间:" prop="endDate">
+							<el-date-picker style="width: 160px;" v-model="help.endDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7">
+						<el-form-item label="价格:" prop="price" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="help.price" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+
+					<el-col :span="7">
+						<el-form-item label="外协备注:" prop="helpRemarks">
+							<el-input v-model="help.helpRemarks" placeholder="" style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+
+					<el-col :span="7" :offset="17">
 						<el-form-item>
-							<el-button type="success" size="mini" @click="save">保存</el-button>
-							<el-button :size="size" @click.native="dialogVisible2 = false">{{$t('action.cancel')}}</el-button>
-							<!-- <el-button type="success" size="mini" @click="resetForm('refname')">清空</el-button> -->
+							<el-button type="success" size="mini" @click="saveHelp">保存</el-button>
+							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
+			<el-table :data="tableData" style="width: 98%" @row-click="deleteParts">
+				<el-table-column type="index" width="50"></el-table-column>
+				<el-table-column prop="work" label="具体业务" width="140"></el-table-column>
+				<el-table-column prop="helpNm" label="外协厂家" width="130"></el-table-column>
+				<el-table-column prop="startDate" label="开始时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="endDate" label="结束时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="price" label="价格" width="80"></el-table-column>
+				<el-table-column prop="helpRemarks" label="备注" width="120"></el-table-column>
+				<el-table-column label="操作" width="100">
+					<template slot-scope="scope">
+						<el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+
+
+
+
 		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import PopupTreeInput from "@/components/PopupTreeInput"
-	import BzTable from "@/views/Core/BzTable"
+	import HlTable from "@/views/Core/HlTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 	import {
@@ -106,7 +141,7 @@
 	export default {
 		components: {
 			PopupTreeInput,
-			BzTable,
+			HlTable,
 			KtButton,
 			TableColumnFilterDialog
 		},
@@ -130,14 +165,6 @@
 					dispatchNo: '',
 					buyMaterial: '',
 					remarks: ''
-				},
-				arr: {
-					id: '',
-					fId: '',
-// 					hanCai: '',
-// 					cai: '',
-					reCh: '',
-					gongShi: '',
 				},
 				help: {
 					id: '',
@@ -219,34 +246,6 @@
 
 					}
 
-				})
-			},
-			//保存 实际费用录入
-			save() {
-				this.$confirm('是否执行本操作?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					let params = Object.assign({}, this.arr)
-					this.$api.check.save1(params).then((res) => {
-						if (res.code == 200) {
-							this.dialogVisible2 = false
-							this.arr.id =='',
-							this.arr.fId =='',
-							this.arr.hancai =='',
-							this.arr.cai =='',
-							this.arr.reCh =='',
-							this.arr.gongShi ==''
-						} else {
-							this.$message({
-								type: 'error',
-								message: '删除失败!'
-							});
-			
-						}
-			
-					})
 				})
 			},
 			//分页条件查询部件信息
@@ -358,11 +357,13 @@
 			dateFormat: function(row, column, cellValue, index) {
 				return format(row[column.property])
 			},
-			//显示费用录入页面
+			//显示外协信息页面
 			helpShow: function(params) {
 				this.dialogVisible2 = true
-				this.orderReg = Object.assign({}, params.row)
-				this.arr.fId = this.orderReg.id
+				this.parts = Object.assign({}, params.row)
+				this.help.fId = this.parts.id
+				this.queryHelp()
+				this.getSelectInvTend()
 			},
 
 			// 处理表格列过滤显示
@@ -377,44 +378,44 @@
 			// 处理表格列过滤显示
 			initColumns: function() {
 				this.columns = [{
-						prop: "lotNo",
-						label: "产品批号",
-						minWidth: 100
-					},
-// 					{
-// 						prop: "mouldNm",
-// 						label: "模具名称",
-// 						minWidth: 130
-// 					},
-					{
-						prop: "dispatchNo",
-						label: "派工号",
-						minWidth: 130
-					},
-					{
-						prop: "cust",
-						label: "客户名称",
-						minWidth: 100
-					}, {
-						prop: "name",
-						label: "部件名称（模具名称）",
-						minWidth: 180
-					},
-// 					{
-// 						prop: "specs",
-// 						label: "部件规格",
-// 						minWidth: 100
-// 					},
-					{
-						prop: "modle",
-						label: "部件型号（模具号）",
-						minWidth: 180
-					},
-
-					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
-					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
-					// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
-				]
+										prop: "lotNo",
+										label: "产品批号",
+										minWidth: 100
+									},
+				// 					{
+				// 						prop: "mouldNm",
+				// 						label: "模具名称",
+				// 						minWidth: 130
+				// 					},
+									{
+										prop: "dispatchNo",
+										label: "派工号",
+										minWidth: 130
+									},
+									{
+										prop: "cust",
+										label: "客户名称",
+										minWidth: 100
+									}, {
+										prop: "name",
+										label: "部件名称（模具名称）",
+										minWidth: 180
+									},
+				// 					{
+				// 						prop: "specs",
+				// 						label: "部件规格",
+				// 						minWidth: 100
+				// 					},
+									{
+										prop: "modle",
+										label: "部件型号（模具号）",
+										minWidth: 180
+									},
+				
+									// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
+									// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
+									// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
+								]
 				this.filterColumns = JSON.parse(JSON.stringify(this.columns));
 			}
 		},

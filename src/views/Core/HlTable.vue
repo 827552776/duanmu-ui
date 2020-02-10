@@ -3,8 +3,7 @@
     <!--表格栏-->
     <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
-          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
-      <el-table-column type="index" width="40" ></el-table-column>
+          :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:80%;" >
       <el-table-column v-for="column in columns" header-align="center" align="center"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
@@ -12,10 +11,11 @@
       </el-table-column>
       <el-table-column :label="$t('action.operation')" width="280" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-					<el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">运费录入</el-button>
-					<el-button  size="mini"  @click="query(scope.$index, scope.row)">运费查询</el-button>
-					<el-button  size="mini"  @click="help(scope.$index, scope.row)">外协</el-button>
+				  <!-- <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">流程控制</el-button> -->
+					 <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">外协录入</el-button>
+				  <!-- <el-button type="danger" size="mini"  @click="trans(scope.$index, scope.row)">结束生产</el-button> -->
         </template>
+			
       </el-table-column>
     </el-table>
     <!--分页栏-->
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import KtButton from "@/views/Core/KtButton"
+// import KtButton from "@/views/Core/KtButton"
 export default {
   name: 'KtTable',
   components:{
-			KtButton
+			// KtButton
 	},
   props: {
     columns: Array, // 表格列配置
@@ -49,11 +49,11 @@ export default {
     },
     maxHeight: {  // 表格最大高度
       type: Number,
-      default: 600
+      default: 420
     },
     height: {  // 表格最大高度
       type: Number,
-      default: 600
+      default: 250
     },
     showOperation: {  // 是否显示操作组件
       type: Boolean,
@@ -118,11 +118,14 @@ export default {
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
 		},
-		help: function (index, row) {
-		  this.$emit('help', {index:index, row:row})
+		split: function (index, row) {
+		  this.$emit('split', {index:index, row:row})
 		},
-		query: function (index, row) {
-		  this.$emit('query', {index:index, row:row})
+		helpShow: function (index, row) {
+		  this.$emit('helpShow', {index:index, row:row})
+		},
+		trans: function (index, row) {
+		  this.$emit('trans', {index:index, row:row})
 		},
     // 删除
 		handleDelete: function (index, row) {
