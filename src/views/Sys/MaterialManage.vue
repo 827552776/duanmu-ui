@@ -13,7 +13,7 @@
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
         <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('新增')" perms="sys:dict:add" type="primary" @click="handleAdd" />
+          <kt-button icon="fa fa-plus" :label="$t('入库')" perms="sys:dict:add" type="primary" @click="handleAdd" />
         </el-form-item>
       </el-form>
     </div>
@@ -23,61 +23,205 @@
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </kf-table>
     <!--新增编辑界面-->
-    <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
+    <el-dialog :title="operation?'入库':'编辑'" width="90%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="名称" prop="label">
-          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="模具名称" prop="label">
-          <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="数量" prop="value">
-          <el-input v-model="dataForm.number" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="尺寸" prop="type">
-          <el-input v-model="dataForm.size" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="价格" prop="sort">
-          <el-input v-model="dataForm.price" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="对账状态 " prop="description">
-          <el-input v-model="dataForm.state" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="预警数量 " prop="description">
-          <el-input v-model="dataForm.typeNumber" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="发票信息" prop="description">
-          <el-input v-model="dataForm.invoice" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="备注" prop="remarks">
-          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="材料名称" prop="label">
+              <el-input  v-model="dataForm.name" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="模具名称" prop="label">
+              <el-input  v-model="dataForm.mName" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="入库数量" prop="value">
+              <el-input v-model="dataForm.number" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="尺寸" prop="type">
+              <el-input v-model="dataForm.size" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="价格" prop="sort">
+              <el-input v-model="dataForm.price" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="对账状态 " prop="description">
+              <el-input v-model="dataForm.state" auto-complete="off" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="预警数量 " prop="description">
+              <el-input v-model="dataForm.typeNumber" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="发票信息" prop="description">
+              <el-input v-model="dataForm.invoice" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="单位(克/件/公斤)" prop="description">
+              <el-input v-model="dataForm.company" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="材质" prop="description">
+              <el-input v-model="dataForm.texture" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="备注" prop="remarks">
+              <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
+      <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+      <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="入库单" name="first" >
+          <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="材料名称" prop="label">
+                  <el-input  v-model="dataFormInt.name " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="材质" prop="label">
+                  <el-input  v-model="dataFormInt.texture " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="单位" prop="value">
+                  <el-input v-model="dataFormInt.company " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="模具名称" prop="type">
+                  <el-input v-model="dataFormInt.mName " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="入库数量" prop="label">
+                  <el-input  v-model="dataFormInt.intNumber " auto-complete="off"disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="入库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormInt.intTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="入库价格" prop="value">
+                  <el-input v-model="dataFormInt.wxPrice " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="备注" prop="type">
+                  <el-input v-model="dataFormInt.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
       <div slot="footer" class="dialog-footer">
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?false:true">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click="submitForm1" :disabled="operation?false:true">{{$t('action.submit')}}</el-button>
       </div>
     </el-dialog>
-    <!-- 出库弹出界面   -->
-    <el-dialog :title="operationStock?'入库':'出库'" width="40%" :visible.sync="editDialogVisibleIn" :close-on-click-modal="false">
+    <!-- 入库弹出界面   -->
+    <el-dialog :title="operationStock?'入库':'出库'" width="84%" :visible.sync="editDialogVisibleIn" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
-          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off" ></el-input>
         </el-form-item>
         <el-form-item label="入库数量" prop="label">
           <el-input v-model="dataForm.intNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
-      </div>
+      <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+      <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="入库单" name="first">
+          <el-form :model="dataFormInt" label-width="80px" :rules="dataFormRules" ref="dataFormInt" :size="size">
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="材料名称" prop="label">
+                  <el-input  v-model="dataFormInt.name " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="材质" prop="label">
+                  <el-input  v-model="dataFormInt.texture " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="单位" prop="value">
+                  <el-input v-model="dataFormInt.company " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="模具名称" prop="type">
+                  <el-input v-model="dataFormInt.mName " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="入库数量" prop="label">
+                  <el-input  v-model="dataFormInt.intNumber " auto-complete="off"disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="入库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormInt.intTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="入库价格" prop="value">
+                  <el-input v-model="dataFormInt.wxPrice " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="备注" prop="type">
+                  <el-input v-model="dataFormInt.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitForm4" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        </el-tab-pane>
+      </el-tabs>
     </el-dialog>
-    <!--  入库显示界面  -->
-    <el-dialog :title="operationStock?'入库':'出库'" width="40%" :visible.sync="editDialogVisibleOut" :close-on-click-modal="false">
+    <!--  出库弹出界面  -->
+    <el-dialog :title="operationStock?'入库':'出库'" width="90%" :visible.sync="editDialogVisibleOut" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
@@ -86,10 +230,154 @@
           <el-input v-model="dataForm.outNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
         <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
         <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
-      </div>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="自用出库表单" name="first">
+            <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="材料名称" prop="label">
+                  <el-input  v-model="dataFormOut.name " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="材质" prop="label">
+                  <el-input  v-model="dataFormOut.texture " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="单位" prop="value">
+                  <el-input v-model="dataFormOut.company " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="模具名称" prop="type">
+                  <el-input v-model="dataFormOut.mName " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="派工号" prop="label">
+                  <el-input  v-model="dataFormOut.dispatch " auto-complete="off" ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="批号" prop="label">
+                  <el-input  v-model="dataFormOut.batch " auto-complete="off" ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="模具自用数" prop="value">
+                  <el-input v-model="dataFormOut.number " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="自用出库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormOut.trTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="备注" prop="type">
+                  <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            </el-form>
+              <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+              <el-button :size="size" type="primary" @click.native="submitForm2" :loading="editLoading">{{$t('action.submit')}}</el-button>
+          </el-tab-pane>
+          <el-tab-pane label="外协出库表单" name="second">
+            <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="材料名称" prop="label">
+                    <el-input  v-model="dataFormOut.name " auto-complete="off" disabled="false"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="材质" prop="label">
+                    <el-input  v-model="dataFormOut.texture " auto-complete="off" disabled="false"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="单位" prop="value">
+                    <el-input v-model="dataFormOut.company " auto-complete="off" disabled="false"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="模具名称" prop="type">
+                    <el-input v-model="dataFormOut.mName " auto-complete="off" disabled="false"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="派工号" prop="label">
+                    <el-input  v-model="dataFormOut.dispatch " auto-complete="off" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="批号" prop="label">
+                    <el-input  v-model="dataFormOut.batch " auto-complete="off" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="外协数量" prop="value">
+                    <el-input v-model="dataFormOut.wxNumber " auto-complete="off" disabled="false"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="外协时间" prop="sort">
+                    <el-date-picker
+                      v-model="dataFormOut.wxTime"
+                      type="date"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="外协单位" prop="label">
+                    <el-input  v-model="dataFormOut.waixie " auto-complete="off" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="外协入库时间" prop="sort">
+                    <el-date-picker
+                      v-model="dataForm.wxInt"
+                      type="date"
+                      placeholder="选择日期"
+                      disabled="false" >
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="外协价格" prop="value">
+                    <el-input v-model="dataFormOut.wxPrice " auto-complete="off" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="备注" prop="type">
+                    <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+            <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading">{{$t('action.submit')}}</el-button>
+          </el-tab-pane>
+
+      </el-tabs>
+
     </el-dialog>
   </div>
 </template>
@@ -103,15 +391,55 @@
         components:{
             KfTable,
             KtButton,
-       PopupTreeInput
+            PopupTreeInput
         },
         data() {
             return {
                 size: 'small',
+              restaurants: [],
                 filters: {
                     name: '',
                     mName:''
                 },
+              // 新增编辑界面数据
+              dataFormInt: {
+                id: 0,
+                company:'',
+                texture:'',
+                mName:'',
+                name: '',
+                intTime: '',
+                intNumber: '',
+                number: '',
+                trTime: '',
+                waixie: '',
+                wxTime:'',
+                type:2,
+                wxInt:'',
+                wxNumber:'',
+                wxPrice:'',
+                remarks:''
+              },
+              dataFormOut: {
+                id: 0,
+                name: '',
+                company:'',
+                texture:'',
+                dispatch:'',
+                batch:'',
+                mName:'',
+                intTime: '',
+                intNumber: '',
+                number: '',
+                trTime: '',
+                waixie: '',
+                wxTime:'',
+                type:0,
+                wxInt:'',
+                wxNumber:'',
+                wxPrice:'',
+                remarks:''
+              },
                 columns: [
                     {prop:"id", label:"ID", minWidth:50},
                     {prop:"mName", label:"模具名称", minWidth:100},
@@ -147,9 +475,6 @@
                         { required: true, message: '请输入名称', trigger: 'blur' }
                     ]
                 },
-                dataFrom1:{
-                    price:''
-                },
                 // 新增编辑界面数据
                 dataForm: {
                     id: 0,
@@ -184,6 +509,32 @@
             //         }
             //     })
             // },
+          handleClick(tab, event) {
+            console.log(tab, event);
+          },
+          querySearch(queryString, cb) {
+            let restaurants = this.restaurants;
+            let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+            // 调用 callback 返回建议列表的数据
+            cb(results);
+          },
+          createFilter(queryString) {
+            return (restaurant) => {
+              return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+            };
+          },
+          loadAll() {
+            return [
+              { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" }
+            ];
+          },
+          handleSelect(item) {
+            console.log(item);
+          },
+          //模糊查询输入的材料名称
+          findAll:function() {
+            return this.$api.materialZi.findAll()
+          },
             // 获取分页数据
             findPage: function (data) {
                 if(data !== null) {
@@ -219,6 +570,24 @@
                     remarks: '',
                     invoice:''
                 }
+                this.dataFormInt={
+                  id: 0,
+                  mName:'',
+                  company:'',
+                  texture:'',
+                  name: '',
+                  intTime: '',
+                  intNumber: '',
+                  number: '',
+                  trTime: '',
+                  waixie: '',
+                  wxTime:'',
+                  type:2,
+                  wxInt:'',
+                  wxNumber:'',
+                  wxPrice:'',
+                  remarks:''
+                }
             },
             //入库显示界面
             handleEditIt:function(params){
@@ -231,6 +600,26 @@
                 this.editDialogVisibleOut =true
                 this.operationStock = false
                 this.dataForm = Object.assign({}, params.row)
+              this.dataFormOut =   {
+                  id: 0,
+                  name: '',
+                  company:'',
+                  texture:'',
+                  dispatch:'',
+                  batch:'',
+                  mName:'',
+                  intTime: '',
+                  intNumber: '',
+                  number: '',
+                  trTime: '',
+                  waixie: '',
+                  wxTime:'',
+                  type:0,
+                  wxInt:'',
+                  wxNumber:'',
+                  wxPrice:'',
+                  remarks:''
+              }
 
             },
             // 显示编辑界面
@@ -241,33 +630,157 @@
             },
             // 编辑
             submitForm: function () {
-                this.$refs.dataForm.validate((valid) => {
-                    if (valid) {
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                            this.editLoading = true
-                            let params = Object.assign({}, this.dataForm)
-                            this.$api.material.save(params).then((res) => {
-                                if(res.code == 200) {
-                                    this.$message({ message: '操作成功', type: 'success' })
-                                } else {
-                                    this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                                }
-                                this.editLoading = false
-                                this.$refs['dataForm'].resetFields()
-                                this.editDialogVisible = false
-                                this.editDialogVisibleIn=false
-                                this.editDialogVisibleOut = false
-                                this.findPage(null)
-                            })
-                        })
+            this.$refs.dataForm.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  let params = Object.assign({}, this.dataForm)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.material.save(params).then((res) => {
+                    if(res.code == 200) {
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
                     }
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
-            },
+              }
+            })
+          },
+          //入库单点击事件
+          submitForm1: function () {
+            this.$refs.dataFormInt.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormInt.name = this.dataForm.name
+                  this.dataFormInt.texture = this.dataForm.texture
+                  this.dataFormInt.company = this.dataForm.company
+                  this.dataFormInt.mName = this.dataForm.mName
+                  this.dataFormInt.intNumber = this.dataForm.number
+                  this.dataFormInt.wxPrice = this.dataForm.price
+                  let params1 = Object.assign({}, this.dataFormInt)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.accessMaterial.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormInt'].resetFields()
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                  })
+                })
+              }
+            })
+          },
+          //入库单点击事件
+          submitForm4: function () {
+            this.$refs.dataFormInt.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormInt.name = this.dataForm.name
+                  this.dataFormInt.texture = this.dataForm.texture
+                  this.dataFormInt.company = this.dataForm.company
+                  this.dataFormInt.mName = this.dataForm.mName
+                  this.dataFormInt.intNumber = this.dataForm.intNumber
+                  this.dataFormInt.wxPrice = this.dataForm.price
+                  let params1 = Object.assign({}, this.dataFormInt)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.accessMaterial.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormInt'].resetFields()
+                    // this.editDialogVisibleIn=false
+                    // this.editDialogVisibleOut = false
+                  })
+                })
+              }
+            })
+          },
+          //自用出库单点击事件
+          submitForm2: function () {
+            this.$refs.dataFormOut.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormOut.name = this.dataForm.name
+                  this.dataFormOut.texture = this.dataForm.texture
+                  this.dataFormOut.company = this.dataForm.company
+                  this.dataFormOut.mName = this.dataForm.mName
+                  this.dataFormOut.number = this.dataForm.outNumber
+                  let params1 = Object.assign({}, this.dataFormOut)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.accessMaterial.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormOut'].resetFields()
+                  })
+                })
+              }
+            })
+          },
+          //外协出库单点击事件
+          submitForm3: function () {
+            this.$refs.dataFormOut.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormOut.name = this.dataForm.name
+                  this.dataFormOut.texture = this.dataForm.texture
+                  this.dataFormOut.company = this.dataForm.company
+                  this.dataFormOut.mName = this.dataForm.mName
+                  this.dataFormOut.wxNumber = this.dataForm.outNumber
+                  let params1 = Object.assign({}, this.dataFormOut)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.accessMaterial.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormOut'].resetFields()
+                  })
+                })
+              }
+            })
+          },
+
             // 时间格式化
             dateFormat: function (row, column, cellValue, index){
                 return format(row[column.property])
             }
         },
+      mounted() {
+        this.restaurants = this.loadAll();
+      },
         name: "StockManage"
     }
 </script>

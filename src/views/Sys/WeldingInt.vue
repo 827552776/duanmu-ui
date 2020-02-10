@@ -113,6 +113,8 @@
                     {prop:"name", label:"焊材名称", minWidth:100},
                     {prop:"deTime", label:"销售出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"deCompany", label:"出售单位", minWidth:100},
+                    {prop:"source", label:"出售单位", minWidth:100},
+                  {prop:"model", label:"出售单位", minWidth:100},
                     {prop:"deNumber", label:"出售数量", minWidth:100},
                     {prop:"company", label:"单位", minWidth:100},
                     {prop:"price", label:"价格", minWidth:100},

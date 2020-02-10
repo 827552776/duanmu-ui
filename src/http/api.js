@@ -20,6 +20,7 @@ import * as welding from './moudules/welding'
 import * as help from './moudules/help'
 import * as unqu from './moudules/unqu'
 import * as weldingInt from './moudules/weldingInt'
+import * as materialZi from './moudules/materialZi'
 
 
 
@@ -43,5 +44,6 @@ export default {
   welding,
 	help,
 	unqu,
-  weldingInt
+  weldingInt,
+  materialZi
 }

@@ -9,9 +9,9 @@
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
+<!--        </el-form-item>-->
 <!--        <el-form-item>-->
 <!--          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
 <!--        </el-form-item>-->
@@ -46,16 +46,16 @@
         <el-form-item label="模具名称" prop="label">
           <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="模具自用数" prop="value">
-          <el-input v-model="dataForm.number" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="自用出库时间" prop="sort">
-          <el-date-picker
-            v-model="dataForm.trTime"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
+<!--        <el-form-item label="模具自用数" prop="value">-->
+<!--          <el-input v-model="dataForm.number" auto-complete="off"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="自用出库时间" prop="sort">-->
+<!--          <el-date-picker-->
+<!--            v-model="dataForm.trTime"-->
+<!--            type="date"-->
+<!--            placeholder="选择日期">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
         <el-form-item label="外协单位" prop="type">
           <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>
         </el-form-item>
@@ -130,8 +130,8 @@
                   {prop:"batch", label:"批号", minWidth:100},
                     // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"intNumber", label:"入库数量", minWidth:100},
-                    {prop:"number", label:"模具自用数", minWidth:100},
-                    {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
+                    // {prop:"number", label:"模具自用数", minWidth:100},
+                    // {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"waixie", label:"外协单位", minWidth:100},
                     {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
