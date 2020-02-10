@@ -17,41 +17,6 @@
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
     </kf-y-table>
     <!--新增编辑界面-->
-    <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
-      <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
-        <el-form-item label="ID" prop="id"  v-if="false">
-          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="名称" prop="label">
-          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="数量" prop="value">
-          <el-input v-model="dataForm.number" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="尺寸" prop="type">
-          <el-input v-model="dataForm.size" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="价格" prop="sort">
-          <el-input v-model="dataForm.price" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="对账状态 " prop="description">
-          <el-input v-model="dataForm.state" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="预警数量 " prop="description">
-          <el-input v-model="dataForm.typeNumber" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="发票信息" prop="description">
-          <el-input v-model="dataForm.invoice" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="备注" prop="remarks">
-          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
-      </div>
-    </el-dialog>
     <!-- 出库弹出界面   -->
     <el-dialog :title="operationStock?'入库':'出库'" width="40%" :visible.sync="editDialogVisibleIn" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">

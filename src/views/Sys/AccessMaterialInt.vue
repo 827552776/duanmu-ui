@@ -239,6 +239,28 @@
                     }
                 })
             },
+          // 编辑
+          submitFormAll: function () {
+            this.$refs.dataForm.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认入库？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.accessMaterial.save(params).then((res) => {
+                    if(res.code == 200) {
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.findPage(null)
+                  })
+                })
+              }
+            })
+          },
             // 编辑
             submitFormConfirm: function () {
                 this.$refs.dataForm.validate((valid) => {

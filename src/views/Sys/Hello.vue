@@ -184,7 +184,6 @@
 							<el-col :span="5">
 								<el-form-item label="工装名称:" prop="frockNm">
 									<el-input v-model="dispa.frockNm" style="width:150px"></el-input>
-									</el-date-picker>
 								</el-form-item>
 							</el-col>
 							<el-col :span="4">
