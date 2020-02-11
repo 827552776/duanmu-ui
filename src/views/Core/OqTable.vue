@@ -5,11 +5,16 @@
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
           :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
       <el-table-column type="index" width="40" ></el-table-column>
-      <el-table-column v-for="column in columns" header-align="center" align="center"
+      <el-table-column v-for="column in columns" header-align="center" align="center" show-overflow-tooltip	="true"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
+			<el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
+			  <template slot-scope="scope">
+					<el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+			  </template>
+			</el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">

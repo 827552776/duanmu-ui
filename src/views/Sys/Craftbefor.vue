@@ -372,24 +372,38 @@
 			// 处理表格列过滤显示
 			initColumns: function() {
 				this.columns = [{
-						prop: "name",
-						label: "部件名称",
+						prop: "lotNo",
+						label: "产品批号",
 						minWidth: 100
+					},
+// 					{
+// 						prop: "mouldNm",
+// 						label: "模具名称",
+// 						minWidth: 130
+// 					},
+					{
+						prop: "dispatchNo",
+						label: "派工号",
+						minWidth: 130
 					},
 					{
-						prop: "specs",
-						label: "部件规格",
-						minWidth: 100
+						prop: "cust",
+						label: "客户名称",
+						minWidth: 130
+					},{
+						prop: "name",
+						label: "部件名称（模具名称）",
+						minWidth: 180
 					},
+// 					{
+// 						prop: "specs",
+// 						label: "部件规格",
+// 						minWidth: 180
+// 					},
 					{
 						prop: "modle",
-						label: "部件型号",
-						minWidth: 100
-					},
-					{
-						prop: "ask",
-						label: "技术要求",
-						minWidth: 100
+						label: "部件型号（模具号）",
+						minWidth: 180
 					},
 
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}

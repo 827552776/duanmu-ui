@@ -35,8 +35,13 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<pr-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @isok="isok" @again="again">
+		<pr-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @isok="isok" @again="again" @print="print">
 		</pr-table>
+		<el-dialog :title="'价格'" width="20%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
+			<div>请输入价格：<input v-model="parts.partPrice"  style="width: 100px;"></input>
+			<el-button type="success" size="mini" @click="isok1">确定</el-button>
+			</div>
+		</el-dialog>
 
 		<el-dialog :title="新增临时采购计划" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false" @close="close">
 			<el-form :inline="true" :model="parts" label-position="right" label-width="90px" size="mini" ref="parts">
@@ -144,9 +149,11 @@
 					applicant: '',
 					dept: '',
 					budget: '',
+					partPrice:0,
 					remarks: ''
 				},
 				dialogVisible: false,
+				dialogVisible1: false,
 				columns: [],
 				filterColumns: [],
 				pageRequest: {
@@ -174,7 +181,8 @@
 				this.parts.supplier = '',
 				this.parts.quantity = '',
 				this.parts.budget = '',
-				this.parts.remarks = ''
+				this.parts.remarks = '',
+				this.parts.partPrice = 0
 			},
 			addPurch() {
 				this.dialogVisible = true
@@ -200,9 +208,16 @@
 
 				})
 			},
-			//已购，更改生产状态，进入质检状态
-			isok(params) {
+			isok(params){
+				this.dialogVisible1 = true
 				this.parts = Object.assign({}, params.row)
+			},
+			print(params){
+				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:caigouList.ureport.xml' + '&id=' + params.row.id)
+			},
+			//已购，更改生产状态，进入质检状态
+			isok1() {
+				
 				this.$api.parts.updateStsC(this.parts).then((res) => {
 					if (res.code == 200) {
 						this.$message({
@@ -210,6 +225,8 @@
 							type: 'success'
 						})
 						this.findPage(null)
+						this.close()
+						this.dialogVisible1 = false
 					} else {
 						this.$message({
 							type: 'error',
@@ -303,9 +320,10 @@
 					},
 					{
 						prop: "temPurch",
-						label: "是否为临时采购",
-						minWidth: 120
+						label: "临时采购",
+						minWidth: 80
 					}
+					
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
 					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
 					// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}

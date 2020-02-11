@@ -35,22 +35,27 @@
 			<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
 			<el-table-column type="index" width="50">
 			</el-table-column>
+			<el-table-column prop="lotNo" label="批号" width="150">
+			</el-table-column>
+			<el-table-column prop="cust" label="客户名称" width="150">
+			</el-table-column>
 			<el-table-column prop="mouldNm" label="模具名称" width="150">
 			</el-table-column>
-			<el-table-column prop="buyMaterial" label="模具号" width="150">
-			</el-table-column>
 			<el-table-column prop="dispatchNo" label="派工号" width="150">
+			</el-table-column>
+			<el-table-column prop="attribute" label="属性" width="100">
 			</el-table-column>
 			<el-table-column prop="name" label="部件名称" width="120">
 			</el-table-column>
 			<el-table-column prop="modle" label="部件型号" width="150">
 			</el-table-column>
-			<el-table-column prop="specs" label="规格" width="180" show-overflow-tooltip>
+			<el-table-column prop="specs" label="规格" width="130" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="quantity" label="数量" width="150">
+			<el-table-column prop="ask" label="用途" width="130" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="attribute" label="属性" width="180" show-overflow-tooltip>
+			<el-table-column prop="quantity" label="数量" width="100">
 			</el-table-column>
+			
 		</el-table>
 
 		<el-dialog :title="''" width="50%" :visible.sync="dialogVisible1" :close-on-click-modal="false">
@@ -182,16 +187,17 @@
 			},
 			// 处理表格列过滤显示
 			initColumns: function() {
-				this.columns = [{
+				this.columns = [
+					{
+						prop: "cust",
+						label: "客户名称",
+						minWidth: 80
+					},{
 						prop: "mouldNm",
 						label: "模具名称",
 						minWidth: 120
 					},
-					{
-						prop: "buyMaterial",
-						label: "模具号",
-						minWidth: 80
-					}, {
+					 {
 						prop: "dispatchNo",
 						label: "派工号",
 						minWidth: 100

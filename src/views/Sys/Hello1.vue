@@ -41,7 +41,7 @@
 		</div>
 		<!--表格内容栏-->
 		<or-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
+		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete" @Warehous="Warehous">
 		</or-table>
 
 
@@ -93,11 +93,11 @@
 							<el-input v-model="orderReg.mouldNm" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="4">
+					<!-- <el-col :span="4">
 						<el-form-item label="模具号:" prop="buyMaterial">
 							<el-input v-model="orderReg.buyMaterial" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :span="8">
 						<el-form-item label="备注:" prop="remarks">
 							<el-input v-model="orderReg.remarks" type="textarea" autosize style="width:380px"></el-input>
@@ -252,6 +252,36 @@
 				<!-- <el-tab-pane label="附件" name="second">上传附件</el-tab-pane> -->
 			</el-tabs>
 		</el-dialog>
+		<el-dialog :title="'输入入库信息'" width="40%" :visible.sync="dialogVisible1" :close-on-click-modal="false" :show-close="false">
+			<el-form :inline="true" :model="ware" label-position="right" label-width="100px" size="mini" ref="ware">
+				<el-form-item label="ID" v-if="isShow" prop="id">
+					<el-input v-model="ware.id"></el-input>
+				</el-form-item>
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="入库时间:" prop="wareDate">
+							<el-date-picker style="width: 160px;" v-model="ware.wareDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="总入库数量:" prop="wareNum" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="ware.wareNum" @blur="xianzhi" style="width:120px"></el-input>
+						</el-form-item>
+					</el-col>
+		
+				</el-row>
+				<el-row>
+		
+					<el-col :span="7" :offset="16">
+						<el-form-item>
+							<el-button type="success" size="mini" @click="saveWare">保存</el-button>
+							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+		</el-dialog>
 	</div>
 
 </template>
@@ -286,6 +316,7 @@
 				},
 				pageResult: {},
 				dialogVisible: false,
+				dialogVisible1:false,
 				operation: false,
 				editLoading: false,
 				dataFormRules: {
@@ -294,6 +325,12 @@
 						message: '请输入用户名',
 						trigger: 'blur'
 					}]
+				},
+				ware:{
+					id:'',
+					wareDate:'',
+					wareNum:'',
+					quantity:''
 				},
 				orderReg: {
 					id: '',
@@ -342,6 +379,12 @@
 			}
 		},
 		methods: {
+			xianzhi(){
+				if(this.ware.wareNum > this.ware.quantity){
+					alert('入库数量不能大于派工数量')
+				}
+				return
+			},
 			change(val) {
 				if (val != this.orderReg.dispatchNo) {
 					alert('两个派工号必须一致！！')
@@ -368,6 +411,41 @@
 				this.$api.order.findPage1(this.pageRequest).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
+			},//显示入库确认界面
+			Warehous:function(params){
+				this.dialogVisible1 = true
+				this.ware = Object.assign({}, params.row)
+			},
+			off(){
+				this.$refs['ware'].resetFields()
+				this.dialogVisible1 = false
+			},
+			saveWare(){
+				this.$confirm('是否执行本操作?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					let params = Object.assign({}, this.ware)
+					this.$api.order.saveWare(params).then((res) => {
+						if (res.code == 200) {
+							this.$refs['ware'].resetFields()
+							this.dialogVisible1 = false
+							this.findPage(null)
+							this.$message({
+								message: '操作成功',
+								type: 'success'
+							})
+						} else {
+							this.$message({
+								type: 'error',
+								message: '删除失败!' + response.data.msg
+							});
+				
+						}
+				
+					})
+				})
 			},
 			// 显示编辑界面
 			handleEdit: function(params) {
@@ -505,50 +583,66 @@
 			// 处理表格列过滤显示
 			initColumns: function() {
 				this.columns = [{
-						prop: "lotNo",
-						label: "产品批号",
-						minWidth: 100
-					},
-					{
-						prop: "cust",
-						label: "客户名称",
-						minWidth: 100
-					},
-					{
-						prop: "mouldNm",
-						label: "模具名称",
-						minWidth: 120
-					},
-					{
-						prop: "buyMaterial",
-						label: "模具号",
-						minWidth: 80
-					},
-					{
-						prop: "quantity",
-						label: "数量",
-						minWidth: 80
-					},
-					{
-						prop: "company",
-						label: "单位",
-						minWidth: 80
-					},
-					{
-						prop: "dispatchNo",
-						label: "派工号",
-						minWidth: 100
-					},
-					{
-						prop: "sts",
-						label: "订单状态",
-						minWidth: 100
-					},
-					{
-						prop: "remarks",
-						label: "备注",
-						minWidth: 150
-					},
+										prop: "lotNo",
+										label: "产品批号",
+										minWidth: 80
+									},
+									{
+										prop: "cust",
+										label: "客户名称",
+										minWidth: 80
+									},
+									{
+										prop: "mouldNm",
+										label: "模具名称",
+										minWidth: 120
+									},
+				// 					{
+				// 						prop: "buyMaterial",
+				// 						label: "模具号",
+				// 						minWidth: 80
+				// 					},
+									{
+										prop: "quantity",
+										label: "派工数量",
+										minWidth: 80
+									},
+									{
+										prop: "wareNum",
+										label: "入库数量",
+										minWidth: 80
+									},
+									{
+										prop: "wareDate",
+										label: "入库时间",
+										minWidth: 100,
+										formatter:this.dateFormat
+									},
+									{
+										prop: "company",
+										label: "单位",
+										minWidth: 80
+									},
+									{
+										prop: "dispatchNo",
+										label: "派工号",
+										minWidth: 100
+									},
+									{
+										prop: "shuxing",
+										label: "属性",
+										minWidth: 80
+									},
+				// 					{
+				// 						prop: "sts",
+				// 						label: "订单状态",
+				// 						minWidth: 100
+				// 					},
+									{
+										prop: "remarks",
+										label: "备注",
+										minWidth: 150
+									},
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
 					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
 					// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}

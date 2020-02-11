@@ -12,7 +12,7 @@
       <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
 				  <el-button type="success" size="mini" v-if="scope.row.ordSts=='B'" @click="split(scope.$index, scope.row)">拆分</el-button>
-					<el-button type="success" size="mini" v-if="scope.row.ordSts=='A'" @click="handleEdit(scope.$index, scope.row)">预估费用</el-button>
+					<el-button type="success" size="mini" v-if="scope.row.ordSts=='A1'" @click="handleEdit(scope.$index, scope.row)">预估费用</el-button>
 					<el-button type="success" size="mini" v-if="scope.row.ordSts=='B'" @click="trans(scope.$index, scope.row)">传递</el-button>
         </template>
 			

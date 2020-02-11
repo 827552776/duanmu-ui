@@ -144,7 +144,7 @@
 						value: this.filters.mouldNm
 					}
 				}
-				this.$api.order.findPage(this.pageRequest).then((res) => {
+				this.$api.order.findPageQuery(this.pageRequest).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
@@ -163,6 +163,9 @@
 					}
 				})
 			},
+			handleEdit(params){
+				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:duanmu.ureport.xml' + '&id=' + params.row.id)
+			},
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {
 				this.$refs.tableColumnFilterDialog.setDialogVisible(true)
@@ -175,84 +178,61 @@
 			// 处理表格列过滤显示
 			initColumns: function() {
 				this.columns = [{
-										prop: "lotNo",
-										label: "产品批号",
-										minWidth: 100
-									},
-									{
-										prop: "cust",
-										label: "客户名称",
-										minWidth: 100
-									},
-									{
-										prop: "mouldNm",
-										label: "模具名称",
-										minWidth: 120
-									},
-				// 					{
-				// 						prop: "buyMaterial",
-				// 						label: "模具号",
-				// 						minWidth: 80
-				// 					},
-									{
-										prop: "quantity",
-										label: "派工数量",
-										minWidth: 100
-									},
-									{
-										prop: "wareNum",
-										label: "入库数量",
-										minWidth: 100
-									},
-									{
-										prop: "wareDate",
-										label: "入库时间",
-										minWidth: 100,
-									},
-									{
-										prop: "outNum",
-										label: "出库数量",
-										minWidth: 100
-									},
-									{
-										prop: "outDate",
-										label: "出库时间",
-										minWidth: 100,
-									},
-									{
-										prop: "company",
-										label: "单位",
-										minWidth: 80
-									},
-									{
-										prop: "dispatchNo",
-										label: "派工号",
-										minWidth: 100
-									},
-									{
-										prop: "shuxing",
-										label: "属性",
-										minWidth: 80
-									},
-				// 					{
-				// 						prop: "sts",
-				// 						label: "订单状态",
-				// 						minWidth: 100
-				// 					},
-									{
-										prop: "remarks",
-										label: "备注",
-										minWidth: 80
-									},
-									// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
-									// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
-									// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
-								]
+						prop: "lotNo",
+						label: "产品批号",
+						minWidth: 100
+					},
+					{
+						prop: "cust",
+						label: "客户名称",
+						minWidth: 100
+					},
+					{
+						prop: "mouldNm",
+						label: "模具名称",
+						minWidth: 140
+					},
+// 					{
+// 						prop: "buyMaterial",
+// 						label: "模具号",
+// 						minWidth: 80
+// 					},
+					{
+						prop: "quantity",
+						label: "数量",
+						minWidth: 80
+					},
+					{
+						prop: "company",
+						label: "单位",
+						minWidth: 80
+					},
+					{
+						prop: "dispatchNo",
+						label: "派工号",
+						minWidth: 100
+					},
+					{
+						prop: "shuxing",
+						label: "属性",
+						minWidth: 60
+					},
+// 					{
+// 						prop: "sts",
+// 						label: "订单状态",
+// 						minWidth: 100
+// 					},
+					{
+						prop: "remarks",
+						label: "备注",
+						minWidth: 150
+					},
+					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
+					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
+					// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
+				]
 				this.filterColumns = JSON.parse(JSON.stringify(this.columns));
 			},
-			handleEdit: function(params) {
-				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:URforkitty.ureport.xml' + '&id=' + params.row.id)
-				},
 			// 时间格式化
 			dateFormat: function(row, column, cellValue, index) {
 				return format(row[column.property])

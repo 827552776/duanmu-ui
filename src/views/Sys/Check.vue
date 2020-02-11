@@ -87,11 +87,11 @@
 							<el-input v-model="arr.gongShi" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="其他费用:" prop="others">
+				<!-- 	<el-col :span="8">
+						<el-form-item label="返工费:" prop="others">
 							<el-input v-model="arr.others" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :span="6" :offset='2'>
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
@@ -112,48 +112,49 @@
 				</el-form-item>
 				<el-row>
 					<el-col :span="9">
-						<el-form-item label="部件名称:" prop="name">
-							<el-input v-model="parts.name" style="width:160px;">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="7">
 						<el-form-item label="部件属性:" prop="attribute">
-							<el-select v-model="parts.attribute" placeholder="请选择" style="width:160px;">
+							<el-select v-model="parts.attribute" placeholder="请选择" style="width:160px;" @change="changAttr">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="7">
-						<el-form-item label="部件数量:" prop="quantity" :rules="[{ type: 'number', message: '必须为数字值'}]">
-							<el-input v-model.number="parts.quantity" style="width:160px;">
+						<el-form-item label="部件名称:" prop="name">
+							<el-input v-model="parts.name" style="width:160px;">
 							</el-input>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="9">
-						<el-form-item label="部件规格:" prop="specs">
-							<el-input v-model="parts.specs" style="width:160px;">
-							</el-input>
-						</el-form-item>
-					</el-col>
+					
 					<el-col :span="7">
 						<el-form-item label="部件型号:" prop="modle">
 							<el-input v-model="parts.modle" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-
+					
+				</el-row>
+				<el-row>
+					<el-col :span="9">
+						<el-form-item label="部件数量:" prop="quantity" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="parts.quantity" style="width:160px;">
+							</el-input>
+						</el-form-item>
+					</el-col>
+						<el-col :span="7">
+						<el-form-item label="部件规格:" prop="specs" v-if="this.parts.attribute != '通用件'">
+							<el-input v-model="parts.specs" style="width:160px;">
+							</el-input>
+						</el-form-item>
+					</el-col>
 					<el-col :span="7">
-						<el-form-item label="用途:" prop="ask">
+						<el-form-item label="用途:" prop="ask" v-if="this.parts.attribute != '通用件'">
 							<el-input v-model="parts.ask" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="9">
-						<el-form-item label="是否外购:" prop="isBuy">
+						<el-form-item label="是否外购:" prop="isBuy" v-if="this.parts.attribute != '通用件'">
 							<el-select v-model="parts.isBuy" placeholder="请选择" style="width:160px;" @change="change">
 								<el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
@@ -181,9 +182,10 @@
 				<el-table-column type="index" width="50"></el-table-column>
 				<el-table-column prop="name" label="部件名称" width="150"></el-table-column>
 				<el-table-column prop="attribute" label="部件属性" width="150"></el-table-column>
+				<el-table-column prop="modle" label="部件型号" width="150"></el-table-column>
 				<el-table-column prop="quantity" label="部件数量" width="150"></el-table-column>
 				<el-table-column prop="specs" label="部件规格" width="150"></el-table-column>
-				<el-table-column prop="modle" label="部件型号" width="150"></el-table-column>
+				
 				<el-table-column prop="ask" label="用途" width="150"></el-table-column>
 			</el-table>
 		</el-dialog>
@@ -338,6 +340,11 @@
 			change(val){
 				if(val == '否'){
 					this.parts.supplier = ''}
+			},
+			changAttr(){
+				if(this.parts.attribute=='通用件'){
+					this.parts.name = this.orderReg.mouldNm
+				} else {this.parts.name = ''}
 			},
 			//查询部件信息
 			queryParts() {
