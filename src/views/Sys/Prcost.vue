@@ -164,7 +164,7 @@
 				})
 			},
 			handleEdit(params){
-				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:duanmu.ureport.xml' + '&id=' + params.row.id)
+				window.open('http://123.56.123.34:8080/ugo/ureport/preview?_u=file:duanmu.ureport.xml' + '&id=' + params.row.id)
 			},
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {

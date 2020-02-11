@@ -130,7 +130,7 @@
 		},
 		methods: {
 			handleEdit: function(params) {
-				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:URforkitty.ureport.xml' + '&id=' + params.row.id)
+				window.open('http://123.56.123.34:8080/ugo/ureport/preview?_u=file:URforkitty.ureport.xml' + '&id=' + params.row.id)
 				},
 			// 时间格式化
 			dateFormat: function (row, column, cellValue, index){

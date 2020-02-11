@@ -23,7 +23,7 @@
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </ku-table>
     <!--新增编辑界面-->
-    <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
+    <el-dialog :title="operation?'新增':'编辑'" width="30%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"/>
@@ -38,7 +38,13 @@
           <el-input v-model="dataForm.company" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="模具名称" prop="label">
-          <el-input v-model="dataForm.mName" auto-complete="off"/>
+          <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
+    remote :remote-method="remoteMethod" >
+          	<el-option v-for="item in options4"  :key="item.value"
+      :label="item.label"
+      :value="item.value">
+          	</el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="入库数量" prop="value">
           <el-input v-model="dataForm.intNumber" auto-complete="off"/>
@@ -147,6 +153,10 @@
                         { required: true, message: '请输入名称', trigger: 'blur' }
                     ]
                 },
+				loading:false,
+				selectInvTend: [],
+				list:[],
+				options4: [],
                 // 新增编辑界面数据
                 dataForm: {
                     id: 0,
@@ -168,7 +178,37 @@
                 }
             }
         },
+		mounted() {
+      this.getSelectInvTend()
+    },
         methods: {
+			remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.options4 = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.options4 = [];
+        }
+      
+    },
+			getSelectInvTend(){
+				this.$api.order.queryMoudles().then((res) => {
+					if (res.code == 200) {
+						this.selectInvTend = res.data
+					} else {
+						this.$message({
+							type: 'error',
+							message: '查询失败!' + response.data.msg
+						});
+					}
+				})
+			},
             // 获取分页数据
             findPage: function (data) {
                 if(data !== null) {
@@ -186,6 +226,10 @@
             // 显示新增界面
             handleAdd: function () {
                 this.editDialogVisible = true
+				
+				this.list = this.selectInvTend.map(item => {
+				  return { value: item, label: item };
+				});
                 this.operation = true
                 this.dataForm = {
                     id: 0,

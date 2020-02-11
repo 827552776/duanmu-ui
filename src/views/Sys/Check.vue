@@ -87,11 +87,11 @@
 							<el-input v-model="arr.gongShi" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
-				<!-- 	<el-col :span="8">
+					<el-col :span="8">
 						<el-form-item label="返工费:" prop="others">
 							<el-input v-model="arr.others" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
-					</el-col> -->
+					</el-col>
 					<el-col :span="6" :offset='2'>
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>

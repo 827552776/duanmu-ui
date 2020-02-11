@@ -26,7 +26,7 @@
     <!--表格内容栏-->
     <kf-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
-              @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
+              @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </kf-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="90%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
@@ -260,8 +260,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="5">
-                <el-form-item label="模具名称" prop="label">
-                  <el-input v-model="dataFormInt.mouldName " auto-complete="off" />
+                <el-form-item label="模具名称" prop="mouldName">
+                   <el-select v-model="dataFormInt.mouldName" placeholder="请输入关键字"   filterable
+                  remote :remote-method="remoteMethod" >
+                        	<el-option v-for="item in options4"  :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                        	</el-option>
+                        </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
@@ -500,6 +506,10 @@
                         { required: true, message: '请输入名称', trigger: 'blur' }
                     ]
                 },
+								loading:false,
+								selectInvTend: [],
+								list:[],
+								options4: [],
                 dataFrom1:{
                     price:''
                 },
@@ -543,7 +553,37 @@
               }
             }
         },
+				mounted() {
+				  this.getSelectInvTend()
+				},
         methods: {
+					remoteMethod(query) {
+					    if (query !== '') {
+					      this.loading = true;
+					      setTimeout(() => {
+					        this.loading = false;
+					        this.options4 = this.list.filter(item => {
+					          return item.label.toLowerCase()
+					            .indexOf(query.toLowerCase()) > -1;
+					        });
+					      }, 200);
+					    } else {
+					      this.options4 = [];
+					    }
+					  
+					},
+							getSelectInvTend(){
+								this.$api.order.queryMoudles().then((res) => {
+									if (res.code == 200) {
+										this.selectInvTend = res.data
+									} else {
+										this.$message({
+											type: 'error',
+											message: '查询失败!' + response.data.msg
+										});
+									}
+								})
+							},
           handleClick(tab, event) {
             console.log(tab, event);
           },
@@ -631,6 +671,9 @@
             //出库
             handleEditOut:function(params){
                 this.editDialogVisibleOut =true
+								this.list = this.selectInvTend.map(item => {
+								  return { value: item, label: item };
+								});
                 this.operationStock = false
                 this.dataForm = Object.assign({}, params.row)
               this.dataFormInt={

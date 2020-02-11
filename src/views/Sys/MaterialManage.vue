@@ -36,7 +36,13 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="模具名称" prop="label">
-              <el-input  v-model="dataForm.mName" auto-complete="off"></el-input>
+             <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
+             remote :remote-method="remoteMethod" >
+                   	<el-option v-for="item in options4"  :key="item.value"
+               :label="item.label"
+               :value="item.value">
+                   	</el-option>
+                   </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -120,7 +126,7 @@
             <el-row>
               <el-col :span="5">
                 <el-form-item label="入库数量" prop="label">
-                  <el-input  v-model="dataFormInt.intNumber " auto-complete="off"disabled="false"></el-input>
+                  <el-input  v-model="dataFormInt.intNumber " auto-complete="off" disabled="false"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
@@ -191,7 +197,7 @@
             <el-row>
               <el-col :span="5">
                 <el-form-item label="入库数量" prop="label">
-                  <el-input  v-model="dataFormInt.intNumber " auto-complete="off"disabled="false"></el-input>
+                  <el-input  v-model="dataFormInt.intNumber " auto-complete="off" disabled="false"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
@@ -420,6 +426,10 @@
                 wxPrice:'',
                 remarks:''
               },
+							loading:false,
+							selectInvTend: [],
+							list:[],
+							options4: [],
               dataFormOut: {
                 id: 0,
                 name: '',
@@ -497,6 +507,33 @@
             }
         },
         methods: {
+					remoteMethod(query) {
+					    if (query !== '') {
+					      this.loading = true;
+					      setTimeout(() => {
+					        this.loading = false;
+					        this.options4 = this.list.filter(item => {
+					          return item.label.toLowerCase()
+					            .indexOf(query.toLowerCase()) > -1;
+					        });
+					      }, 200);
+					    } else {
+					      this.options4 = [];
+					    }
+					  
+					},
+							getSelectInvTend(){
+								this.$api.order.queryMoudles().then((res) => {
+									if (res.code == 200) {
+										this.selectInvTend = res.data
+									} else {
+										this.$message({
+											type: 'error',
+											message: '查询失败!' + response.data.msg
+										});
+									}
+								})
+							},
             // //导出Excel
             // exportExcel:function (params){
             //     // this.params = params
@@ -552,6 +589,9 @@
             // 显示新增界面
             handleAdd: function () {
                 this.editDialogVisible = true
+								this.list = this.selectInvTend.map(item => {
+								  return { value: item, label: item };
+								});
                 this.operation = true
                 this.dataForm = {
                     id: 0,
@@ -779,6 +819,7 @@
             }
         },
       mounted() {
+				this.getSelectInvTend()
         this.restaurants = this.loadAll();
       },
         name: "StockManage"

@@ -108,6 +108,14 @@ export const findPage = (data) => {
         data
     })
 }
+// 查询要关联的模具名称
+export const queryMoudles = (data) => {
+    return axios({
+        url: '/order/queryMoudles',
+        method: 'get',
+        data
+    })
+}
 // 分页查询合格通用件
 export const findPageQuery = (data) => {
     return axios({
