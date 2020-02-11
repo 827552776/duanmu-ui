@@ -312,7 +312,7 @@
                 <!--                </el-form-item>-->
                 <el-form-item label="出库时间" prop="sort">
                   <el-date-picker
-                    v-model="dataFormInt.intTime"
+                    v-model="dataFormInt.outTime"
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
@@ -439,9 +439,14 @@
                   <el-input v-model="dataFormInt.price " auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="备注信息" prop="type">
                   <el-input v-model="dataFormInt.remarks " auto-complete="off" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="来源" prop="type">
+                  <el-input v-model="dataFormInt.source " auto-complete="off" disabled="false" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -772,7 +777,7 @@
                     }
                     this.editLoading = false
                     this.$refs['dataFormInt'].resetFields()
-                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleIn=true
                     this.editDialogVisibleOut = false
                   })
                 })
@@ -789,6 +794,7 @@
                   this.dataFormInt.model = this.dataForm.model
                   this.dataFormInt.company = this.dataForm.company
                   this.dataFormInt.price = this.dataForm.price
+                  this.dataFormInt.source = this.dataForm.source
                   this.dataFormInt.sNumber = this.dataFormInt.number - this.dataFormInt.reNumber
                   this.dataFormInt.type = 1
                   this.dataForm.outNumber = this.dataFormInt.sNumber
@@ -822,6 +828,7 @@
                   this.dataFormInt.company = this.dataForm.company
                   this.dataFormInt.price = this.dataForm.price
                   this.dataFormInt.deNumber = this.dataForm.outNumber
+                  this.dataFormInt.source = this.dataForm.source
                   this.dataFormInt.type = 2
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
@@ -853,6 +860,7 @@
                   this.dataFormInt.company = this.dataForm.company
                   this.dataFormInt.price = this.dataForm.price
                   this.dataFormInt.deNumber = this.dataForm.outNumber
+                  this.dataFormInt.source = this.dataForm.source
                   this.dataFormInt.type = 3
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)

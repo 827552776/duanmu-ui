@@ -7,20 +7,6 @@
           <el-input v-model="filters.name" placeholder="名称"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-date-picker
-            v-model="filters.intTime"
-            type="date"
-            placeholder="入库时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-date-picker
-            v-model="filters.endDate"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
 <!--        <el-form-item>-->
@@ -46,13 +32,7 @@
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="模具名称" prop="label">
-           <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
-          remote :remote-method="remoteMethod" style="width:510px">
-                	<el-option v-for="item in options4"  :key="item.value"
-            :label="item.label"
-            :value="item.value">
-                	</el-option>
-                </el-select>
+          <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="模具自用数" prop="value">
           <el-input v-model="dataForm.number" auto-complete="off"></el-input>
@@ -126,30 +106,28 @@
             return {
                 size: 'small',
                 filters: {
-                    name: '',
-                  intTime:'',
-                  endDate:''
+                    name: ''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"焊材名称", minWidth:100},
-                    // {prop:"deTime", label:"销售出库时间", minWidth:100,formatter:this.dateFormat},
-                    // {prop:"deCompany", label:"出售单位", minWidth:100},
+                    {prop:"deTime", label:"销售出库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"deCompany", label:"出售单位", minWidth:100},
                     {prop:"source", label:"来源", minWidth:100},
-                    {prop:"model", label:"型号", minWidth:100},
-                    // {prop:"deNumber", label:"出售数量", minWidth:100},
+                  {prop:"model", label:"型号", minWidth:100},
+                    {prop:"deNumber", label:"出售数量", minWidth:100},
                     {prop:"company", label:"单位", minWidth:100},
                     {prop:"price", label:"价格", minWidth:100},
-                    {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
+                    // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"intNumber", label:"入库数量", minWidth:100},
                     // {prop:"reNumber", label:"领用数", minWidth:100},
-                    {prop:"number", label:"入库数量", minWidth:100},
+                    // {prop:"number", label:"退回数", minWidth:100},
                     // {prop:"sNumber", label:"入库数量", minWidth:100},
                     {prop:"type", label:"状态", minWidth:100},
                     // {prop:"mouldName", label:"模具数量", minWidth:100},
                     // {prop:"zu", label:"班组", minWidth:100},
-                    {prop:"remarks", label:"备注", minWidth:120},
+                    {prop:"remarks", label:"工艺备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
@@ -166,10 +144,6 @@
                         { required: true, message: '请输入名称', trigger: 'blur' }
                     ]
                 },
-				loading:false,
-				selectInvTend: [],
-				list:[],
-				options4: [],
                 // 新增编辑界面数据
                 dataForm: {
                     id: 0,
@@ -189,44 +163,14 @@
                 }
             }
         },
-		mounted() {
-		  this.getSelectInvTend()
-		},
         methods: {
-			remoteMethod(query) {
-			    if (query !== '') {
-			      this.loading = true;
-			      setTimeout(() => {
-			        this.loading = false;
-			        this.options4 = this.list.filter(item => {
-			          return item.label.toLowerCase()
-			            .indexOf(query.toLowerCase()) > -1;
-			        });
-			      }, 200);
-			    } else {
-			      this.options4 = [];
-			    }
-			  
-			},
-					getSelectInvTend(){
-						this.$api.order.queryMoudles().then((res) => {
-							if (res.code == 200) {
-								this.selectInvTend = res.data
-							} else {
-								this.$message({
-									type: 'error',
-									message: '查询失败!' + response.data.msg
-								});
-							}
-						})
-					},
             // 获取分页数据
             findPage: function (data) {
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
                 this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}}
-                this.$api.weldingInt.findPage(this.pageRequest).then((res) => {
+                this.$api.weldingInt.findPageAb(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },
@@ -237,9 +181,6 @@
             // 显示新增界面
             handleAdd: function () {
                 this.editDialogVisible = true
-				this.list = this.selectInvTend.map(item => {
-				  return { value: item, label: item };
-				});
                 this.operation = true
                 this.dataForm = {
                     id: 0,
@@ -318,7 +259,7 @@
                 return format(row[column.property])
             }
         },
-        name: "WeldingInt"
+        name: "WeldingOut2"
     }
 </script>
 
