@@ -4,10 +4,10 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="名称"/>
+          <el-input v-model="filters.name" placeholder="名称"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="filters.mName" placeholder="名称"/>
+          <el-input v-model="filters.mName" placeholder="模具名称"></el-input>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
@@ -32,7 +32,7 @@
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="材料名称" prop="label">
-          <el-input v-model="dataForm.name" auto-complete="off"/>
+          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="单位" prop="label">
           <el-input v-model="dataForm.company" auto-complete="off"></el-input>
@@ -59,29 +59,29 @@
 <!--            placeholder="选择日期">-->
 <!--          </el-date-picker>-->
 <!--        </el-form-item>-->
-        <el-form-item label="外协单位" prop="type">
-          <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="外协时间" prop="sort">
-          <el-date-picker
-            v-model="dataForm.wxTime"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="外协入库时间" prop="sort">
-          <el-date-picker
-            v-model="dataForm.wxInt"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="外协数量 " prop="description">
-          <el-input v-model="dataForm.wxNumber" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="外协价格 " prop="description">
-          <el-input v-model="dataForm.wxPrice" auto-complete="off" type="textarea"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="外协单位" prop="type">-->
+<!--          <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="外协时间" prop="sort">-->
+<!--          <el-date-picker-->
+<!--            v-model="dataForm.wxTime"-->
+<!--            type="date"-->
+<!--            placeholder="选择日期">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="外协入库时间" prop="sort">-->
+<!--          <el-date-picker-->
+<!--            v-model="dataForm.wxInt"-->
+<!--            type="date"-->
+<!--            placeholder="选择日期">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="外协数量 " prop="description">-->
+<!--          <el-input v-model="dataForm.wxNumber" auto-complete="off" type="textarea"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="外协价格 " prop="description">-->
+<!--          <el-input v-model="dataForm.wxPrice" auto-complete="off" type="textarea"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="工艺备注" prop="remarks">
           <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
         </el-form-item>
@@ -122,7 +122,7 @@
                 size: 'small',
                 filters: {
                     name: '',
-                    mName:''
+                  mName:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
@@ -134,13 +134,13 @@
                   {prop:"batch", label:"批号", minWidth:100},
                     // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"intNumber", label:"入库数量", minWidth:100},
-                    // {prop:"number", label:"模具自用数", minWidth:100},
-                    // {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"waixie", label:"外协单位", minWidth:100},
-                    {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"wxNumber", label:"外协数量", minWidth:80},
-                    {prop:"wxPrice", label:"外协价格", minWidth:80},
+                    {prop:"number", label:"模具自用数", minWidth:100},
+                    {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
+                    // {prop:"waixie", label:"外协单位", minWidth:100},
+                    // {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
+                    // {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
+                    // {prop:"wxNumber", label:"外协数量", minWidth:80},
+                    // {prop:"wxPrice", label:"外协价格", minWidth:80},
                     {prop:"type", label:"状态", minWidth:80},
                     {prop:"remarks", label:"工艺备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
@@ -189,7 +189,7 @@
                     this.pageRequest = data.pageRequest
                 }
                 this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName: {name:'mName', value:this.filters.mName}}
-                this.$api.accessMaterial.findPage(this.pageRequest).then((res) => {
+                this.$api.accessMaterial.findPageAb(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },
@@ -282,7 +282,7 @@
                 return format(row[column.property])
             }
         },
-        name: "AccessStock"
+        name: "AccessMaterialZi"
     }
 </script>
 

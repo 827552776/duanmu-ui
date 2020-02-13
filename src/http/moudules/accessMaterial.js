@@ -60,4 +60,13 @@ export const findPageA = (data) => {
     data
   })
 }
+//自用出库分页查询
+export const findPageAb = (data) => {
+  return axios({
+    url: '/accessMaterial/findAb',
+    method: 'post',
+    data
+  })
+}
+
 

@@ -6,8 +6,8 @@
         <el-form-item>
 <!--          <el-input v-model="filters.name" placeholder="名称"></el-input>-->
           <el-select v-model="filters.type" auto-complete="off" placeholder="请选择">
-            <el-option label="已出库" value="1"></el-option>
-            <el-option label="已入库" value="3"></el-option>
+            <el-option label="自用出库" value="0"></el-option>
+            <el-option label="外协出库" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -91,6 +91,7 @@
     import KtButton from "../Core/KtButton";
     import { format } from "@/utils/datetime"
     import KuTable from "../Core/KuTable";
+    import * as accessMaterial from "../../http/moudules/accessMaterial";
     export default {
         components:{
             KtButton,
@@ -106,8 +107,6 @@
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"mName", label:"模具名称", minWidth:100},
                     {prop:"name", label:"材料名称", minWidth:100},
-                    {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"intNumber", label:"入库数量", minWidth:100},
                     {prop:"number", label:"模具自用数", minWidth:100},
                     {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"waixie", label:"外协单位", minWidth:100},
@@ -164,7 +163,7 @@
             },
             // 批量删除
             handleDelete: function (data) {
-                this.$api.dict.batchDelete(data.params).then(data!=null?data.callback:'')
+                this.$api.accessMaterial.batchDelete(data.params).then(data!=null?data.callback:'')
             },
             // 显示新增界面
             handleAdd: function () {

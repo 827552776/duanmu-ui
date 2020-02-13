@@ -455,8 +455,8 @@
                     {prop:"mName", label:"模具名称", minWidth:100},
                     {prop:"name", label:"名称", minWidth:100},
                     {prop:"number", label:"数量", minWidth:100},
+                  {prop:"texture", label:"材质", minWidth:100},
                     {prop:"company", label:"单位", minWidth:100},
-                    {prop:"texture", label:"材质", minWidth:100},
                     {prop:"size", label:"尺寸", minWidth:200},
                     {prop:"price", label:"价格", minWidth:80},
                     {prop:"state", label:"对账状态", minWidth:120},
@@ -520,7 +520,7 @@
 					    } else {
 					      this.options4 = [];
 					    }
-					  
+
 					},
 							getSelectInvTend(){
 								this.$api.order.queryMoudles().then((res) => {
@@ -675,8 +675,6 @@
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
                   this.editLoading = true
                   let params = Object.assign({}, this.dataForm)
-                  // let params1 = Object.assign({},this.dataFormInt)
-                  // this.$api.accessMaterial.save(params1)
                   this.$api.material.save(params).then((res) => {
                     if(res.code == 200) {
                       this.$message({ message: '操作成功', type: 'success' })
@@ -767,6 +765,7 @@
                   this.dataFormOut.company = this.dataForm.company
                   this.dataFormOut.mName = this.dataForm.mName
                   this.dataFormOut.number = this.dataForm.outNumber
+                  this.dataFormOut.type = 0
                   let params1 = Object.assign({}, this.dataFormOut)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -795,6 +794,7 @@
                   this.dataFormOut.company = this.dataForm.company
                   this.dataFormOut.mName = this.dataForm.mName
                   this.dataFormOut.wxNumber = this.dataForm.outNumber
+                  this.dataFormOut.type = 1
                   let params1 = Object.assign({}, this.dataFormOut)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
