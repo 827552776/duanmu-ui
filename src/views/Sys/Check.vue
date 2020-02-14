@@ -344,7 +344,10 @@
 			changAttr(){
 				if(this.parts.attribute=='通用件'){
 					this.parts.name = this.orderReg.mouldNm
-				} else {this.parts.name = ''}
+					this.parts.quantity = 1
+				} else {this.parts.name = ''
+				this.parts.quantity = ''
+				}
 			},
 			//查询部件信息
 			queryParts() {
