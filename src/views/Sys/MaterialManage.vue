@@ -190,7 +190,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="模具名称" prop="type">
-                  <el-input v-model="dataFormInt.mName " auto-complete="off" disabled="false"></el-input>
+                   <el-select v-model="dataFormInt.mName" placeholder="请输入关键字"   filterable
+                  remote :remote-method="remoteMethod" >
+                        	<el-option v-for="item in options4"  :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                        	</el-option>
+                        </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -259,14 +265,20 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="模具名称" prop="type">
-                  <el-input v-model="dataFormOut.mName " auto-complete="off" disabled="false"></el-input>
+                  <el-select v-model="dataFormOut.mName" placeholder="请输入关键字"   filterable
+                 remote :remote-method="remoteMethod">
+                       	<el-option v-for="item in options4"  :key="item.value"
+                   :label="item.label"
+                   :value="item.value">
+                       	</el-option>
+                       </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="5">
                 <el-form-item label="派工号" prop="label">
-                  <el-input  v-model="dataFormOut.dispatch " auto-complete="off" ></el-input>
+                  <el-input  v-model="dataFormOut.dispatch" auto-complete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
@@ -320,7 +332,13 @@
                 </el-col>
                 <el-col :span="6">
                   <el-form-item label="模具名称" prop="type">
-                    <el-input v-model="dataFormOut.mName " auto-complete="off" disabled="false"></el-input>
+                     <el-select v-model="dataFormOut.mName" placeholder="请输入关键字"   filterable
+                    remote :remote-method="remoteMethod" >
+                          	<el-option v-for="item in options4"  :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                          	</el-option>
+                          </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -520,7 +538,7 @@
 					    } else {
 					      this.options4 = [];
 					    }
-					  
+				
 					},
 							getSelectInvTend(){
 								this.$api.order.queryMoudles().then((res) => {
@@ -638,6 +656,9 @@
             //出库
             handleEditOut:function(params){
                 this.editDialogVisibleOut =true
+								this.list = this.selectInvTend.map(item => {
+								  return { value: item, label: item };
+								});
                 this.operationStock = false
                 this.dataForm = Object.assign({}, params.row)
               this.dataFormOut =   {
