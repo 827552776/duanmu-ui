@@ -139,7 +139,7 @@ export default {
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box;
-    margin-left:600px;
+    margin-left:68%;
     margin-top: 250px ;
     width: 350px;
     padding: 35px 35px 15px 35px;
