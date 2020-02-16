@@ -52,6 +52,13 @@ export const findPage1 = (data) => {
     data
   })
 }
+export const findPageT = (data) => {
+  return axios({
+    url: '/weldingIn/findT',
+    method: 'post',
+    data
+  })
+}
 export const findPageAb = (data) => {
   return axios({
     url: '/weldingIn/findAb',

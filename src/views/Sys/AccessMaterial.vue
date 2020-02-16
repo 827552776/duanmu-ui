@@ -4,10 +4,10 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="名称"/>
+          <el-input v-model="filters.name" placeholder="材料名称"/>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="filters.mName" placeholder="名称"/>
+          <el-input v-model="filters.mName" placeholder="模具名称"/>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>

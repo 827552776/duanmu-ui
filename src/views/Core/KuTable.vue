@@ -12,7 +12,7 @@
       </el-table-column>
       <el-table-column :label="$t('action.operation')" width="260" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-          <kt-button icon="fa fa-edit" :label="$t('确认')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />
+<!--          <kt-button icon="fa fa-edit" :label="$t('确认')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />-->
           <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />
           <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />
         </template>
