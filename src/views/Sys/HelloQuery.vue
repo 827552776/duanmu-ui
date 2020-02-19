@@ -9,7 +9,7 @@
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
+					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:user:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
 			</el-form>
 		</div>
