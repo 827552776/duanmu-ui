@@ -115,15 +115,15 @@ export default {
           }
       },
       exportExcel() {
-          const header = ["模具名称", "材料名称","材质", "单位","数量", "尺寸", "价格", "对账状态", "发票信息", "备注"] // 导出的表头名
-          const filterVal = ["mName", "name","texture","company", "number", "size", "price", "state", "invoice","remarks"]
+          const header = ["焊材名称", "焊材型号","焊材来源", "库存数量","单位", "价格", "实盘数", "差额", "备注"] // 导出的表头名
+          const filterVal = ["name", "model","source","number", "company", "price", "sureNumber", "difference", "remarks"]
           for (let i = 0; i < this.multipleSelection.length; i++) {
               this.excelData.push(this.multipleSelection[i]);
           }
           const list = this.excelData
           const data = this.formatJson(filterVal, list)
 
-          const filename = '材料记录' + (new Date()).toLocaleDateString();
+          const filename = '焊材记录' + (new Date()).toLocaleDateString();
           Export2Excel.export_json_to_excel({
               header,
               data,

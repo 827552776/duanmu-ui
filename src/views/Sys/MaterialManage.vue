@@ -538,10 +538,6 @@
 					    } else {
 					      this.options4 = [];
 					    }
-<<<<<<< HEAD
-
-=======
->>>>>>> 9ffc032f24a58224b9348ebc5e6a09ba165e72b2
 					},
 							getSelectInvTend(){
 								this.$api.order.queryMoudles().then((res) => {

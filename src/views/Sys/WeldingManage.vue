@@ -24,10 +24,10 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <kf-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <HanTable :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
-    </kf-table>
+    </HanTable>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="90%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
@@ -464,11 +464,13 @@
   import KtTable from "../Core/KtTable";
   import { format } from "@/utils/datetime"
   import KfTable from "../Core/KfTable";
+  import HanTable from "../Core/HanTable";
     export default {
         components:{
             KfTable,
             KtTable,
-            KtButton
+            KtButton,
+            HanTable
         },
         data() {
             return {
@@ -575,7 +577,7 @@
 					    } else {
 					      this.options4 = [];
 					    }
-					  
+
 					},
 							getSelectInvTend(){
 								this.$api.order.queryMoudles().then((res) => {

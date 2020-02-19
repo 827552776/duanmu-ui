@@ -18,10 +18,10 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <ku-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:accessMaterial:delete"
+    <Cai-liao-ru-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:accessMaterial:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
-    </ku-table>
+    </Cai-liao-ru-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="30%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
@@ -107,12 +107,13 @@
     import KtButton from "../Core/KtButton";
     import KtTable from "../Core/KtTable";
     import { format } from "@/utils/datetime"
-    import KuTable from "../Core/KuTable";
+    import CaiLiaoRuTable from "../Core/CaiLiaoRuTable";
+    import {formatWithSeperator} from "../../utils/datetime";
     export default {
         components:{
             KtTable,
             KtButton,
-            KuTable
+            CaiLiaoRuTable,
         },
         data() {
             return {
@@ -197,7 +198,9 @@
           this.options4 = [];
         }
 
-    },
+        },
+
+
 			getSelectInvTend(){
 				this.$api.order.queryMoudles().then((res) => {
 					if (res.code == 200) {

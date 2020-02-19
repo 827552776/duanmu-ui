@@ -13,10 +13,9 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="360" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="260" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
-          <kt-button icon="fa fa-edit" :label="$t('入库')" :perms="permsEdit" :size="size" @click="handleEditIt(scope.$index, scope.row)" />
-          <kt-button icon="fa fa-edit" :label="$t('出库')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />
+<!--          <kt-button icon="fa fa-edit" :label="$t('确认')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />-->
           <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />
           <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />
         </template>
@@ -35,7 +34,9 @@
 
 <script>
 import KtButton from "@/views/Core/KtButton"
-import Export2Excel from '../../excel/Export2Excel.js';
+import Export2Excel from "../../excel/Export2Excel";
+import dataTime from "@/utils/datetime";
+import {format, formatWithSeperator} from "../../utils/datetime";
 export default {
   name: 'KtTable',
   components:{
@@ -60,7 +61,7 @@ export default {
     },
     height: {  // 表格最大高度
       type: Number,
-      default: 600
+      default: 250
     },
     showOperation: {  // 是否显示操作组件
       type: Boolean,
@@ -89,8 +90,8 @@ export default {
   },
   data() {
     return {
-        multipleSelection: [],
-        excelData: [],
+      multipleSelection: [],
+      excelData: [],
       // 分页信息
 			pageRequest: {
 				pageNum: 1,
@@ -101,40 +102,39 @@ export default {
     }
   },
   methods: {
-      selectionChange(val) {
-          this.multipleSelection = val
-      },
-      leading(){
-          if (this.multipleSelection.length == 0) {
-              this.$alert('请选择要导出的信息', '提示', {
-                  confirmButtonText: '确定',
-                  callback: action => {}
-              });
-          } else {
-              this.exportExcel()
-          }
-      },
-      exportExcel() {
-          const header = ["模具名称", "材料名称","材质", "单位","数量", "尺寸", "价格", "对账状态", "发票信息", "备注"] // 导出的表头名
-          const filterVal = ["mName", "name","texture","company", "number", "size", "price", "state", "invoice","remarks"]
-          for (let i = 0; i < this.multipleSelection.length; i++) {
-              this.excelData.push(this.multipleSelection[i]);
-          }
-          const list = this.excelData
-          const data = this.formatJson(filterVal, list)
-
-          const filename = '材料记录' + (new Date()).toLocaleDateString();
-          Export2Excel.export_json_to_excel({
-              header,
-              data,
-              filename
-          })
-      },
-      formatJson(filterVal, jsonData) {
-          return jsonData.map(v => filterVal.map(j => {
-              return v[j]
-          }))
-      },
+    selectionChange(val) {
+      this.multipleSelection = val
+    },
+    leading(){
+      if (this.multipleSelection.length == 0) {
+        this.$alert('请选择要导出的信息', '提示', {
+          confirmButtonText: '确定',
+          callback: action => {}
+        });
+      } else {
+        this.exportExcel()
+      }
+    },
+    exportExcel() {
+      const header = ["模具名称", "材料名称","材质", "单位","派工号", "批号", "模具自用数",  "自用出库时间","工艺备注"] // 导出的表头名
+      const filterVal = ["mName", "name","texture","company", "dispatch", "batch", "number", "trTime","remarks"]
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        this.excelData.push(this.multipleSelection[i]);
+      }
+      const list = this.excelData
+      const data = this.formatJson(filterVal, list)
+      const filename = '材料自用出库记录' + (new Date()).toLocaleDateString();
+      Export2Excel.export_json_to_excel({
+        header,
+        data,
+        filename
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     // 分页查询
     findPage: function () {
         this.loading = true
@@ -143,6 +143,11 @@ export default {
         }
       this.$emit('findPage', {pageRequest:this.pageRequest, callback:callback})
     },
+    // // 选择切换
+    // selectionChange: function (selections) {
+    //   this.selections = selections
+    //   this.$emit('selectionChange', {selections:selections})
+    // },
     // 选择切换
     handleCurrentChange: function (val) {
       this.$emit('handleCurrentChange', {val:val})

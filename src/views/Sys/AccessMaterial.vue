@@ -21,10 +21,10 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <ku-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <Cai-liao-xie-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
-    </ku-table>
+    </Cai-liao-xie-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="120px" :rules="dataFormRules" ref="dataForm" :size="size">
@@ -111,11 +111,13 @@
     import KtTable from "../Core/KtTable";
     import { format } from "@/utils/datetime"
     import KuTable from "../Core/KuTable";
+    import CaiLiaoXieTable from "../Core/CaiLiaoXieTable";
     export default {
         components:{
             KtTable,
             KtButton,
-            KuTable
+            KuTable,
+          CaiLiaoXieTable
         },
         data() {
             return {
