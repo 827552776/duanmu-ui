@@ -15,7 +15,7 @@ export const save = (data) => {
 // 删除
 export const batchDelete = (data) => {
   return axios({
-    url: '/dict/delete',
+    url: '/stock/delete',
     method: 'post',
     data
   })
@@ -24,6 +24,13 @@ export const batchDelete = (data) => {
 export const findPage = (data) => {
   return axios({
     url: '/stock/stock',
+    method: 'post',
+    data
+  })
+}
+export const findPageAb = (data) => {
+  return axios({
+    url: '/stock/stockAb',
     method: 'post',
     data
   })

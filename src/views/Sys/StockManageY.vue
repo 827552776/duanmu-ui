@@ -75,7 +75,7 @@
                     this.pageRequest = data.pageRequest
                 }
                 this.pageRequest.columnFilters = {trName: {name:'trName', value:this.filters.trName}}
-                this.$api.stock.findPage(this.pageRequest).then((res) => {
+                this.$api.stock.findPageAb(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },

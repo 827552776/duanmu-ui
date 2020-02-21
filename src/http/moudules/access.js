@@ -43,6 +43,13 @@ export const findPage = (data) => {
     data
   })
 }
+export const findPageAb = (data) => {
+  return axios({
+    url: '/access/accessAb',
+    method: 'post',
+    data
+  })
+}
 //
 // 分页查询
 export const findPageOut = (data) => {

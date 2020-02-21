@@ -4,54 +4,59 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="名称"></el-input>
+          <el-input v-model="filters.name" placeholder="名称"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.type" placeholder="类别"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.xiType" placeholder="细分"/>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
-        <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('入库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />
-        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <kt-button icon="fa fa-plus" :label="$t('入库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
+<!--        </el-form-item>-->
 <!--        <el-form-item>-->
 <!--          <kt-button icon="fa fa-plus" :label="$t('出库录入')" perms="sys:dict:add" type="primary" @click="handleAdd" />-->
 <!--        </el-form-item>-->
       </el-form>
     </div>
     <!--表格内容栏-->
-    <ku-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <PtrTable :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
-    </ku-table>
+    </PtrTable>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
-          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="名称" prop="label">
-          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.name" auto-complete="off"/>
         </el-form-item>
-        <el-form-item label="类型" prop="value">
-          <el-input v-model="dataForm.type" auto-complete="off"></el-input>
+        <el-form-item label="类别" prop="value">
+          <el-input v-model="dataForm.type" auto-complete="off"/>
         </el-form-item>
-        <el-form-item label="领用人" prop="type">
-          <el-input v-model="dataForm.modeBy" auto-complete="off"></el-input>
+        <el-form-item label="细分" prop="type">
+          <el-input v-model="dataForm.xiType" auto-complete="off"/>
         </el-form-item>
-
-        <el-form-item label="领用类型">
-          <el-select v-model="dataForm.mode" auto-complete="off" placeholder="请选择">
-            <el-option label="借" value="借"></el-option>
-            <el-option label="换" value="换"></el-option>
-            <el-option label="领" value="领"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="出库时间" prop="sort">
-          <el-date-picker
-            v-model="dataForm.outTime"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
+<!--        <el-form-item label="领用类型">-->
+<!--          <el-select v-model="dataForm.mode" auto-complete="off" placeholder="请选择">-->
+<!--            <el-option label="借" value="借"></el-option>-->
+<!--            <el-option label="换" value="换"></el-option>-->
+<!--            <el-option label="领" value="领"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="出库时间" prop="sort">-->
+<!--          <el-date-picker-->
+<!--            v-model="dataForm.outTime"-->
+<!--            type="date"-->
+<!--            placeholder="选择日期">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
         <el-form-item label="入库时间" prop="sort">
           <el-date-picker
             v-model="dataForm.intTime"
@@ -59,14 +64,14 @@
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="出库数量 " prop="description">
-          <el-input v-model="dataForm.outNumber" auto-complete="off" type="textarea"></el-input>
+        <el-form-item label="价格 " prop="description">
+          <el-input v-model="dataForm.price" auto-complete="off" />
         </el-form-item>
         <el-form-item label="入库数量 " prop="description">
-          <el-input v-model="dataForm.number" auto-complete="off" type="textarea"></el-input>
+          <el-input v-model="dataForm.number" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
-          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"></el-input>
+          <el-input v-model="dataForm.remarks" auto-complete="off" type="textarea"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -94,30 +99,34 @@
     import KtTable from "../Core/KtTable";
     import { format } from "@/utils/datetime"
     import KuTable from "../Core/KuTable";
+    import PtrTable from "../Core/PtrTable";
     export default {
         components:{
             KtTable,
             KtButton,
-            KuTable
+            KuTable,
+          PtrTable
         },
         data() {
             return {
                 size: 'small',
                 filters: {
-                    name: ''
+                    name: '',
+                    type:'',
+                    xiType:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"名称", minWidth:100},
                     {prop:"type", label:"类型", minWidth:100},
-                    {prop:"modeBy", label:"领用人", minWidth:100},
-                    {prop:"mode", label:"领用方式", minWidth:100},
-                    {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"xiType", label:"细分", minWidth:100},
+                    // {prop:"mode", label:"领用方式", minWidth:100},
+                    // {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"outNumber", label:"出库数量", minWidth:100},
+                    {prop:"price", label:"入库价格", minWidth:100},
                     {prop:"number", label:"入库数量", minWidth:100},
                     {prop:"state", label:"状态", minWidth:80},
-                    {prop:"remarks", label:"入库单价", minWidth:120},
+                    {prop:"remarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
@@ -138,6 +147,8 @@
                 dataForm: {
                     id: 0,
                     name: '',
+                    xiType:'',
+                    price:'',
                     type: '',
                     modeBy: '',
                     mode: '',
@@ -156,14 +167,14 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},type: {name:'type', value:this.filters.type},xiType: {name:'xiType', value:this.filters.xiType}}
                 this.$api.access.findPage(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
             },
             // 批量删除
             handleDelete: function (data) {
-                this.$api.dict.batchDelete(data.params).then(data!=null?data.callback:'')
+                this.$api.access.batchDelete(data.params).then(data!=null?data.callback:'')
             },
             // 显示新增界面
             handleAdd: function () {
@@ -173,7 +184,9 @@
                     id: 0,
                     name: '',
                     type: '',
-                    modeBy: '',
+                  xiType:'',
+                  price:'',
+                  modeBy: '',
                     mode: '',
                     outTime: '',
                     inTime: '',
