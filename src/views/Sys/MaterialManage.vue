@@ -149,6 +149,13 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="label">
+                  <el-input  v-model="dataFormInt.size " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -223,6 +230,13 @@
               <el-col :span="6">
                 <el-form-item label="备注" prop="type">
                   <el-input v-model="dataFormInt.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="label">
+                  <el-input  v-model="dataFormInt.size " auto-complete="off" disabled="false"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -307,6 +321,11 @@
                   <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="value">
+                  <el-input v-model="dataFormOut.size " auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
             </el-row>
             </el-form>
               <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -386,12 +405,19 @@
                 </el-col>
                 <el-col :span="5">
                   <el-form-item label="外协价格" prop="value">
-                    <el-input v-model="dataFormOut.wxPrice " auto-complete="off" ></el-input>
+                    <el-input v-model="dataFormOut.wxPrice " auto-complete="off"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item label="备注" prop="type">
                     <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="尺寸" prop="value">
+                    <el-input v-model="dataFormOut.size " auto-complete="off" disabled="false"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -429,6 +455,7 @@
               dataFormInt: {
                 id: 0,
                 company:'',
+                size:'',
                 texture:'',
                 mName:'',
                 name: '',
@@ -447,11 +474,13 @@
 							loading:false,
 							selectInvTend: [],
 							list:[],
+              list1:'',
 							options4: [],
               dataFormOut: {
                 id: 0,
                 name: '',
                 company:'',
+                size:'',
                 texture:'',
                 dispatch:'',
                 batch:'',
@@ -609,6 +638,8 @@
 								this.list = this.selectInvTend.map(item => {
 								  return { value: item, label: item };
 								});
+              //   console.log(this.selectInvTend[0])
+              // console.log(this.selectInvTend[1])
                 this.operation = true
                 this.dataForm = {
                     id: 0,
@@ -635,6 +666,7 @@
                   name: '',
                   intTime: '',
                   intNumber: '',
+                  size:'',
                   number: '',
                   trTime: '',
                   waixie: '',
@@ -670,6 +702,7 @@
                   mName:'',
                   intTime: '',
                   intNumber: '',
+                size:'',
                   number: '',
                   trTime: '',
                   waixie: '',
@@ -724,6 +757,7 @@
                   this.dataFormInt.mName = this.dataForm.mName
                   this.dataFormInt.intNumber = this.dataForm.number
                   this.dataFormInt.wxPrice = this.dataForm.price
+                  this.dataFormInt.size = this.dataForm.size
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -755,6 +789,7 @@
                   this.dataFormInt.mName = this.dataForm.mName
                   this.dataFormInt.intNumber = this.dataForm.intNumber
                   this.dataFormInt.wxPrice = this.dataForm.price
+                  this.dataFormInt.size = this.dataForm.size
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -785,6 +820,7 @@
                   this.dataFormOut.company = this.dataForm.company
                   this.dataFormOut.mName = this.dataForm.mName
                   this.dataFormOut.number = this.dataForm.outNumber
+                  this.dataFormOut.size = this.dataForm.size
                   this.dataFormOut.type = 0
                   let params1 = Object.assign({}, this.dataFormOut)
                   // let params1 = Object.assign({},this.dataFormInt)
@@ -814,6 +850,7 @@
                   this.dataFormOut.company = this.dataForm.company
                   this.dataFormOut.mName = this.dataForm.mName
                   this.dataFormOut.wxNumber = this.dataForm.outNumber
+                  this.dataFormOut.size = this.dataForm.size
                   this.dataFormOut.type = 1
                   let params1 = Object.assign({}, this.dataFormOut)
                   // let params1 = Object.assign({},this.dataFormInt)

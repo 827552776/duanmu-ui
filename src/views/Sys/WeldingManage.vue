@@ -161,7 +161,7 @@
             </el-row>
           </el-form>
           <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?false:true">{{$t('action.cancel')}}</el-button>
-          <el-button :size="size" type="primary" @click.native="submitForm1" :loading="editLoading" :disabled="operation?false:true">{{$t('action.submit')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitFormA" :loading="editLoading" :disabled="operation?false:true">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -780,6 +780,36 @@
                     this.editLoading = false
                     this.$refs['dataFormInt'].resetFields()
                     this.editDialogVisibleIn=true
+                    this.editDialogVisibleOut = false
+                  })
+                })
+              }
+            })
+          },
+          submitFormA: function () {
+            this.$refs.dataFormInt.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormInt.name = this.dataForm.name
+                  this.dataFormInt.model = this.dataForm.model
+                  this.dataFormInt.company = this.dataForm.company
+                  this.dataFormInt.source = this.dataForm.source
+                  this.dataFormInt.price = this.dataForm.price
+                  this.dataFormInt.number = this.dataForm.number
+                  let params1 = Object.assign({}, this.dataFormInt)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.weldingInt.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormInt'].resetFields()
+                    this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = false
                   })
                 })

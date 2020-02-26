@@ -46,6 +46,9 @@
         <el-form-item label="批号" prop="label">
           <el-input v-model="dataForm.batch" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="尺寸" prop="label">
+          <el-input v-model="dataForm.size" auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="模具名称" prop="label">
           <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
         </el-form-item>
@@ -130,6 +133,7 @@
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"mName", label:"模具名称", minWidth:100},
+                  {prop:"size", label:"尺寸", minWidth:100},
                   {prop:"company", label:"单位", minWidth:100},
                   {prop:"texture", label:"材质", minWidth:100},
                   {prop:"dispatch", label:"派工号", minWidth:100},
@@ -171,6 +175,7 @@
                     batch:'',
                     mName:'',
                     intTime: '',
+                  size:'',
                     intNumber: '',
                     number: '',
                     trTime: '',
@@ -213,6 +218,7 @@
                     mName:'',
                     intTime: '',
                     intNumber: '',
+                  size:'',
                     number: '',
                     trTime: '',
                     waixie: '',

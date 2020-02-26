@@ -1,6 +1,6 @@
 import axios from '../axios'
 
-/* 
+/*
  * 用户管理模块
  */
 
@@ -35,4 +35,11 @@ export const findPermissions = (params) => {
         method: 'get',
         params
     })
+}
+export const findOne = (data) => {
+  return axios({
+    url: '/user/findOne',
+    method: 'get',
+    data
+  })
 }

@@ -52,7 +52,7 @@
         </el-menu-item>
         <el-menu-item index="5" v-popover:popover-personal>
           <!-- 用户信息 -->
-          <span class="user-info"><img :src="user.avatar" />{{user.name}}</span>
+          <span class="user-info"><img :src="user.avatar" />{{user.name}}{{user.password}}</span>
           <el-popover ref="popover-personal" placement="bottom-end" trigger="click" :visible-arrow="false">
             <personal-panel :user="user"></personal-panel>
           </el-popover>
@@ -86,6 +86,7 @@ export default {
     return {
       user: {
         name: "Louis",
+        password:"",
         avatar: "",
         role: "超级管理员",
         registeInfo: "注册时间：2018-12-20 "

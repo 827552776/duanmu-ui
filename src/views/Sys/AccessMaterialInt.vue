@@ -49,6 +49,9 @@
         <el-form-item label="入库数量" prop="value">
           <el-input v-model="dataForm.intNumber" auto-complete="off"/>
         </el-form-item>
+        <el-form-item label="尺寸" prop="value">
+          <el-input v-model="dataForm.size" auto-complete="off"/>
+        </el-form-item>
         <el-form-item label="入库时间" prop="sort">
           <el-date-picker
             v-model="dataForm.intTime"
@@ -127,6 +130,7 @@
                     {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"company", label:"单位", minWidth:100},
                     {prop:"texture", label:"材质", minWidth:100},
+                  {prop:"size", label:"尺寸", minWidth:200},
                     {prop:"mName", label:"模具名称", minWidth:100},
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"intNumber", label:"入库数量", minWidth:120},
@@ -173,6 +177,7 @@
                     waixie: '',
                     wxTime:'',
                     type:2,
+                  size:'',
                     wxInt:'',
                     wxNumber:'',
                     wxPrice:'',
@@ -248,6 +253,7 @@
                     waixie: '',
                     wxTime:'',
                     type:2,
+                  size:'',
                     wxInt:'',
                     wxNumber:'',
                     wxPrice:'',
