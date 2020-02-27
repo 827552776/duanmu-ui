@@ -83,8 +83,8 @@
           </el-col>
         </el-row>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -146,8 +146,6 @@
           <el-input v-model="dataForm.inNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -221,8 +219,6 @@
           <el-input v-model="dataForm.outNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="出库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -483,6 +479,21 @@
                     type:'0',
                     typeNumber:''
                 }
+              this.dataFormInt ={
+                id: 0,
+                name: '',
+                type: '',
+                xiType:'',
+                price:'',
+                modeBy: '',
+                mode: '',
+                outTime: '',
+                intTime: '',
+                outNumber:'',
+                state:0,
+                number:'',
+                remarks:''
+              }
             },
             //入库显示界面
             handleEditIt:function(params){
@@ -583,6 +594,15 @@
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -611,6 +631,15 @@
                     this.$refs['dataFormInt'].resetFields()
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res)=> {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }
@@ -642,6 +671,15 @@
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -671,6 +709,15 @@
                     this.$refs['dataFormInt'].resetFields()
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }
