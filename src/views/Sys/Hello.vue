@@ -16,25 +16,8 @@
 				</el-form-item>
 			</el-form>
 		</div>
-		<div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
-			<el-form :inline="true" :size="size">
-				<el-form-item>
-					<el-button-group>
-						<el-tooltip content="刷新" placement="top">
-							<el-button icon="fa fa-refresh" @click="findPage(null)"></el-button>
-						</el-tooltip>
-						<el-tooltip content="列显示" placement="top">
-							<el-button icon="fa fa-filter" @click="displayFilterColumnsDialog"></el-button>
-						</el-tooltip>
-						<el-tooltip content="导出" placement="top">
-							<el-button icon="fa fa-file-excel-o"></el-button>
-						</el-tooltip>
-						<el-tooltip content="导入" placement="top">
-							<el-button icon="fa fa-file-excel-o"></el-button>
-						</el-tooltip>
-					</el-button-group>
-				</el-form-item>
-			</el-form>
+		<div class="toolbar" style="float:left;padding-top:10px;padding-left:25px;">
+			
 			<!--表格显示列界面-->
 			<table-column-filter-dialog ref="tableColumnFilterDialog" :columns="columns" @handleFilterColumns="handleFilterColumns">
 			</table-column-filter-dialog>
@@ -332,6 +315,7 @@
 		},
 		data() {
 			return {
+				
 				size: 'mini',
 				filters: {
 					cust: '',
@@ -415,6 +399,7 @@
 			}
 		},
 		methods: {
+		
 			xianzhi(){
 				if(this.ware.wareNum > this.ware.quantity){
 					alert('入库数量不能大于派工数量')

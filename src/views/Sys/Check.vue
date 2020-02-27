@@ -493,7 +493,7 @@
 				})
 			},
 			trans(params) {
-				this.$confirm('是否执行本操作?', '提示', {
+				this.$confirm('确定该订单的所有部件拆分完毕?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
@@ -534,18 +534,14 @@
 					{
 						prop: "cust",
 						label: "客户名称",
-						minWidth: 100
+						minWidth: 120
 					},
 					{
 						prop: "mouldNm",
 						label: "模具名称",
-						minWidth: 80
+						minWidth: 120
 					},
-					{
-						prop: "buyMaterial",
-						label: "模具号",
-						minWidth: 70
-					},
+					
 					{
 						prop: "quantity",
 						label: "数量",

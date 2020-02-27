@@ -94,12 +94,17 @@
 			</el-form>
 		</el-dialog>
 		<el-dialog title="该订单运费列表" :visible.sync="dialogTableVisible" @close="close" width="57%">
-			<el-table :data="gridData" show-summary>
+			<el-tooltip content="导出" placement="top">
+					<el-button icon="fa fa-file-excel-o" size="mini" @click="leading"> 导出excel</el-button>
+				</el-tooltip>
+			</el-button-group>
+			<el-table :data="gridData" show-summary  @selection-change="handleSelectionChange">
+				<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column type="index" width="50"></el-table-column>
 				<el-table-column prop="fareType" label="运费类型" width="120"></el-table-column>
 				<el-table-column prop="descri" label="运费描述" width="180"></el-table-column>
 				<el-table-column prop="logis" label="物流" width="150"></el-table-column>
-				<el-table-column prop="delvDate" label="日期" width="150" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="delvDate" label="日期" width="150" :dateFormat="yyyy-MM-dd" ></el-table-column>
 				<el-table-column prop="price" label="具体费用" width="120">
 					<template slot-scope="scope">
 						<el-input v-model.number="scope.row.price"  placeholder="请输入价格" size="small"></el-input>
@@ -179,19 +184,24 @@
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveHelp">保存</el-button>
 							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
+							<el-tooltip content="导出" placement="top">
+									<el-button icon="fa fa-file-excel-o" size="mini" @click="daochu">导出excel</el-button>
+								</el-tooltip>
+							</el-button-group>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
-			<el-table :data="tableData" style="width: 100%" @row-click="deleteParts">
+			<el-table :data="tableData" style="width: 100%" @row-click="deleteParts" @selection-change="handleSelectionChange1">
+				<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column type="index" width="50"></el-table-column>
 				<el-table-column prop="work" label="具体业务" width="100"></el-table-column>
 				<el-table-column prop="helpQuan" label="数量" width="80"></el-table-column>
 				<el-table-column prop="helpNm" label="外协厂家" width="120"></el-table-column>
-				<el-table-column prop="startDate" label="开始时间" width="130" :formatter="dateFormat"></el-table-column>
-				<el-table-column prop="endDate" label="结束时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="startDate" label="开始时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
+				<el-table-column prop="endDate" label="结束时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
 				<el-table-column prop="price" label="价格" width="80"></el-table-column>
-				<el-table-column prop="payDate" label="付款时间" width="130" :formatter="dateFormat"></el-table-column>
+				<el-table-column prop="payDate" label="付款时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
 				<el-table-column prop="helpRemarks" label="备注" width="120"></el-table-column>
 				<el-table-column label="操作" width="80">
 					<template slot-scope="scope">
@@ -213,6 +223,7 @@
 	import FaTable from "@/views/Core/FaTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
+	import Export2Excel from '../../excel/Export2Excel.js';
 	import {
 		format
 	} from "@/utils/datetime"
@@ -225,6 +236,10 @@
 		},
 		data() {
 			return {
+				multipleSelection: [],
+				excelData: [],
+				multipleSelection1: [],
+				excelData1: [],
 				size: 'mini',
 				filters: {
 					cust: '',
@@ -307,6 +322,76 @@
 			}
 		},
 		methods: {
+			//选择导出数据
+			handleSelectionChange(val) {
+				this.multipleSelection = val
+			},
+			leading(){
+				if (this.multipleSelection.length == 0) {
+					this.$alert('请选择要导出的信息', '提示', {
+						confirmButtonText: '确定',
+						callback: action => {}
+					});
+				} else {
+					this.exportExcel()
+				}
+			},
+			exportExcel() {
+				const header = ["运费类型","运费描述","物流","日期","具体费用"] // 导出的表头名
+				const filterVal = ["fareType", "descri", "logis", "delvDate", "price"]
+				for (let i = 0; i < this.multipleSelection.length; i++) {
+					this.excelData.push(this.multipleSelection[i]);
+				}
+				const list = this.excelData
+				const data = this.formatJson(filterVal, list)
+			
+				const filename = '运费信息' + (new Date()).toLocaleDateString();
+				Export2Excel.export_json_to_excel({
+					header,
+					data,
+					filename
+				})
+			},
+			formatJson(filterVal, jsonData) {
+				return jsonData.map(v => filterVal.map(j => {
+					return v[j]
+				}))
+			},
+			//选择导出数据
+			handleSelectionChange1(val) {
+				this.multipleSelection1 = val
+			},
+			daochu(){
+				if (this.multipleSelection1.length == 0) {
+					this.$alert('请选择要导出的信息', '提示', {
+						confirmButtonText: '确定',
+						callback: action => {}
+					});
+				} else {
+					this.exportExcel1()
+				}
+			},
+			exportExcel1() {
+				const header = ["具体业务","数量","外协厂家","开始时间","结束时间","价格","付款时间","备注"] // 导出的表头名
+				const filterVal = ["work", "helpQuan", "helpNm", "startDate", "endDate","price","payDate","helpRemarks"]
+				for (let i = 0; i < this.multipleSelection1.length; i++) {
+					this.excelData1.push(this.multipleSelection1[i]);
+				}
+				const list = this.excelData1
+				const data = this.formatJson1(filterVal, list)
+			
+				const filename = '外协信息' + (new Date()).toLocaleDateString();
+				Export2Excel.export_json_to_excel({
+					header,
+					data,
+					filename
+				})
+			},
+			formatJson1(filterVal, jsonData) {
+				return jsonData.map(v => filterVal.map(j => {
+					return v[j]
+				}))
+			},
 			handleClick(row) {
 				this.$confirm('是否执行本操作?', '提示', {
 					confirmButtonText: '确定',

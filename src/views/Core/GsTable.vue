@@ -1,27 +1,21 @@
 <template>
   <div>
-	  <el-tooltip content="导出" placement="top">
-	  	<el-button icon="fa fa-file-excel-o" @click="leading"> 导出excel</el-button>
-	  </el-tooltip>
     <!--表格栏-->
-    <el-table :data="data.content" :highlight-current-row="highlightCurrentRow"  @selection-change="selectionChange"
+    <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
           :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
-	  <el-table-column type="selection" width="40" v-if="showBatchDelete & showOperation"></el-table-column>
       <el-table-column type="index" width="40" ></el-table-column>
       <el-table-column v-for="column in columns" header-align="center" align="center" show-overflow-tooltip	="true"
         :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="250" fixed="right" v-if="showOperation" header-align="center" align="center">
-        <template slot-scope="scope">
-			<el-button  type="success" size="mini" v-if = "scope.row.ordSts=='A'" @click="Warehous(scope.$index, scope.row)">确认入库</el-button>
-			<el-button  type="danger" size="mini" v-if = "scope.row.ordSts!='A'&&scope.row.isOut!='1'" @click="Outhous(scope.$index, scope.row)">出库</el-button>
-					<el-button  size="mini" v-if = "scope.row.ordSts=='A'" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-           <el-button type="danger" size="mini" v-if = "scope.row.ordSts=='A'" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
+			<el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
+			  <template slot-scope="scope">
+					<el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">工时费</el-button>
+					
+			  </template>
+			</el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
@@ -34,7 +28,6 @@
 </template>
 
 <script>
-import Export2Excel from '../../excel/Export2Excel.js';
 import KtButton from "@/views/Core/KtButton"
 export default {
   name: 'KtTable',
@@ -89,8 +82,6 @@ export default {
   },
   data() {
     return {
-		multipleSelection: [],
-		excelData: [],
       // 分页信息
 			pageRequest: {
 				pageNum: 1,
@@ -101,43 +92,6 @@ export default {
     }
   },
   methods: {
-	  	//选择导出数据
-	  selectionChange(val) {
-	  	this.multipleSelection = val
-	  },
-	  leading(){
-	  	if (this.multipleSelection.length == 0) {
-	  		this.$alert('请选择要导出的信息', '提示', {
-	  			confirmButtonText: '确定',
-	  			callback: action => {}
-	  		});
-	  	} else {
-	  		this.exportExcel()
-	  	}
-	  },
-	  exportExcel() {
-	  	const header = ["产品批号", "客户名称", "模具名称", "派工数量", "入库数量", "入库时间", "出库数量", "出库时间","单位",
-		"派工号","属性","备注"] // 导出的表头名
-	  	const filterVal = ["lotNo","cust","mouldNm","quantity","wareNum","wareDate","outNum","outDate","company","dispatchNo",
-		"shuxing","remarks",]
-	  	for (let i = 0; i < this.multipleSelection.length; i++) {
-	  		this.excelData.push(this.multipleSelection[i]);
-	  	}
-	  	const list = this.excelData
-	  	const data = this.formatJson(filterVal, list)
-	  
-	  	const filename = '锻造录入' + (new Date()).toLocaleDateString();
-	  	Export2Excel.export_json_to_excel({
-	  		header,
-	  		data,
-	  		filename
-	  	})
-	  },
-	  formatJson(filterVal, jsonData) {
-	  	return jsonData.map(v => filterVal.map(j => {
-	  		return v[j]
-	  	}))
-	  },
     // 分页查询
     findPage: function () {
         this.loading = true
@@ -147,10 +101,10 @@ export default {
       this.$emit('findPage', {pageRequest:this.pageRequest, callback:callback})
     },
     // 选择切换
-//     selectionChange: function (selections) {
-//       this.selections = selections
-//       this.$emit('selectionChange', {selections:selections})
-//     },
+    selectionChange: function (selections) {
+      this.selections = selections
+      this.$emit('selectionChange', {selections:selections})
+    },
     // 选择切换
     handleCurrentChange: function (val) {
       this.$emit('handleCurrentChange', {val:val})
@@ -160,18 +114,13 @@ export default {
       this.pageRequest.pageNum = pageNum
       this.findPage()
     },
-	 // 入库确认
-		Warehous: function (index, row) {
-	  this.$emit('Warehous', {index:index, row:row})
-		},
-		// 出库确认
-		Outhous: function (index, row) {
-	  this.$emit('Outhous', {index:index, row:row})
-		},
     // 编辑
 		handleEdit: function (index, row) {
       this.$emit('handleEdit', {index:index, row:row})
 		},
+		kaipiao: function (index, row) {
+		this.$emit('kaipiao', {index:index, row:row})
+				},
     // 删除
 		handleDelete: function (index, row) {
 			this.delete(row.id)

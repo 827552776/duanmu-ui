@@ -53,11 +53,11 @@ function generateArray(table) {
 	return [out, ranges];
 };
 
-function datenum(v, date1904) {
-	if (date1904) v += 1462;
-	var epoch = Date.parse(v);
-	return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
-}
+// function datenum(v, date1904) {
+// 	if (date1904) v += 1462;
+// 	var epoch = Date.parse(v);
+// 	return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
+// }
 
 function sheet_from_array_of_arrays(data, opts) {
 	var ws = {};
@@ -91,7 +91,7 @@ function sheet_from_array_of_arrays(data, opts) {
 			else if (cell.v instanceof Date) {
 				cell.t = 'n';
 				cell.z = XLSX.SSF._table[14];
-				cell.v = datenum(cell.v);
+				// cell.v = datenum(cell.v);
 			} else cell.t = 's';
 
 			ws[cell_ref] = cell;

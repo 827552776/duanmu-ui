@@ -19,7 +19,7 @@
 							<el-button icon="fa fa-refresh" @click="findPage(null)"></el-button>
 						</el-tooltip>
 						<el-tooltip content="导出" placement="top">
-							<el-button icon="fa fa-file-excel-o" @click="leading"> 导出excel</el-button>
+							<el-button icon="fa fa-file-excel-o" size="mini" @click="leading"> 导出excel</el-button>
 						</el-tooltip>
 					</el-button-group>
 				</el-form-item>

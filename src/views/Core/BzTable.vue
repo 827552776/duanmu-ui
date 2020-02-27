@@ -9,10 +9,10 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-      <el-table-column :label="$t('action.operation')" width="300" fixed="right" v-if="showOperation" header-align="center" align="center">
+      <el-table-column :label="$t('action.operation')" width="200" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
 				  <el-button type="success" size="mini"  @click="split(scope.$index, scope.row)">流程控制</el-button>
-					 <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">费用录入</el-button>
+					 <!-- <el-button type="success" size="mini"  @click="helpShow(scope.$index, scope.row)">费用录入</el-button> -->
 				  <el-button type="danger" size="mini"  @click="trans(scope.$index, scope.row)">结束生产</el-button>
         </template>
 			

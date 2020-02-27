@@ -641,7 +641,7 @@
 									{
 										prop: "remarks",
 										label: "备注",
-										minWidth: 150
+										minWidth: 120
 									},
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
 					// {prop:"lastUpdateBy", label:"更新人", minWidth:100},

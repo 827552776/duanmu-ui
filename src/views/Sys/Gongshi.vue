@@ -37,36 +37,32 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<oq-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
+		<gs-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
 		 @findPage="findPage" @handleEdit="handleEdit" @kaipiao="kaipiao" @handleDelete="handleDelete">
-		</oq-table>
-		<el-dialog :title="'输入开票信息'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false" :show-close="false">
+		</gs-table>
+		<el-dialog :title="'请输入工时费用'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false" :show-close="false">
 			<el-form :inline="true" :model="orderReg" label-position="right" label-width="100px" size="mini" ref="orderReg">
 				<el-form-item label="ID" v-if="isShow" prop="id">
 					<el-input v-model="orderReg.id"></el-input>
 				</el-form-item>
 				<el-row>
 					<el-col :span="12">
-						<el-form-item label="开票时间:" prop="kaipiaoTime">
-							<el-date-picker style="width: 160px;" v-model="orderReg.kaipiaoTime" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-							</el-date-picker>
+						<el-form-item label="工时费:" prop="gongshi">
+							<el-input style="width: 160px;" v-model="orderReg.gongshi " >
+							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="发票号:" prop="billNo" >
-							<el-input v-model="orderReg.billNo" style="width:160px"></el-input>
+					<el-col :span="7" :offset="2">
+						<el-form-item>
+							<el-button type="success" size="mini" @click="save">保存</el-button>
+							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
 						</el-form-item>
 					</el-col>
 		
 				</el-row>
 				<el-row>
 		
-					<el-col :span="7" :offset="16">
-						<el-form-item>
-							<el-button type="success" size="mini" @click="save">保存</el-button>
-							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
 			</el-form>
 		</el-dialog>
@@ -76,7 +72,7 @@
 
 <script>
 	import PopupTreeInput from "@/components/PopupTreeInput"
-	import OqTable from "@/views/Core/OqTable"
+	import GsTable from "@/views/Core/GsTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 	import {
@@ -85,7 +81,7 @@
 	export default {
 		components: {
 			PopupTreeInput,
-			OqTable,
+			GsTable,
 			KtButton,
 			TableColumnFilterDialog
 		},
@@ -127,7 +123,8 @@
 					// buyMaterial: '',
 					remarks: '',
 					kaipiaoTime:'',
-					billNo:''
+					billNo:'',
+					gongshi:0
 				},
 				dispa: {
 					id: '',
@@ -183,20 +180,7 @@
 				}).then(data != null ? data.callback : '')
 			},
 
-			//查看派工单
-			queryDispa(reg) {
-				let params = Object.assign({}, reg)
-				this.$api.order.queryDispa(params).then((res) => {
-					if (res.code == 200) {
-						this.dispa = res.data
-					} else {
-						this.$message({
-							type: 'error',
-							message: '删除失败!' + response.data.msg
-						});
-					}
-				})
-			},
+		
 			off(){
 				this.dialogVisible = false
 			},
@@ -259,28 +243,9 @@
 									{
 										prop: "quantity",
 										label: "派工数量",
-										minWidth: 100
+										minWidth: 80
 									},
-									{
-										prop: "wareNum",
-										label: "入库数量",
-										minWidth: 100
-									},
-									{
-										prop: "wareDate",
-										label: "入库时间",
-										minWidth: 100,
-									},
-									{
-										prop: "outNum",
-										label: "出库数量",
-										minWidth: 100
-									},
-									{
-										prop: "outDate",
-										label: "出库时间",
-										minWidth: 100,
-									},
+									
 									{
 										prop: "company",
 										label: "单位",
@@ -296,19 +261,15 @@
 										label: "属性",
 										minWidth: 80
 									},
-									{
-										prop: "kaipiaoTime",
-										label: "开票时间",
-										minWidth: 100
-									},
-									{
-										prop: "billNo",
-										label: "发票号",
-										minWidth: 100
-									},
+									
 									{
 										prop: "remarks",
 										label: "备注",
+										minWidth: 80
+									},
+									{
+										prop: "gongshi",
+										label: "工时费",
 										minWidth: 80
 									},
 									// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
@@ -317,11 +278,8 @@
 								]
 				this.filterColumns = JSON.parse(JSON.stringify(this.columns));
 			},
-			//显示派工单
-			handleEdit: function(params) {
-				window.open('http://123.56.123.34:80/ugo/ureport/preview?_u=file:URforkitty.ureport.xml' + '&id=' + params.row.id)
-				},
-			kaipiao:function(params){
+			//显示录入工时费
+			handleEdit:function(params){
 				this.dialogVisible = true
 				this.orderReg = Object.assign({}, params.row)
 				},
