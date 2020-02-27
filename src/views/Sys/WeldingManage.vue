@@ -320,7 +320,12 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="价格" prop="value">
-                  <el-input v-model="dataFormInt.price " auto-complete="off" disabled="false"/>
+                  <el-input v-model="dataFormInt.price " auto-complete="off"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="总价" prop="value">
+                  <el-input v-model="dataFormInt.sumPrice " auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -548,6 +553,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -620,6 +626,7 @@
                     number: '',
                     company: '',
                     price: '',
+                    sumPrice:'',
                     outNumber: 0,
                     intNumber: 0,
                     type: 0,
@@ -638,6 +645,7 @@
                   deNumber: '',
                   company: '',
                   price: '',
+                  sumPrice:'',
                   intTime:'',
                   outTime:'',
                   reNumber:'',
@@ -664,6 +672,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -693,6 +702,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -720,6 +730,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -825,9 +836,9 @@
                   this.dataFormInt.name = this.dataForm.name
                   this.dataFormInt.model = this.dataForm.model
                   this.dataFormInt.company = this.dataForm.company
-                  this.dataFormInt.price = this.dataForm.price
                   this.dataFormInt.source = this.dataForm.source
                   this.dataFormInt.sNumber = this.dataFormInt.number - this.dataFormInt.reNumber
+                  this.dataFormInt.sumPrice = this.dataFormInt.sNumber * this.dataFormInt.price
                   this.dataFormInt.type = 1
                   this.dataForm.outNumber = this.dataFormInt.sNumber
                   let params1 = Object.assign({}, this.dataFormInt)
