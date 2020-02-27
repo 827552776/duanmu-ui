@@ -3,47 +3,47 @@
     <div class="personal-desc" :style="{'background':this.$store.state.app.themeColor}">
         <div class="avatar-container">
           <img class="avatar" :src="require('@/assets/user.png')" />
-        </div>  
+        </div>
         <div class="name-role">
-          <span class="sender">{{ user.name }} - {{ user.role }}</span>  
-        </div>  
+          <span class="sender">{{ user.name }} - {{ user.role }} - {{user.password}}</span>
+        </div>
         <div class="registe-info">
           <span class="registe-info">
             <li class="fa fa-clock-o"></li>
             {{ user.registeInfo }}
           </span>
-        </div>  
+        </div>
     </div>
     <div class="personal-relation">
-        <span class="relation-item">followers</span>  
-        <span class="relation-item">watches</span>  
+        <span class="relation-item">followers</span>
+        <span class="relation-item">watches</span>
         <span class="relation-item">friends</span>
     </div>
     <div class="main-operation">
         <span class="main-operation-item">
           <el-button size="small" icon="fa fa-male"> 个人中心</el-button>
-        </span>    
+        </span>
         <span class="main-operation-item">
-          <el-button size="small" icon="fa fa-key"> 修改密码</el-button>
-        </span>    
+          <el-button size="small" icon="fa fa-key" @click="findone"> 修改密码</el-button>
+        </span>
     </div>
     <div class="other-operation">
         <div class="other-operation-item">
           <li class="fa fa-eraser"></li>
           清除缓存
-        </div>    
+        </div>
         <div class="other-operation-item">
           <li class="fa fa-user"></li>
           在线人数
-        </div>    
+        </div>
         <div class="other-operation-item">
           <li class="fa fa-bell"></li>
           访问次数
-        </div>    
+        </div>
         <div class="other-operation-item" @click="showBackupDialog">
           <li class="fa fa-undo"></li>
           {{$t("common.backupRestore")}}
-        </div>    
+        </div>
     </div>
     <div class="personal-footer" @click="logout">
       <li class="fa fa-sign-out"></li>
@@ -52,6 +52,9 @@
     <!--备份还原界面-->
     <backup ref="backupDialog" @afterRestore="afterRestore"></backup>
   </div>
+<!--  <el-dialog :visible.sync="editDialogVisibleOut">-->
+
+<!--  </el-dialog>-->
 </template>
 
 <script>
@@ -66,6 +69,7 @@ export default {
     user: {
       type: Object,
       default: {
+        password:"111111",
         name: "admin",
         avatar: "@/assets/user.png",
         role: "超级管理员",
@@ -75,9 +79,24 @@ export default {
   },
   data() {
     return {
+      id:'',
+      name:'',
+      password:'',
+      editDialogVisibleOut:false,//修改密码是否可显示
     }
   },
   methods: {
+    //根据用户进行查询
+    findone: function(data){
+      this.name = this.user.name
+      console.log(this.name)
+      this.$api.user.findOne(data.name).then((res)=>{
+        this.id = res.id;
+        this.name = res.name;
+        this.password = res.password;
+        console.log(this.name)
+      })
+    },
     // 退出登录
     logout: function() {
       this.$confirm("确认退出吗?", "提示", {
@@ -94,7 +113,7 @@ export default {
       .catch(() => {})
     },
     // 删除cookie
-    deleteCookie: function(name) { 
+    deleteCookie: function(name) {
         Cookies.remove(name)
     },
     // 打开备份还原界面

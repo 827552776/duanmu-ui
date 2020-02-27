@@ -83,8 +83,8 @@
           </el-col>
         </el-row>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -146,8 +146,6 @@
           <el-input v-model="dataForm.inNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -221,8 +219,6 @@
           <el-input v-model="dataForm.outNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="出库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -288,6 +284,69 @@
           </el-form>
           <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
+        </el-tab-pane>
+        <el-tab-pane label="外售出库单" name="second" >
+          <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="名称" prop="label">
+                  <el-input v-model="dataFormInt.name" auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="类型" prop="value">
+                  <el-input v-model="dataFormInt.type" auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="细分" prop="value">
+                  <el-input v-model="dataFormInt.xiType" auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="出库数量 " prop="description">
+                  <el-input v-model="dataFormInt.outNumber" auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="出库价格" prop="value">
+                  <el-input v-model="dataFormInt.price" auto-complete="off"  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="外售单位" prop="value">
+                  <el-input v-model="dataFormInt.modeBy" auto-complete="off"  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="出库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormInt.outTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+<!--              <el-col :span="6">-->
+<!--                <el-form-item label="领用类型">-->
+<!--                  <el-select v-model="dataFormInt.mode" auto-complete="off" placeholder="请选择">-->
+<!--                    <el-option label="借" value="借"/>-->
+<!--                    <el-option label="换" value="换"/>-->
+<!--                    <el-option label="领" value="领"/>-->
+<!--                  </el-select>-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
+              <el-col :span="6">
+                <el-form-item label="备注信息" prop="type">
+                  <el-input v-model="dataFormInt.remarks " auto-complete="off" type="textarea" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitForm4" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -420,6 +479,21 @@
                     type:'0',
                     typeNumber:''
                 }
+              this.dataFormInt ={
+                id: 0,
+                name: '',
+                type: '',
+                xiType:'',
+                price:'',
+                modeBy: '',
+                mode: '',
+                outTime: '',
+                intTime: '',
+                outNumber:'',
+                state:0,
+                number:'',
+                remarks:''
+              }
             },
             //入库显示界面
             handleEditIt:function(params){
@@ -520,6 +594,15 @@
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -548,6 +631,15 @@
                     this.$refs['dataFormInt'].resetFields()
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res)=> {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }
@@ -578,6 +670,54 @@
                     this.$refs['dataFormInt'].resetFields()
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
+                })
+              }
+            })
+          },
+          //外售出库点击事件
+          submitForm4: function () {
+            this.$refs.dataFormInt.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormInt.name = this.dataForm.trName
+                  this.dataFormInt.type = this.dataForm.trType
+                  this.dataFormInt.xiType = this.dataForm.trSubdivide
+                  this.dataFormInt.outNumber = this.dataForm.outNumber
+                  this.dataFormInt.state = 3
+                  let params1 = Object.assign({}, this.dataFormInt)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.access.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormInt'].resetFields()
+                    // this.editDialogVisibleIn=false
+                    // this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }

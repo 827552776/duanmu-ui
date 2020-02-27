@@ -58,8 +58,8 @@
         </el-row>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="价格" prop="sort">
-              <el-input v-model="dataForm.price" auto-complete="off"></el-input>
+            <el-form-item label="单价" prop="sort">
+              <el-input v-model="dataForm.price" auto-complete="off"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -79,6 +79,11 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="5">
+            <el-form-item label="总价格" prop="description">
+              <el-input v-model="dataForm.sumPrice" auto-complete="off" disabled="false"/>
+            </el-form-item>
+          </el-col>
           <el-col :span="5">
             <el-form-item label="单位(克/件/公斤)" prop="description">
               <el-input v-model="dataForm.company" auto-complete="off"></el-input>
@@ -104,17 +109,17 @@
             <el-row>
               <el-col :span="5">
                 <el-form-item label="材料名称" prop="label">
-                  <el-input  v-model="dataFormInt.name " auto-complete="off" disabled="false"></el-input>
+                  <el-input v-model="dataFormInt.name " auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="材质" prop="label">
-                  <el-input  v-model="dataFormInt.texture " auto-complete="off" disabled="false"></el-input>
+                  <el-input v-model="dataFormInt.texture " auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="单位" prop="value">
-                  <el-input v-model="dataFormInt.company " auto-complete="off" disabled="false"></el-input>
+                  <el-input v-model="dataFormInt.company " auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -146,6 +151,13 @@
               <el-col :span="6">
                 <el-form-item label="备注" prop="type">
                   <el-input v-model="dataFormInt.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="label">
+                  <el-input  v-model="dataFormInt.size " auto-complete="off" disabled="false"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -223,6 +235,13 @@
               <el-col :span="6">
                 <el-form-item label="备注" prop="type">
                   <el-input v-model="dataFormInt.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="label">
+                  <el-input  v-model="dataFormInt.size " auto-complete="off" disabled="false"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -307,6 +326,11 @@
                   <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="value">
+                  <el-input v-model="dataFormOut.size " auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
             </el-row>
             </el-form>
               <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -385,13 +409,25 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="5">
-                  <el-form-item label="外协价格" prop="value">
-                    <el-input v-model="dataFormOut.wxPrice " auto-complete="off" ></el-input>
+                  <el-form-item label="外协单价" prop="value">
+                    <el-input v-model="dataFormOut.wxPrice " auto-complete="off"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item label="备注" prop="type">
                     <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="尺寸" prop="value">
+                    <el-input v-model="dataFormOut.size " auto-complete="off" disabled="false"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="外协总价" prop="value">
+                    <el-input v-model="dataFormOut.sumPrice " auto-complete="off" disabled="false"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -429,6 +465,7 @@
               dataFormInt: {
                 id: 0,
                 company:'',
+                size:'',
                 texture:'',
                 mName:'',
                 name: '',
@@ -442,16 +479,19 @@
                 wxInt:'',
                 wxNumber:'',
                 wxPrice:'',
+                sumPrice:'',
                 remarks:''
               },
 							loading:false,
 							selectInvTend: [],
 							list:[],
+              list1:'',
 							options4: [],
               dataFormOut: {
                 id: 0,
                 name: '',
                 company:'',
+                size:'',
                 texture:'',
                 dispatch:'',
                 batch:'',
@@ -466,6 +506,7 @@
                 wxInt:'',
                 wxNumber:'',
                 wxPrice:'',
+                sumPrice:'',
                 remarks:''
               },
                 columns: [
@@ -476,7 +517,8 @@
                   {prop:"texture", label:"材质", minWidth:100},
                     {prop:"company", label:"单位", minWidth:100},
                     {prop:"size", label:"尺寸", minWidth:200},
-                    {prop:"price", label:"价格", minWidth:80},
+                    {prop:"price", label:"单价", minWidth:80},
+                    {prop:"sumPrice", label:"总价", minWidth:100},
                     {prop:"state", label:"对账状态", minWidth:120},
                     // {prop:"outNumber", label:"出库数量", minWidth:120},
                     // {prop:"intNumber", label:"入库数量", minWidth:120},
@@ -513,6 +555,7 @@
                     number: '',
                     size: '',
                     price: '',
+                  sumPrice:'',
                     outNumber: 0,
                     intNumber: 0,
                     type: 0,
@@ -609,6 +652,8 @@
 								this.list = this.selectInvTend.map(item => {
 								  return { value: item, label: item };
 								});
+              //   console.log(this.selectInvTend[0])
+              // console.log(this.selectInvTend[1])
                 this.operation = true
                 this.dataForm = {
                     id: 0,
@@ -619,6 +664,7 @@
                     number: '',
                     size: '',
                     price: '',
+                  sumPrice:'',
                     outNumber: 0,
                     intNumber: 0,
                     type: '',
@@ -635,6 +681,7 @@
                   name: '',
                   intTime: '',
                   intNumber: '',
+                  size:'',
                   number: '',
                   trTime: '',
                   waixie: '',
@@ -643,6 +690,7 @@
                   wxInt:'',
                   wxNumber:'',
                   wxPrice:'',
+                  sumPrice:'',
                   remarks:''
                 }
             },
@@ -670,6 +718,7 @@
                   mName:'',
                   intTime: '',
                   intNumber: '',
+                size:'',
                   number: '',
                   trTime: '',
                   waixie: '',
@@ -678,6 +727,7 @@
                   wxInt:'',
                   wxNumber:'',
                   wxPrice:'',
+                sumPrice:'',
                   remarks:''
               }
 
@@ -694,6 +744,7 @@
               if (valid) {
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
                   this.editLoading = true
+                  this.dataForm.sumPrice = this.dataForm.number * this.dataForm.price
                   let params = Object.assign({}, this.dataForm)
                   this.$api.material.save(params).then((res) => {
                     if(res.code == 200) {
@@ -724,6 +775,7 @@
                   this.dataFormInt.mName = this.dataForm.mName
                   this.dataFormInt.intNumber = this.dataForm.number
                   this.dataFormInt.wxPrice = this.dataForm.price
+                  this.dataFormInt.size = this.dataForm.size
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -755,6 +807,7 @@
                   this.dataFormInt.mName = this.dataForm.mName
                   this.dataFormInt.intNumber = this.dataForm.intNumber
                   this.dataFormInt.wxPrice = this.dataForm.price
+                  this.dataFormInt.size = this.dataForm.size
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -785,6 +838,7 @@
                   this.dataFormOut.company = this.dataForm.company
                   this.dataFormOut.mName = this.dataForm.mName
                   this.dataFormOut.number = this.dataForm.outNumber
+                  this.dataFormOut.size = this.dataForm.size
                   this.dataFormOut.type = 0
                   let params1 = Object.assign({}, this.dataFormOut)
                   // let params1 = Object.assign({},this.dataFormInt)
@@ -814,6 +868,8 @@
                   this.dataFormOut.company = this.dataForm.company
                   this.dataFormOut.mName = this.dataForm.mName
                   this.dataFormOut.wxNumber = this.dataForm.outNumber
+                  this.dataFormOut.size = this.dataForm.size
+                  this.dataFormOut.sumPrice = this.dataFormOut.wxPrice * this.dataFormOut.wxNumber
                   this.dataFormOut.type = 1
                   let params1 = Object.assign({}, this.dataFormOut)
                   // let params1 = Object.assign({},this.dataFormInt)

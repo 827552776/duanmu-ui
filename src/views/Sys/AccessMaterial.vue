@@ -10,6 +10,9 @@
           <el-input v-model="filters.mName" placeholder="模具名称"/>
         </el-form-item>
         <el-form-item>
+          <el-input v-model="filters.waixie" placeholder="外协单位"/>
+        </el-form-item>
+        <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
 <!--        <el-form-item>-->
@@ -39,6 +42,9 @@
         </el-form-item>
         <el-form-item label="材质" prop="label">
           <el-input v-model="dataForm.texture" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="尺寸" prop="label">
+          <el-input v-model="dataForm.size" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="派工号" prop="label">
           <el-input v-model="dataForm.dispatch" auto-complete="off"></el-input>
@@ -124,13 +130,15 @@
                 size: 'small',
                 filters: {
                     name: '',
-                    mName:''
+                    mName:'',
+                    waixie:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"mName", label:"模具名称", minWidth:100},
                   {prop:"company", label:"单位", minWidth:100},
+                  {prop:"size", label:"尺寸", minWidth:100},
                   {prop:"texture", label:"材质", minWidth:100},
                   {prop:"dispatch", label:"派工号", minWidth:100},
                   {prop:"batch", label:"批号", minWidth:100},
@@ -140,9 +148,10 @@
                     // {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"waixie", label:"外协单位", minWidth:100},
                     {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"wxNumber", label:"外协数量", minWidth:80},
-                    {prop:"wxPrice", label:"外协价格", minWidth:80},
+                    {prop:"wxInt", label:"外协入库时间", minWidth:120,formatter:this.dateFormat},
+                    {prop:"wxNumber", label:"外协数量", minWidth:100},
+                    {prop:"wxPrice", label:"外协价格", minWidth:100},
+                  {prop:"sumPrice", label:"外协总金额", minWidth:120},
                     {prop:"type", label:"状态", minWidth:80},
                     {prop:"remarks", label:"工艺备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
@@ -167,6 +176,7 @@
                     name: '',
                     company:'',
                     texture:'',
+                  size:'',
                     dispatch:'',
                     batch:'',
                     mName:'',
@@ -190,7 +200,7 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName: {name:'mName', value:this.filters.mName}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName: {name:'mName', value:this.filters.mName},waixie: {name:'waixie', value:this.filters.waixie}}
                 this.$api.accessMaterial.findPage(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
@@ -211,6 +221,7 @@
                     batch:'',
                     name: '',
                     mName:'',
+                  size:'',
                     intTime: '',
                     intNumber: '',
                     number: '',

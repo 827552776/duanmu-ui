@@ -161,7 +161,7 @@
             </el-row>
           </el-form>
           <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?false:true">{{$t('action.cancel')}}</el-button>
-          <el-button :size="size" type="primary" @click.native="submitForm1" :loading="editLoading" :disabled="operation?false:true">{{$t('action.submit')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitFormA" :loading="editLoading" :disabled="operation?false:true">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -320,7 +320,12 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="价格" prop="value">
-                  <el-input v-model="dataFormInt.price " auto-complete="off" disabled="false"/>
+                  <el-input v-model="dataFormInt.price " auto-complete="off"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="总价" prop="value">
+                  <el-input v-model="dataFormInt.sumPrice " auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -548,6 +553,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -620,6 +626,7 @@
                     number: '',
                     company: '',
                     price: '',
+                    sumPrice:'',
                     outNumber: 0,
                     intNumber: 0,
                     type: 0,
@@ -638,6 +645,7 @@
                   deNumber: '',
                   company: '',
                   price: '',
+                  sumPrice:'',
                   intTime:'',
                   outTime:'',
                   reNumber:'',
@@ -664,6 +672,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -693,6 +702,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -720,6 +730,7 @@
                 deNumber: '',
                 company: '',
                 price: '',
+                sumPrice:'',
                 intTime:'',
                 outTime:'',
                 reNumber:'',
@@ -786,6 +797,36 @@
               }
             })
           },
+          submitFormA: function () {
+            this.$refs.dataFormInt.validate((valid) => {
+              if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                  this.editLoading = true
+                  this.dataFormInt.name = this.dataForm.name
+                  this.dataFormInt.model = this.dataForm.model
+                  this.dataFormInt.company = this.dataForm.company
+                  this.dataFormInt.source = this.dataForm.source
+                  this.dataFormInt.price = this.dataForm.price
+                  this.dataFormInt.number = this.dataForm.number
+                  let params1 = Object.assign({}, this.dataFormInt)
+                  // let params1 = Object.assign({},this.dataFormInt)
+                  // this.$api.accessMaterial.save(params1)
+                  this.$api.weldingInt.save(params1).then((res) => {
+                    if(res.code == 200) {
+
+                      this.$message({ message: '操作成功', type: 'success' })
+                    } else {
+                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                    }
+                    this.editLoading = false
+                    this.$refs['dataFormInt'].resetFields()
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                  })
+                })
+              }
+            })
+          },
           //自用出库点击事件
           submitForm2: function () {
             this.$refs.dataFormInt.validate((valid) => {
@@ -795,9 +836,9 @@
                   this.dataFormInt.name = this.dataForm.name
                   this.dataFormInt.model = this.dataForm.model
                   this.dataFormInt.company = this.dataForm.company
-                  this.dataFormInt.price = this.dataForm.price
                   this.dataFormInt.source = this.dataForm.source
                   this.dataFormInt.sNumber = this.dataFormInt.number - this.dataFormInt.reNumber
+                  this.dataFormInt.sumPrice = this.dataFormInt.sNumber * this.dataFormInt.price
                   this.dataFormInt.type = 1
                   this.dataForm.outNumber = this.dataFormInt.sNumber
                   let params1 = Object.assign({}, this.dataFormInt)

@@ -110,6 +110,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="总价格" prop="value">
+              <el-input v-model="dataForm.sumPrice" auto-complete="off" />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <!--        <el-form-item label="模具名称" prop="label">-->
         <!--           <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable-->
@@ -175,6 +182,7 @@
                     // {prop:"deNumber", label:"出售数量", minWidth:100},
                     {prop:"company", label:"单位", minWidth:100},
                     {prop:"price", label:"价格", minWidth:100},
+                  {prop:"sumPrice", label:"总价", minWidth:100},
                     // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"intNumber", label:"入库数量", minWidth:100},
@@ -212,6 +220,7 @@
                   company: '',
                   price: '',
                   intTime:'',
+                  sumPrice:'',
                   outTime:'',
                   reNumber:'',
                   number:'',
@@ -255,6 +264,7 @@
                   intTime:'',
                   outTime:'',
                   reNumber:'',
+                  sumPrice:'',
                   number:'',
                   sNumber:'',
                   type: 1,

@@ -50,6 +50,13 @@ export const findPageAb = (data) => {
     data
   })
 }
+export const findPage1 = (data) => {
+  return axios({
+    url: '/access/access1',
+    method: 'post',
+    data
+  })
+}
 //
 // 分页查询
 export const findPageOut = (data) => {
