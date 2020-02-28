@@ -37,16 +37,16 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<oq-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
+		<re-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
 		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
-		</oq-table>
+		</re-table>
 	</div>
 
 </template>
 
 <script>
 	import PopupTreeInput from "@/components/PopupTreeInput"
-	import OqTable from "@/views/Core/OqTable"
+	import ReTable from "@/views/Core/ReTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 	import {
@@ -55,7 +55,7 @@
 	export default {
 		components: {
 			PopupTreeInput,
-			OqTable,
+			ReTable,
 			KtButton,
 			TableColumnFilterDialog
 		},

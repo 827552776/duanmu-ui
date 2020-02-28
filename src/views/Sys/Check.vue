@@ -59,8 +59,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="热处理:" prop="reCh">
-							<el-input v-model="arr.reCh" placeholder="" style="width:150px"></el-input>
+						<el-form-item label="工时费:" prop="gongShi">
+							<el-input v-model="arr.gongShi" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -83,10 +83,11 @@
 				</el-row>
 				<el-row>
 					<el-col :span="8">
-						<el-form-item label="工时费:" prop="gongShi">
-							<el-input v-model="arr.gongShi" placeholder="" style="width:150px"></el-input>
+						<el-form-item label="材料外协:" prop="rech">
+							<el-input v-model="arr.rech" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
+					
 					<el-col :span="8">
 						<el-form-item label="返工费:" prop="others">
 							<el-input v-model="arr.others" placeholder="" style="width:150px"></el-input>

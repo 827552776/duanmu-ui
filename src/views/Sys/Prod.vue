@@ -321,7 +321,7 @@
 					{
 						prop: "temPurch",
 						label: "临时采购",
-						minWidth: 80
+						minWidth: 100
 					}
 					
 					// {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
