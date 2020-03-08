@@ -69,4 +69,13 @@ export const findPageAb = (data) => {
   })
 }
 
+//模具和材料外协联合查询
+export const queryTogeter = (data) => {
+  return axios({
+    url: '/accessMaterial/queryTogeter',
+    method: 'post',
+    data
+  })
+}
+
 

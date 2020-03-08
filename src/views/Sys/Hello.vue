@@ -72,7 +72,7 @@
 				<el-row>
 					<el-col :span="5">
 
-						<el-form-item label="模具名称:" prop="mouldNm">
+						<el-form-item label="模具名称:" prop="mouldNm" v-if="operation">
 							<el-input v-model="orderReg.mouldNm" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
@@ -255,8 +255,12 @@
 		
 				</el-row>
 				<el-row>
-		
-					<el-col :span="7" :offset="16">
+					<el-col :span="12">
+						<el-form-item label="入库单号:" prop="wareNo" >
+							<el-input v-model="ware.wareNo"  style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7" :offset="2">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveWare">保存</el-button>
 							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
@@ -285,8 +289,12 @@
 		
 				</el-row>
 				<el-row>
-		
-					<el-col :span="7" :offset="16">
+					<el-col :span="12">
+						<el-form-item label="出库单号:" prop="outNo" >
+							<el-input v-model="out.outNo"  style="width:160px"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="7" :offset="2">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveOut">保存</el-button>
 							<el-button :size="size" @click="offOut">{{$t('action.cancel')}}</el-button>
@@ -325,13 +333,15 @@
 					id:'',
 					wareDate:'',
 					wareNum:'',
-					quantity:''
+					quantity:'',
+					wareNo:''
 				},
 				out:{
 					id:'',
 					outDate:'',
 					outNum:'',
-					quantity:''
+					quantity:'',
+					outNo:''
 				},
 				columns: [],
 				filterColumns: [],
@@ -677,6 +687,11 @@
 						minWidth: 100
 					},
 					{
+						prop: "wareNo",
+						label: "入库单号",
+						minWidth: 100
+					},
+					{
 						prop: "wareDate",
 						label: "入库时间",
 						minWidth: 100,
@@ -684,6 +699,11 @@
 					{
 						prop: "outNum",
 						label: "出库数量",
+						minWidth: 100
+					},
+					{
+						prop: "outNo",
+						label: "出库单号",
 						minWidth: 100
 					},
 					{

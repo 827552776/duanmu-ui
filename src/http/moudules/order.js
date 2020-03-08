@@ -32,6 +32,15 @@ export const queryFare = (data) => {
     })
 }
 
+//查询 运费
+export const queryTogeter = (data) => {
+    return axios({
+        url: '/fare/queryTogeter',
+        method: 'post',
+        data
+    })
+}
+
 //保存 派工单
 export const saveDispa = (data) => {
     return axios({
@@ -104,6 +113,15 @@ export const deleteDispa = (data) => {
 export const findPage = (data) => {
     return axios({
         url: '/order/findPage',
+        method: 'post',
+        data
+    })
+}
+
+// 分页查询（已完成）
+export const findPageCom = (data) => {
+    return axios({
+        url: '/order/findPageCom',
         method: 'post',
         data
     })

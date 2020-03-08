@@ -35,25 +35,25 @@
 			<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
 			<el-table-column type="index" width="50">
 			</el-table-column>
-			<el-table-column prop="lotNo" label="批号" width="150">
+			<el-table-column prop="lotNo" label="批号" width="150" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="cust" label="客户名称" width="150">
+			<el-table-column prop="cust" label="客户名称" width="150" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="mouldNm" label="模具名称" width="150">
+			<el-table-column prop="mouldNm" label="模具名称" width="150" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="dispatchNo" label="派工号" width="150">
+			<el-table-column prop="dispatchNo" label="派工号" width="150" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="attribute" label="属性" width="100">
+			<el-table-column prop="attribute" label="属性" width="100" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="name" label="部件名称" width="120">
+			<el-table-column prop="name" label="部件名称" width="120" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="modle" label="部件型号" width="150">
+			<el-table-column prop="modle" label="部件型号" width="130"show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column prop="specs" label="规格" width="130" show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column prop="ask" label="用途" width="130" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="quantity" label="数量" width="100">
+			<el-table-column prop="quantity" label="数量" width="100" show-overflow-tooltip>
 			</el-table-column>
 			
 		</el-table>

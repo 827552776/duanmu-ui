@@ -15,3 +15,12 @@ export const query = (data) => {
         data
     })
 }
+
+//查询 模具相关返修费用
+export const queryTogeter = (data) => {
+    return axios({
+        url: '/unqu/queryTogeter',
+        method: 'post',
+        data
+    })
+}

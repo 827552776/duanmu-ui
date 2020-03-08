@@ -45,4 +45,10 @@ export const exportExcel = (params) => {
   })
 }
 
-
+export const queryTogeter = (data) => {
+  return axios({
+    url: '/material/queryTogeter',
+    method: 'post',
+    data
+  })
+}

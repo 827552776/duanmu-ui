@@ -18,3 +18,12 @@ export const queryHelp = (data) => {
         data
     })
 }
+
+//模具和模具外协联合查询
+export const queryTogeter = (data) => {
+    return axios({
+        url: '/help/queryTogeter',
+        method: 'post',
+        data
+    })
+}

@@ -486,6 +486,7 @@
 			dateFormat: function (row, column, cellValue, index){
 			  return format(row[column.property])
 			},
+			//获取外协厂家
 			getSelectInvTend() {
 				this.$api.customer.query(this.customerParam).then((res) => {
 					this.selectInvTend = res.data

@@ -37,16 +37,129 @@
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<re-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
-		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
-		</re-table>
+		<rp-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
+		 @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete" @xiangQing="xiangQing">
+		</rp-table>
+		<el-dialog :title="'模具详情'" width="50%" :visible.sync="dialogVisible" :close-on-click-modal="false" >
+			<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+    <el-tab-pane label="焊材" name="first">
+		<el-table :data="hanCai" style="width: 100%" >
+			<el-table-column type="index" width="50">
+			</el-table-column>
+			<el-table-column prop="name" label="焊材名称" width="120" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="model" label="型号" width="100">
+			</el-table-column>
+			<el-table-column prop="company" label="单位" width="100">
+			</el-table-column>
+			<el-table-column prop="number" label="领用数量" width="100">
+			</el-table-column>
+			<el-table-column prop="reNumber" label="退回数量" width="100">
+			</el-table-column>
+			<el-table-column prop="price" label="单价"  show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="sumPrice" label="总价"  show-overflow-tooltip>
+			</el-table-column>
+		</el-table>
+	</el-tab-pane>
+    <el-tab-pane label="材料" name="second">
+		<el-table :data="caiLiao" style="width: 100%" >
+			<el-table-column type="index" width="50">
+			</el-table-column>
+			<el-table-column prop="name" label="材料名称" width="120" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="texture" label="材质" width="120" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="company" label="单位" width="150">
+			</el-table-column>
+			<el-table-column prop="number" label="数量" width="150">
+			</el-table-column>
+			<el-table-column prop="price" label="单价"  show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="sumPrice" label="总价"  show-overflow-tooltip>
+			</el-table-column>
+		</el-table>
+	</el-tab-pane>
+    <el-tab-pane label="模具外协" name="third">
+		<el-table :data="moudelWaixie" style="width: 100%" >
+			<el-table-column prop="work" label="具体业务" width="100" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="helpQuan" label="数量" width="80"></el-table-column>
+			<el-table-column prop="helpNm" label="外协厂家" width="120" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="startDate" label="开始时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
+			<el-table-column prop="endDate" label="结束时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
+			<el-table-column prop="price" label="价格" width="80"></el-table-column>
+			<el-table-column prop="payDate" label="付款时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
+		</el-table>
+	</el-tab-pane>
+    <el-tab-pane label="材料外协" name="fourth">
+		<el-table :data="caiLiaoWaixie" style="width: 100%">
+			<el-table-column prop="name" label="材料名称" width="120" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="company" label="单位" width="80">
+			</el-table-column>
+			<el-table-column prop="wxNumber" label="数量" width="60">
+			</el-table-column>
+			<el-table-column prop="wxPrice" label="单价"  show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="sumPrice" label="总价"  show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="waixie" label="外协厂家" width="100" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="wxTime" label="外协出库" width="120" :dateFormat="yyyy-MM-dd">
+			</el-table-column>
+			<el-table-column prop="wxInt" label="外协入库" width="120" :dateFormat="yyyy-MM-dd">
+			</el-table-column>
+		</el-table>
+	</el-tab-pane>
+	<el-tab-pane label="外购" name="fiveth">
+		<el-table :data="waiGou" style="width: 100%">
+			<el-table-column type="index" width="50">
+			</el-table-column>
+			<el-table-column prop="name" label="标件名称" width="140" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="specs" label="规格" width="140" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="modle" label="型号" width="140" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="quantity" label="数量" width="80" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="partPrice" label="总价"  show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column prop="supplier" label="供应商" width="120" show-overflow-tooltip>
+			</el-table-column>
+		</el-table>
+	</el-tab-pane>
+	<el-tab-pane label="运费" name="sixth">
+		<el-table :data="yunFei" >
+			<el-table-column type="index" width="50"></el-table-column>
+			<el-table-column prop="fareType" label="运费类型" width="120" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="descri" label="运费描述" width="140" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="logis" label="物流" width="140" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="delvDate" label="日期" width="150" :dateFormat="yyyy-MM-dd" ></el-table-column>
+			<el-table-column prop="price" label="具体费用" width="120" show-overflow-tooltip>
+			</el-table-column>
+		</el-table>
+	</el-tab-pane>
+	<el-tab-pane label="返工费" name="seventh">
+		<el-table :data="fanXiu">
+			<el-table-column type="index" width="50"></el-table-column>
+			<el-table-column prop="craft" label="返修工艺" width="120" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="unquCause" label="返修原因" width="140" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="liable" label="责任人" width="140"></el-table-column>
+			<el-table-column prop="createTime" label="日期" width="150" :dateFormat="yyyy-MM-dd" ></el-table-column>
+			<el-table-column prop="price" label="返修成本" width="120">
+			</el-table-column>
+		</el-table>
+	</el-tab-pane>
+  </el-tabs>
+		</el-dialog>
 	</div>
 
 </template>
 
 <script>
 	import PopupTreeInput from "@/components/PopupTreeInput"
-	import ReTable from "@/views/Core/ReTable"
+	import RpTable from "@/views/Core/RpTable"
 	import KtButton from "@/views/Core/KtButton"
 	import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 	import {
@@ -55,12 +168,19 @@
 	export default {
 		components: {
 			PopupTreeInput,
-			ReTable,
+			RpTable,
 			KtButton,
 			TableColumnFilterDialog
 		},
 		data() {
 			return {
+				fanXiu:[],
+				yunFei:[],
+				waiGou:[],
+				caiLiaoWaixie:[],
+				moudelWaixie:[],
+				hanCai:[],
+				caiLiao:[],
 				size: 'mini',
 				filters: {
 					cust: '',
@@ -72,6 +192,7 @@
 					pageNum: 1,
 					pageSize: 10
 				},
+				activeName:'first',
 				pageResult: {},
 				dialogVisible: false,
 				operation: false,
@@ -85,7 +206,7 @@
 				},
 				orderReg: {
 					id: '',
-					shuxing:'锻造',
+					shuxing:'',
 					lotNo: '',
 					cust: '',
 					mouldNm: '',
@@ -121,7 +242,6 @@
 					completeQuan: '',
 					dispaRemarks: ''
 				},
-				activeName: 'first',
 				isShow: false,
 				selectInvTend: [],
 				customerParam: {
@@ -163,8 +283,56 @@
 					}
 				})
 			},
+			//成本核算报表
 			handleEdit(params){
 				window.open('http://123.56.123.34:8080/ugo/ureport/preview?_u=file:duanmu.ureport.xml' + '&id=' + params.row.id)
+			},
+			//详情
+			xiangQing:function(params){
+				this.dialogVisible = true
+				this.orderReg = Object.assign({}, params.row)
+				this.queryHanCai()
+				this.queryCaiLiao()
+				this.queryClwx()
+				this.queryMwx()
+				this.queryWaiGou()
+				this.queryYunFei()
+				this.queryFanXiu()
+				},
+			queryHanCai() {
+				 this.$api.weldingInt.queryTogeter(this.orderReg).then((res) => {
+					this.hanCai = res.data
+				})
+			},
+			queryCaiLiao() {
+				 this.$api.material.queryTogeter(this.orderReg).then((res) => {
+					this.caiLiao = res.data
+				})
+			},
+			queryClwx(){
+				  this.$api.accessMaterial.queryTogeter(this.orderReg).then((res) => {
+				 	this.caiLiaoWaixie = res.data
+				 })
+			},
+			queryMwx(){
+				  this.$api.help.queryTogeter(this.orderReg).then((res) => {
+				 	this.moudelWaixie = res.data
+				 })
+			},
+			queryWaiGou(){
+				  this.$api.parts.queryTogeter(this.orderReg).then((res) => {
+				 	this.waiGou = res.data
+				 })
+			},
+			queryYunFei(){
+				  this.$api.order.queryTogeter(this.orderReg).then((res) => {
+				 	this.yunFei = res.data
+				 })
+			},
+			queryFanXiu(){
+				  this.$api.unqu.queryTogeter(this.orderReg).then((res) => {
+				 	this.fanXiu = res.data
+				 })
 			},
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {

@@ -75,3 +75,11 @@ export const findPageA = (data) => {
   })
 }
 
+// 模具焊材联合查询
+export const queryTogeter = (data) => {
+  return axios({
+    url: '/weldingIn/queryTogeter',
+    method: 'post',
+    data
+  })
+}

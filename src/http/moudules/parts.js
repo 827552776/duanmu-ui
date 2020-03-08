@@ -180,3 +180,12 @@ export const deleteParts = (data) => {
         data
     })
 }
+
+//模具外购标件
+export const queryTogeter = (data) => {
+    return axios({
+        url: '/parts/queryTogeter',
+        method: 'post',
+        data
+    })
+}

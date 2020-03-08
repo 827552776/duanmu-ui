@@ -35,19 +35,19 @@
 			<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
 			<el-table-column type="index" width="50">
 			</el-table-column>
-			<el-table-column prop="lotNo" label="批号" width="100">
+			<el-table-column prop="lotNo" label="批号" width="100" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="cust" label="客户名称" width="120">
+			<el-table-column prop="cust" label="客户名称" width="120" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="mouldNm" label="模具名称" width="150">
+			<el-table-column prop="mouldNm" label="模具名称" width="150" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="dispatchNo" label="派工号" width="100">
+			<el-table-column prop="dispatchNo" label="派工号" width="100" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="attribute" label="属性" width="100">
+			<el-table-column prop="attribute" label="属性" width="100" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="name" label="部件名称" width="120">
+			<el-table-column prop="name" label="部件名称" width="120" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="modle" label="部件型号" width="150">
+			<el-table-column prop="modle" label="部件型号" width="130" show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column prop="specs" label="规格" width="130" show-overflow-tooltip>
 			</el-table-column>
@@ -65,10 +65,10 @@
 		<el-dialog :title="'不合格产品判定信息'" width="42%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-table :data="gridData" show-summary>
 				<el-table-column type="index" width="50"></el-table-column>
-				<el-table-column prop="liable" label="责任人" width="150"></el-table-column>
-				<el-table-column prop="craft" label="返修工艺" width="150"></el-table-column>
-				<el-table-column prop="unquCause" label="不合格原因" width="180" ></el-table-column>
-				<el-table-column prop="price" label="返修成本" width="130"></el-table-column>
+				<el-table-column prop="liable" label="责任人" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="craft" label="返修工艺" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="unquCause" label="不合格原因" width="180"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="price" label="返修成本" width="130" show-overflow-tooltip></el-table-column>
 			</el-table>
 		</el-dialog>
 	</div>
@@ -155,7 +155,7 @@
 				}
 			},
 			exportExcel() {
-				const header = ["模具名称", "模具号", "派工号", "部件名称", "部件型号", "生产进程", "工艺编制", "工艺进程"] // 导出的表头名
+				const header = ["p", "模具号", "派工号", "部件名称", "部件型号", "生产进程", "工艺编制", "工艺进程"] // 导出的表头名
 				const filterVal = ["mouldNm", "buyMaterial", "dispatchNo", "name", "modle", "st", "flow","inputValue"]
 				for (let i = 0; i < this.multipleSelection.length; i++) {
 					this.excelData.push(this.multipleSelection[i]);
