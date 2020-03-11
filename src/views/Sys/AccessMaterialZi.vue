@@ -4,10 +4,24 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="名称"></el-input>
+          <el-input v-model="filters.name" placeholder="名称"/>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="filters.mName" placeholder="模具名称"></el-input>
+          <el-input v-model="filters.mName" placeholder="模具名称"/>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="日期上限">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="日期下限">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
@@ -29,28 +43,28 @@
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="120px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
-          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="材料名称" prop="label">
-          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.name" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="单位" prop="label">
-          <el-input v-model="dataForm.company" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.company" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="材质" prop="label">
-          <el-input v-model="dataForm.texture" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.texture" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="派工号" prop="label">
-          <el-input v-model="dataForm.dispatch" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.dispatch" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="批号" prop="label">
-          <el-input v-model="dataForm.batch" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.batch" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="尺寸" prop="label">
-          <el-input v-model="dataForm.size" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.size" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="模具名称" prop="label">
-          <el-input v-model="dataForm.mName" auto-complete="off"></el-input>
+          <el-input v-model="dataForm.mName" auto-complete="off"/>
         </el-form-item>
 <!--        <el-form-item label="模具自用数" prop="value">-->
 <!--          <el-input v-model="dataForm.number" auto-complete="off"></el-input>-->
@@ -127,7 +141,9 @@
                 size: 'small',
                 filters: {
                     name: '',
-                  mName:''
+                  mName:'',
+                  qianTime:'',
+                  houTime:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
@@ -195,7 +211,9 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName: {name:'mName', value:this.filters.mName}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName: {name:'mName', value:this.filters.mName}
+                  ,qianTime: {name:'qianTime', value:this.filters.qianTime},
+                  houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.accessMaterial.findPageAb(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')

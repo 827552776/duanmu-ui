@@ -12,6 +12,20 @@
         <el-form-item>
           <el-input v-model="filters.model" placeholder="型号"/>
         </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="开始日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
@@ -142,7 +156,9 @@
                 filters: {
                     name: '',
                   deCompany:'',
-                  model:''
+                  model:'',
+                  qianTime:'',
+                  houTime:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
@@ -209,7 +225,8 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},deCompany: {name:'deCompany', value:this.filters.deCompany},model: {name:'model', value:this.filters.model}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},deCompany: {name:'deCompany', value:this.filters.deCompany},model: {name:'model', value:this.filters.model},
+                  qianTime: {name:'qianTime', value:this.filters.qianTime},houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.weldingInt.findPageT(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')

@@ -15,6 +15,20 @@
         <el-form-item>
           <el-input v-model="filters.modeBy" placeholder="领用人"/>
         </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="出库开始日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="出库结束日期">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
@@ -118,10 +132,12 @@
             return {
                 size: 'small',
                 filters: {
-                    name: '',
+                  name: '',
                   type:'',
                   xiType:'',
-                  modeBy:''
+                  modeBy:'',
+                  qianTime:'',
+                  houTime:''
 
                 },
                 columns: [
@@ -178,7 +194,9 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},type: {name:'type', value:this.filters.type},xiType: {name:'xiType', value:this.filters.xiType},modeBy: {name:'modeBy', value:this.filters.modeBy}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},type: {name:'type', value:this.filters.type},xiType: {name:'xiType', value:this.filters.xiType},
+                  modeBy: {name:'modeBy', value:this.filters.modeBy},qianTime: {name:'qianTime', value:this.filters.qianTime},
+              houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.access.findPageAb(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')

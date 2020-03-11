@@ -6,6 +6,20 @@
         <el-form-item>
           <el-input v-model="filters.name" placeholder="名称"></el-input>
         </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="开始日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
 <!--        <el-form-item>-->
 <!--          <el-date-picker-->
 <!--            v-model="filters.intTime"-->
@@ -138,7 +152,9 @@
                 filters: {
                     name: '',
                   intTime:'',
-                  endDate:''
+                  endDate:'',
+                  qianTime:'',
+                  houTime:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
@@ -239,7 +255,9 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}
+                  ,qianTime: {name:'qianTime', value:this.filters.qianTime},
+                  houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.weldingInt.findPage(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
