@@ -430,6 +430,7 @@
                 type: '',
                 xiType:'',
                 price:'',
+                sumPrice:'',
                 modeBy: '',
                 mode: '',
                 outTime: '',
@@ -485,6 +486,7 @@
                 type: '',
                 xiType:'',
                 price:'',
+                sumPrice:'',
                 modeBy: '',
                 mode: '',
                 outTime: '',
@@ -506,6 +508,7 @@
                   type: '',
                   xiType:'',
                   price:'',
+                  sumPrice:'',
                   modeBy: '',
                   mode: '',
                   outTime: '',
@@ -527,6 +530,7 @@
                 type: '',
                 xiType:'',
                 price:'',
+                sumPrice:'',
                 modeBy: '',
                 mode: '',
                 outTime: '',
@@ -579,6 +583,7 @@
                   this.dataFormInt.xiType = this.dataForm.trSubdivide
                   this.dataFormInt.number = this.dataForm.trNumber
                   this.dataFormInt.price = this.dataForm.trPrice
+                  this.dataFormInt.sumPrice = this.dataFormInt.price * (this.dataFormInt.number + this.dataFormInt.outNumber)
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -617,6 +622,7 @@
                   this.dataFormInt.type = this.dataForm.trType
                   this.dataFormInt.xiType = this.dataForm.trSubdivide
                   this.dataFormInt.number = this.dataForm.inNumber
+                  this.dataFormInt.sumPrice = this.dataFormInt.price * (this.dataFormInt.number + this.dataFormInt.outNumber)
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -655,6 +661,7 @@
                   this.dataFormInt.type = this.dataForm.trType
                   this.dataFormInt.xiType = this.dataForm.trSubdivide
                   this.dataFormInt.outNumber = this.dataForm.outNumber
+                  this.dataFormInt.sumPrice = this.dataFormInt.price * (this.dataFormInt.number + this.dataFormInt.outNumber)
                   this.dataFormInt.state = 2
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
@@ -694,6 +701,7 @@
                   this.dataFormInt.type = this.dataForm.trType
                   this.dataFormInt.xiType = this.dataForm.trSubdivide
                   this.dataFormInt.outNumber = this.dataForm.outNumber
+                  this.dataFormInt.sumPrice = this.dataFormInt.price * (this.dataFormInt.number + this.dataFormInt.outNumber)
                   this.dataFormInt.state = 3
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)

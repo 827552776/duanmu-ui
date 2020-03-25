@@ -146,6 +146,7 @@
                     {prop:"type", label:"类型", minWidth:100},
                   {prop:"xiType", label:"细分", minWidth:100},
                   {prop:"price", label:"出库价格", minWidth:100},
+                  {prop:"sumPrice", label:"金额", minWidth:100},
                     {prop:"modeBy", label:"领用人", minWidth:100},
                     {prop:"mode", label:"领用方式", minWidth:100},
                     {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
@@ -214,6 +215,7 @@
                     name: '',
                     type: '',
                     modeBy: '',
+                  sumPrice:'',
                     mode: '',
                     outTime: '',
                     inTime: '',
@@ -240,6 +242,7 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
+                          this.dataForm.sumPrice = this.dataForm.price * (this.dataForm.outNumber + this.dataForm.number)
                             let params = Object.assign({}, this.dataForm)
                             this.$api.access.save(params).then((res) => {
                                 if(res.code == 200) {

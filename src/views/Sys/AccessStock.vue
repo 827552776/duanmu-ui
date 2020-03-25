@@ -141,6 +141,7 @@
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"price", label:"入库价格", minWidth:100},
                     {prop:"number", label:"入库数量", minWidth:100},
+                  {prop:"sumPrice", label:"金额", minWidth:100},
                     {prop:"state", label:"状态", minWidth:80},
                     {prop:"remarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
@@ -167,6 +168,7 @@
                     price:'',
                     type: '',
                     modeBy: '',
+                  sumPrice:'',
                     mode: '',
                     outTime: '',
                     intTime: '',
@@ -231,6 +233,7 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
+                          this.dataForm.sumPrice = this.dataForm.price * (this.dataForm.outNumber + this.dataForm.number)
                             let params = Object.assign({}, this.dataForm)
                             this.$api.access.save(params).then((res) => {
                                 if(res.code == 200) {
