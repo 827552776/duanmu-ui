@@ -15,6 +15,7 @@
     "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
+    "node-sass": "^4.13.1",
     "vue": "^2.5.2",
     "vue-i18n": "^8.0.0",
     "vue-router": "^3.0.1",

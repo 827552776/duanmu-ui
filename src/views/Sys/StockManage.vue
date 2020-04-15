@@ -81,6 +81,11 @@
               <el-input v-model="dataForm.xNumber" auto-complete="off"  disabled="false" />
             </el-form-item>
           </el-col>
+          <el-col :span="5">
+            <el-form-item label="总价格" prop="description">
+              <el-input v-model="dataForm.sumPrice" auto-complete="off" disabled="false"/>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
         <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
@@ -205,7 +210,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleIn = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm2" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
@@ -282,7 +287,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
         <el-tab-pane label="外售出库单" name="second" >
@@ -381,6 +386,7 @@
                     {prop:"trSubdivide", label:"细分", minWidth:80},
                     {prop:"trNumber", label:"数量", minWidth:80},
                     {prop:"trPrice", label:"价格", minWidth:120},
+                    {prop:"sumPrice", label:"总价", minWidth:100},
                     {prop:"type", label:"预警状态", minWidth:120},
                     {prop:"typeNumber", label:"预警数量", minWidth:120},
                   {prop:"number", label:"实盘数量", minWidth:120},
@@ -418,6 +424,7 @@
                     xNumber:'',
                     number:'',
                     trPrice: '',
+                    sumPrice:'',
                     trRemarks: '',
                     inNumber:'',
                     outNumber:'',
@@ -474,6 +481,7 @@
                     xNumber:'',
                     number:'',
                     trPrice: '',
+                    sumPrice:'',
                     trRemarks: '',
                     intNumber: '',
                     outNumber: '',
@@ -554,6 +562,7 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
+                            this.dataForm.sumPrice = this.dataForm.number * this.dataForm.trPrice
                             let params = Object.assign({}, this.dataForm)
                             this.$api.stock.save(params).then((res) => {
                                 if(res.code == 200) {
@@ -584,6 +593,7 @@
                   this.dataFormInt.number = this.dataForm.trNumber
                   this.dataFormInt.price = this.dataForm.trPrice
                   this.dataFormInt.sumPrice = this.dataFormInt.price * (this.dataFormInt.number + this.dataFormInt.outNumber)
+                  this.dataForm.sumPrice = this.dataForm.number * this.dataForm.trPrice
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)

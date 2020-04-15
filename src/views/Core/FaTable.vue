@@ -1,12 +1,12 @@
 <template>
   <div>
     <!--表格栏-->
-    <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
+    <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange"
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
           :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" :row-dblclick="handleEdit">
       <el-table-column type="index" width="40" ></el-table-column>
       <el-table-column v-for="column in columns" header-align="center" align="center" show-overflow-tooltip	="true"
-        :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
+        :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth"
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
@@ -20,7 +20,7 @@
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize" style="float:right;">
       </el-pagination>
     </div>

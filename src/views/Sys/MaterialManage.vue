@@ -101,8 +101,8 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-      <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+      <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+      <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -179,8 +179,6 @@
           <el-input v-model="dataForm.intNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-      <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first">
           <el-form :model="dataFormInt" label-width="80px" :rules="dataFormRules" ref="dataFormInt" :size="size">
@@ -246,7 +244,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleIn = false">{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm4" :loading="editLoading">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
@@ -261,8 +259,6 @@
           <el-input v-model="dataForm.outNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="自用出库表单" name="first">
             <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
@@ -333,7 +329,7 @@
               </el-col>
             </el-row>
             </el-form>
-              <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+              <el-button :size="size" @click.native="editDialogVisibleOut = false">{{$t('action.cancel')}}</el-button>
               <el-button :size="size" type="primary" @click.native="submitForm2" :loading="editLoading">{{$t('action.submit')}}</el-button>
           </el-tab-pane>
           <el-tab-pane label="外协出库表单" name="second">
@@ -432,7 +428,7 @@
                 </el-col>
               </el-row>
             </el-form>
-            <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
+            <el-button :size="size" @click.native="editDialogVisibleOut = false">{{$t('action.cancel')}}</el-button>
             <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading">{{$t('action.submit')}}</el-button>
           </el-tab-pane>
 
@@ -776,6 +772,7 @@
                   this.dataFormInt.intNumber = this.dataForm.number
                   this.dataFormInt.wxPrice = this.dataForm.price
                   this.dataFormInt.size = this.dataForm.size
+                  this.dataForm.sumPrice = this.dataForm.number * this.dataForm.price
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -790,6 +787,15 @@
                     this.$refs['dataFormInt'].resetFields()
                     this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.material.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }
@@ -823,6 +829,15 @@
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.material.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -852,6 +867,15 @@
                     }
                     this.editLoading = false
                     this.$refs['dataFormOut'].resetFields()
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.material.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }
@@ -883,6 +907,15 @@
                     }
                     this.editLoading = false
                     this.$refs['dataFormOut'].resetFields()
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.material.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }

@@ -101,9 +101,8 @@
 <!--          </el-col>-->
         </el-row>
       </el-form>
-
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -175,8 +174,6 @@
           <el-input v-model="dataForm.intNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="入库单" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -233,8 +230,8 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
-          <el-button :size="size" type="primary" @click.native="submitForm1" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleIn = false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitForm1" :loading="editLoading">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -248,8 +245,6 @@
           <el-input v-model="dataForm.outNumber" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-        <el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="自用出库" name="first" >
           <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
@@ -335,7 +330,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" >{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false" >{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm2" :loading="editLoading" >{{$t('action.submit')}}</el-button>
         </el-tab-pane>
         <el-tab-pane label="外售出库" name="second" >
@@ -393,7 +388,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" >{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false" >{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading" >{{$t('action.submit')}}</el-button>
         </el-tab-pane>
         <el-tab-pane label="调拨出库" name="third" >
@@ -456,7 +451,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" >{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false" >{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm4" :loading="editLoading" >{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>
@@ -793,6 +788,15 @@
                     this.editDialogVisibleIn=true
                     this.editDialogVisibleOut = false
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.welding.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -822,6 +826,15 @@
                     this.$refs['dataFormInt'].resetFields()
                     this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = false
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.welding.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }
@@ -856,6 +869,15 @@
                     this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = true
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.welding.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -888,6 +910,15 @@
                     this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = true
                   })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.welding.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
+                  })
                 })
               }
             })
@@ -919,6 +950,15 @@
                     this.$refs['dataFormInt'].resetFields()
                     this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = true
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.welding.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+                    this.findPage(null)
                   })
                 })
               }

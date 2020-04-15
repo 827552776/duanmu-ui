@@ -144,7 +144,7 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					
+
 				</el-row>
 				<el-row>
 					<el-col :span="9">
@@ -163,8 +163,8 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-		
-					
+
+
 				</el-row>
 				<el-row>
 					<el-col :span="9">
@@ -209,10 +209,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
-		
-		
-		
-		
+
+
+
+
 		</el-dialog>
 	</div>
 
@@ -318,7 +318,7 @@
 				customerParam: {
 					attribute: '外协厂家'
 				},
-				
+
 			}
 		},
 		methods: {
@@ -344,7 +344,7 @@
 				}
 				const list = this.excelData
 				const data = this.formatJson(filterVal, list)
-			
+
 				const filename = '运费信息' + (new Date()).toLocaleDateString();
 				Export2Excel.export_json_to_excel({
 					header,
@@ -379,7 +379,7 @@
 				}
 				const list = this.excelData1
 				const data = this.formatJson1(filterVal, list)
-			
+
 				const filename = '外协信息' + (new Date()).toLocaleDateString();
 				Export2Excel.export_json_to_excel({
 					header,
@@ -419,9 +419,9 @@
 								type: 'error',
 								message: '保存失败!' + response.data.msg
 							});
-				
+
 						}
-				
+
 					})
 				})
 			},
@@ -517,7 +517,7 @@
 				this.orderReg = Object.assign({}, params.row)
 				this.fare.fId = this.orderReg.id
 				this.fare.id == null
-				
+
 
 			},
 			//查询运费信息
