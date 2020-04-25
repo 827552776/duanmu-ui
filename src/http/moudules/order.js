@@ -40,6 +40,22 @@ export const queryTogeter = (data) => {
         data
     })
 }
+//查询 运费
+export const findAllq = (data) => {
+  return axios({
+    url: '/fare/find',
+    method: 'post',
+    data
+  })
+}
+//查询 外协费
+export const findAllw = (data) => {
+  return axios({
+    url: '/fare/find1',
+    method: 'post',
+    data
+  })
+}
 
 //保存 派工单
 export const saveDispa = (data) => {

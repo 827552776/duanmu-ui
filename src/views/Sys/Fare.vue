@@ -40,17 +40,13 @@
 		<fa-table :height="350" :data="pageResult" :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit"
 		 @query="query" @help="helpShow">
 		</fa-table>
-
-
-
-
-		<el-dialog :title="operation?'新增':'运费录入'" width="50%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+		<el-dialog :title="operation?'新增':'运费录入'" width="70%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="fare" label-position="right" label-width="90px" size="mini" ref="fare">
 				<el-form-item label="ID"  prop="id" v-if="isShow">
-					<el-input v-model="fare.id"></el-input>
+          <el-input v-model="fare.id"/>
 				</el-form-item>
 				<el-form-item label="FID"  prop="fId" v-if="isShow">
-					<el-input v-model="fare.fId"></el-input>
+          <el-input v-model="fare.fId"/>
 				</el-form-item>
 				<el-row>
 					<el-col :span="8">
@@ -61,16 +57,21 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="9">
+					<el-col :span="8">
 						<el-form-item label="运费描述:" prop="descri">
 							<el-input v-model="fare.descri" placeholder="" style="width:170px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="物流:" prop="logis">
 							<el-input v-model="fare.logis" placeholder="" style="width:103px"></el-input>
 						</el-form-item>
 					</el-col>
+          <el-col :span="8" >
+            <el-form-item label="材料名称:" prop="material">
+              <el-input v-model="fare.material" placeholder="" style="width:103px"></el-input>
+            </el-form-item>
+          </el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="8">
@@ -78,6 +79,11 @@
 							<el-input v-model.number="fare.price" placeholder="" style="width:130px"></el-input>
 						</el-form-item>
 					</el-col>
+          <el-col :span="8" >
+            <el-form-item label="运输备注:" prop="remarks">
+              <el-input v-model="fare.remarks" placeholder="" style="width:103px"></el-input>
+            </el-form-item>
+          </el-col>
 					<el-col :span="9">
 						<el-form-item label="日期:" prop="delvDate">
 							<el-date-picker style="width: 170px;" v-model="fare.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
@@ -97,17 +103,18 @@
 			<el-tooltip content="导出" placement="top">
 					<el-button icon="fa fa-file-excel-o" size="mini" @click="leading"> 导出excel</el-button>
 				</el-tooltip>
-			</el-button-group>
 			<el-table :data="gridData" show-summary  @selection-change="handleSelectionChange">
-				<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column type="index" width="50"></el-table-column>
-				<el-table-column prop="fareType" label="运费类型" width="120"></el-table-column>
-				<el-table-column prop="descri" label="运费描述" width="180"></el-table-column>
-				<el-table-column prop="logis" label="物流" width="150"></el-table-column>
-				<el-table-column prop="delvDate" label="日期" width="150" :dateFormat="yyyy-MM-dd" ></el-table-column>
+        <el-table-column type="selection" width="50" :show-overflow-tooltip="true"/>
+        <el-table-column type="index" width="50"/>
+        <el-table-column prop="fareType" label="运费类型" width="120"/>
+        <el-table-column prop="descri" label="运费描述" width="180"/>
+        <el-table-column prop="logis" label="物流" width="150"/>
+        <el-table-column prop="remarks" label="运输备注" width="150"/>
+        <el-table-column prop="material" label="材料运费" width="150"/>
+        <el-table-column prop="delvDate" label="日期" width="150" :dateFormat="yyyy-MM-dd"/>
 				<el-table-column prop="price" label="具体费用" width="120">
 					<template slot-scope="scope">
-						<el-input v-model.number="scope.row.price"  placeholder="请输入价格" size="small"></el-input>
+            <el-input v-model.number="scope.row.price" placeholder="请输入价格" size="small"/>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作">
@@ -154,7 +161,7 @@
 					</el-col>
 					<el-col :span="7">
 						<el-form-item label="价格:" prop="price">
-							<el-input v-model="help.price" placeholder="" style="width:160px"></el-input>
+              <el-input v-model="help.price" placeholder="" style="width:160px"/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="7">
@@ -163,8 +170,6 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-
-
 				</el-row>
 				<el-row>
 					<el-col :span="9">
@@ -177,7 +182,7 @@
 					</el-col>
 					<el-col :span="7">
 						<el-form-item label="外协备注:" prop="helpRemarks">
-							<el-input v-model="help.helpRemarks" placeholder="" style="width:160px"></el-input>
+              <el-input v-model="help.helpRemarks" placeholder="" style="width:160px"/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="7" >
@@ -187,22 +192,21 @@
 							<el-tooltip content="导出" placement="top">
 									<el-button icon="fa fa-file-excel-o" size="mini" @click="daochu">导出excel</el-button>
 								</el-tooltip>
-							</el-button-group>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
 			<el-table :data="tableData" style="width: 100%" @row-click="deleteParts" @selection-change="handleSelectionChange1">
-				<el-table-column type="selection" width="50" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column type="index" width="50"></el-table-column>
-				<el-table-column prop="work" label="具体业务" width="100"></el-table-column>
-				<el-table-column prop="helpQuan" label="数量" width="80"></el-table-column>
-				<el-table-column prop="helpNm" label="外协厂家" width="120"></el-table-column>
-				<el-table-column prop="startDate" label="开始时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
-				<el-table-column prop="endDate" label="结束时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
-				<el-table-column prop="price" label="价格" width="80"></el-table-column>
-				<el-table-column prop="payDate" label="付款时间" width="130" :dateFormat="yyyy-MM-dd"></el-table-column>
-				<el-table-column prop="helpRemarks" label="备注" width="120"></el-table-column>
+        <el-table-column type="selection" width="50" :show-overflow-tooltip="true"/>
+        <el-table-column type="index" width="50"/>
+        <el-table-column prop="work" label="具体业务" width="100"/>
+        <el-table-column prop="helpQuan" label="数量" width="80"/>
+        <el-table-column prop="helpNm" label="外协厂家" width="120"/>
+        <el-table-column prop="startDate" label="开始时间" width="130" :dateFormat="yyyy-MM-dd"/>
+        <el-table-column prop="endDate" label="结束时间" width="130" :dateFormat="yyyy-MM-dd"/>
+        <el-table-column prop="price" label="价格" width="80"/>
+        <el-table-column prop="payDate" label="付款时间" width="130" :dateFormat="yyyy-MM-dd"/>
+        <el-table-column prop="helpRemarks" label="备注" width="120"/>
 				<el-table-column label="操作" width="80">
 					<template slot-scope="scope">
 						<el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
@@ -276,11 +280,16 @@
 				}, {
 					value: '其他',
 					label: '其他'
-				}],
+				}, {
+            value: '材料运费',
+            label: '材料运费'
+          }],
 				fare: {
 					id: '',
 					fId: '',
 					fareType: '',
+          material:'',
+          remarks:'',
 					descri: '',
 					logis: '',
 					price: '',
