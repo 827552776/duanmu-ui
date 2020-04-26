@@ -772,7 +772,7 @@
                   this.dataFormInt.company = this.dataForm.company
                   this.dataFormInt.source = this.dataForm.source
                   this.dataFormInt.price = this.dataForm.price
-                  this.dataFormInt.number = this.dataForm.number
+                  this.dataFormInt.number = this.dataForm.intNumber
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
@@ -785,7 +785,7 @@
                     }
                     this.editLoading = false
                     this.$refs['dataFormInt'].resetFields()
-                    this.editDialogVisibleIn=true
+                    this.editDialogVisibleIn=false
                     this.editDialogVisibleOut = false
                   })
                   let params = Object.assign({}, this.dataForm)
