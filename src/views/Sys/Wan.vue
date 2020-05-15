@@ -280,7 +280,11 @@
 				}, {
 					value: '其他',
 					label: '其他'
-				}, {
+				},
+          {
+            value: '派工出库',
+            label: '派工出库'
+          }, {
             value: '材料运费',
             label: '材料运费'
           }],
@@ -585,7 +589,7 @@
 				this.columns = [{
 						prop: "lotNo",
 						label: "产品批号",
-						minWidth: 100
+						minWidth: 120
 					},
 					{
 						prop: "cust",

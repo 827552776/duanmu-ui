@@ -120,6 +120,7 @@
                     {prop:"type", label:"类型", minWidth:100},
                     {prop:"outNumber", label:"出库数量", minWidth:100},
                     {prop:"price", label:"出库价格", minWidth:100},
+                  {prop:"sumPrice", label:"金额", minWidth:100},
                     {prop:"modeBy", label:"外售单位", minWidth:100},
                     {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"xiType", label:"细分", minWidth:100},

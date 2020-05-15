@@ -51,6 +51,9 @@
         <el-form-item label="单位" prop="label">
           <el-input v-model="dataForm.company" auto-complete="off"/>
         </el-form-item>
+        <el-form-item label="来料单位" prop="label">
+          <el-input v-model="dataForm.com" auto-complete="off"/>
+        </el-form-item>
         <el-form-item label="模具名称" prop="label">
           <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
     remote :remote-method="remoteMethod" >

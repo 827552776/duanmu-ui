@@ -51,6 +51,9 @@
         <el-form-item label="单位" prop="label">
           <el-input v-model="dataForm.company" auto-complete="off"/>
         </el-form-item>
+        <el-form-item label="材料来源" prop="label">
+          <el-input v-model="dataForm.com" auto-complete="off"/>
+        </el-form-item>
         <el-form-item label="材质" prop="label">
           <el-input v-model="dataForm.texture" auto-complete="off"/>
         </el-form-item>
