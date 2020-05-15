@@ -17,19 +17,15 @@
 			</el-form>
 		</div>
 		<div class="toolbar" style="float:left;padding-top:10px;padding-left:25px;">
-			
+
 			<!--表格显示列界面-->
 			<table-column-filter-dialog ref="tableColumnFilterDialog" :columns="columns" @handleFilterColumns="handleFilterColumns">
 			</table-column-filter-dialog>
 		</div>
 		<!--表格内容栏-->
-		<or-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
+		<or-table :height="700" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
 		 @findPage="findPage" @handleEdit="handleEdit" @Warehous="Warehous" @Outhous="Outhous" @handleDelete="handleDelete">
 		</or-table>
-
-
-
-
 		<el-dialog :title="operation?'新增':'编辑'" width="100%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 			<el-form :inline="true" :model="orderReg" label-position="right" label-width="80px" size="mini" ref="orderReg">
 				<el-form-item label="ID" prop="id" v-if="isShow">
@@ -224,6 +220,11 @@
 									<el-input v-model="dispa.completeQuan" placeholder="" style="width:150px"></el-input>
 								</el-form-item>
 							</el-col>
+<!--              <el-col :span="5">-->
+<!--                <el-form-item label="入库单单号:" prop="wareNo">-->
+<!--                  <el-input v-model="dispa.wareNo" placeholder="" style="width:150px"></el-input>-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
 							<el-col :span="8">
 								<el-form-item label="派工单备注:" label-width="100px" prop="dispaRemarks">
 									<el-input v-model="dispa.dispaRemarks" type="textarea" autosize style="width:380px"></el-input>
@@ -252,11 +253,11 @@
 							<el-input v-model.number="ware.wareNum" @blur="xianzhi" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-		
+
 				</el-row>
 				<el-row>
 					<el-col :span="12">
-						<el-form-item label="入库单号:" prop="wareNo" >
+						<el-form-item label="出库单单号:" prop="wareNo" >
 							<el-input v-model="ware.wareNo"  style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
@@ -286,7 +287,7 @@
 							<el-input v-model.number="out.outNum" @blur="xianzhi1" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-		
+
 				</el-row>
 				<el-row>
 					<el-col :span="12">
@@ -319,11 +320,11 @@
 			OrTable,
 			KtButton,
 			TableColumnFilterDialog,
-			
+
 		},
 		data() {
 			return {
-				
+
 				size: 'mini',
 				filters: {
 					cust: '',
@@ -347,7 +348,7 @@
 				filterColumns: [],
 				pageRequest: {
 					pageNum: 1,
-					pageSize: 10
+					pageSize: 200
 				},
 				pageResult: {},
 				dialogVisible: false,
@@ -389,6 +390,7 @@
 					frockNo: '',
 					frockNm: '',
 					units: '',
+          wareNo:'',
 					dispaQuantity: '',
 					dispaContent: '',
 					dispaBasis: '',
@@ -409,7 +411,7 @@
 			}
 		},
 		methods: {
-		
+
 			xianzhi(){
 				if(this.ware.wareNum > this.ware.quantity){
 					alert('入库数量不能大于派工数量')
@@ -488,9 +490,9 @@
 								type: 'error',
 								message: '删除失败!' + response.data.msg
 							});
-				
+
 						}
-				
+
 					})
 				})
 			},
@@ -515,9 +517,9 @@
 								type: 'error',
 								message: '删除失败!' + response.data.msg
 							});
-				
+
 						}
-				
+
 					})
 				})
 			},
@@ -619,6 +621,7 @@
 							this.dispa.fId = '',
 							this.dispa.productNo = '',
 							this.dispa.markNo = '',
+              this.dispa.wareNo = '',
 							this.dispa.frockNo = '',
 							this.dispa.frockNm = '',
 							this.dispa.units = '',
@@ -686,6 +689,11 @@
 						label: "入库数量",
 						minWidth: 100
 					},
+          {
+            prop: "company",
+            label: "单位",
+            minWidth: 80
+          },
 					{
 						prop: "wareNo",
 						label: "入库单号",
@@ -711,11 +719,7 @@
 						label: "出库时间",
 						minWidth: 100,
 					},
-					{
-						prop: "company",
-						label: "单位",
-						minWidth: 80
-					},
+
 					{
 						prop: "dispatchNo",
 						label: "派工号",

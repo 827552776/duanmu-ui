@@ -12,9 +12,9 @@
       <el-menu :default-active="activeIndex" class="el-menu-demo"
           :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
         <el-menu-item index="1" @click="$router.push('/')"><i class="fa fa-home fa-lg"></i>  </el-menu-item>
-        <el-menu-item index="2" @click="openWindow('https://')">大数据界面</el-menu-item>
-        <el-menu-item index="3" @click="openWindow('https://')">使用说明</el-menu-item>
-        <el-menu-item index="4" @click="openWindow('https://')">开发文档</el-menu-item>
+<!--        <el-menu-item index="2" @click="openWindow('https://')">大数据界面</el-menu-item>-->
+<!--        <el-menu-item index="3" @click="openWindow('https://')">使用说明</el-menu-item>-->
+<!--        <el-menu-item index="4" @click="openWindow('https://')">开发文档</el-menu-item>-->
       </el-menu>
     </span>
     <!-- 工具栏 -->
@@ -32,24 +32,24 @@
             <div class="lang-item" @click="changeLanguage('en_us')">English</div>
           </el-popover>
         </el-menu-item>
-        <el-menu-item index="3" v-popover:popover-message>
-          <!-- 我的私信 -->
-          <el-badge :value="5" :max="99" class="badge" type="success">
-            <li style="color:#fff;" class="fa fa-envelope-o fa-lg"></li>
-          </el-badge>
-          <el-popover ref="popover-message" placement="bottom-end" trigger="click">
-            <message-panel></message-panel>
-          </el-popover>
-        </el-menu-item>
-        <el-menu-item index="4" v-popover:popover-notice>
-          <!-- 系统通知 -->
-          <el-badge :value="4" :max="99" class="badge" type="success">
-            <li style="color:#fff;" class="fa fa-bell-o fa-lg"></li>
-          </el-badge>
-          <el-popover ref="popover-notice" placement="bottom-end" trigger="click">
-            <notice-panel></notice-panel>
-          </el-popover>
-        </el-menu-item>
+<!--        <el-menu-item index="3" v-popover:popover-message>-->
+<!--          &lt;!&ndash; 我的私信 &ndash;&gt;-->
+<!--          <el-badge :value="5" :max="99" class="badge" type="success">-->
+<!--            <li style="color:#fff;" class="fa fa-envelope-o fa-lg"></li>-->
+<!--          </el-badge>-->
+<!--          <el-popover ref="popover-message" placement="bottom-end" trigger="click">-->
+<!--            <message-panel></message-panel>-->
+<!--          </el-popover>-->
+<!--        </el-menu-item>-->
+<!--        <el-menu-item index="4" v-popover:popover-notice>-->
+<!--          &lt;!&ndash; 系统通知 &ndash;&gt;-->
+<!--          <el-badge :value="4" :max="99" class="badge" type="success">-->
+<!--            <li style="color:#fff;" class="fa fa-bell-o fa-lg"></li>-->
+<!--          </el-badge>-->
+<!--          <el-popover ref="popover-notice" placement="bottom-end" trigger="click">-->
+<!--&lt;!&ndash;            <notice-panel></notice-panel>&ndash;&gt;-->
+<!--          </el-popover>-->
+<!--        </el-menu-item>-->
         <el-menu-item index="5" v-popover:popover-personal>
           <!-- 用户信息 -->
           <span class="user-info"><img :src="user.avatar" />{{user.name}}{{user.password}}</span>

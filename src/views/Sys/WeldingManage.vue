@@ -24,7 +24,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <HanTable :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <HanTable :height="700" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </HanTable>
@@ -499,7 +499,7 @@
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 500 },
                 pageResult: {},
 
                 operation: false, // true:新增, false:编辑

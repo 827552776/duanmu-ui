@@ -6,6 +6,9 @@
         <el-form-item>
           <el-input v-model="filters.mould" placeholder="模具名称"/>
         </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.logis" placeholder="运输人"/>
+        </el-form-item>
         <el-form-item label="" prop="sort">
           <el-date-picker
             v-model="filters.qianTime"
@@ -67,7 +70,6 @@
 <script>
   import KtButton from "../Core/KtButton";
   import { format } from "@/utils/datetime"
-  import KfTable from "../Core/KfTable";
   import KfYTable from "../Core/KfYTable";
   import YunFeiTable from "../Core/YunFeiTable";
     export default {
@@ -82,7 +84,8 @@
                 filters: {
                     mould: '',
                     qianTime:'',
-                  houTime:''
+                  houTime:'',
+                  logis:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:50},
@@ -143,7 +146,7 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {mould: {name:'mould', value:this.filters.mould},
+                this.pageRequest.columnFilters = {mould: {name:'mould', value:this.filters.mould},logis: {name:'logis', value:this.filters.logis},
                   qianTime: {name:'qianTime', value:this.filters.qianTime},houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.order.findAllq(this.pageRequest).then((res) => {
                     this.pageResult = res.data

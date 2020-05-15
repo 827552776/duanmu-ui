@@ -38,7 +38,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <Ptu-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <Ptu-table :height="700" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </Ptu-table>
@@ -144,23 +144,23 @@
                     {prop:"id", label:"ID", minWidth:70},
                     {prop:"name", label:"名称", minWidth:100},
                     {prop:"type", label:"类型", minWidth:100},
-                  {prop:"xiType", label:"细分", minWidth:100},
+                  {prop:"outNumber", label:"出库数量", minWidth:100},
                   {prop:"price", label:"出库价格", minWidth:100},
                   {prop:"sumPrice", label:"金额", minWidth:100},
                     {prop:"modeBy", label:"领用人", minWidth:100},
                     {prop:"mode", label:"领用方式", minWidth:100},
                     {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"outNumber", label:"出库数量", minWidth:100},
                     // {prop:"number", label:"入库数量", minWidth:100},
-                    {prop:"state", label:"状态", minWidth:80},
+                    // {prop:"state", label:"状态", minWidth:80},
+                  {prop:"xiType", label:"细分", minWidth:100},
                     {prop:"remarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 200 },
                 pageResult: {},
                 operation: false, // true:新增, false:编辑
                 editDialogVisible: false, // 新增编辑界面是否显示

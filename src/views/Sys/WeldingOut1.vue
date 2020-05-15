@@ -38,7 +38,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <HanCaiShouTable :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <HanCaiShouTable :height="700" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </HanCaiShouTable>

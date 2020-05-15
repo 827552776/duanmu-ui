@@ -4,22 +4,25 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.mould" placeholder="名称"/>
+          <el-input v-model="filters.mould" placeholder="模具名称"/>
         </el-form-item>
-<!--        <el-form-item label="" prop="sort">-->
-<!--          <el-date-picker-->
-<!--            v-model="filters.qianTime"-->
-<!--            type="date"-->
-<!--            placeholder="开始日期">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="" prop="sort">-->
-<!--          <el-date-picker-->
-<!--            v-model="filters.houTime"-->
-<!--            type="date"-->
-<!--            placeholder="结束日期">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
+        <el-form-item>
+          <el-input v-model="filters.name" placeholder="外协单位"/>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="开始日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
@@ -80,11 +83,16 @@
             return {
                 size: 'small',
                 filters: {
-                    mould: ''
+                  mould: '',
+                  qianTime:'',
+                  houTime:'',
+                  name:''
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:50},
                      {prop:"mould", label:"模具名称", minWidth:220},
+                  {prop:"name", label:"外协单位", minWidth:220},
+                  {prop:"work", label:"具体业务", minWidth:220},
                   {prop:"number", label:"数量", minWidth:80},
                   {prop:"company", label:"单位", minWidth:80},
                   {prop:"price", label:"金额", minWidth:120},
@@ -140,7 +148,8 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {mould: {name:'mould', value:this.filters.mould}}
+                this.pageRequest.columnFilters = {mould: {name:'mould', value:this.filters.mould}, qianTime: {name:'qianTime', value:this.filters.qianTime},
+                  houTime: {name:'houTime', value:this.filters.houTime},name: {name:'name', value:this.filters.name}}
                 this.$api.order.findAllw(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')

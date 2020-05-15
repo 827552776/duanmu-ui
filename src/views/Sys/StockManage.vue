@@ -21,7 +21,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <pt-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <pt-table :height="700" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
     </pt-table>
@@ -562,7 +562,7 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
-                            this.dataForm.sumPrice = this.dataForm.number * this.dataForm.trPrice
+                            // this.dataForm.sumPrice = this.dataForm.number * this.dataForm.trPrice
                             let params = Object.assign({}, this.dataForm)
                             this.$api.stock.save(params).then((res) => {
                                 if(res.code == 200) {
@@ -597,6 +597,15 @@
                   let params1 = Object.assign({}, this.dataFormInt)
                   // let params1 = Object.assign({},this.dataFormInt)
                   // this.$api.accessMaterial.save(params1)
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.stock.save(params).then((res) => {
+                    this.editLoading = false
+                    this.$refs['dataForm'].resetFields()
+                    this.editDialogVisible = false
+                    this.editDialogVisibleIn=false
+                    this.editDialogVisibleOut = false
+
+                  })
                   this.$api.access.save(params1).then((res) => {
                     if(res.code == 200) {
 
@@ -606,18 +615,11 @@
                     }
                     this.editLoading = false
                     this.$refs['dataFormInt'].resetFields()
+                    this.findPage(null)
                     // this.editDialogVisibleIn=false
                     // this.editDialogVisibleOut = false
                   })
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.stock.save(params).then((res) => {
-                    this.editLoading = false
-                    this.$refs['dataForm'].resetFields()
-                    this.editDialogVisible = false
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                    this.findPage(null)
-                  })
+
                 })
               }
             })

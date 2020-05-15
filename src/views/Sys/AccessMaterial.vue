@@ -38,7 +38,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <Cai-liao-xie-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <Cai-liao-xie-table :height="800" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </Cai-liao-xie-table>
@@ -151,8 +151,9 @@
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
-                    {prop:"name", label:"材料名称", minWidth:100},
-                    {prop:"mName", label:"模具名称", minWidth:100},
+                  {prop:"com", label:"材料来源", minWidth:100},
+                  {prop:"name", label:"材料名称", minWidth:100},
+                   {prop:"mName", label:"模具名称", minWidth:100},
                   {prop:"company", label:"单位", minWidth:100},
                   {prop:"size", label:"尺寸", minWidth:100},
                   {prop:"texture", label:"材质", minWidth:100},
@@ -175,7 +176,7 @@
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 200 },
                 pageResult: {},
                 operation: false, // true:新增, false:编辑
                 editDialogVisible: false, // 新增编辑界面是否显示
@@ -195,6 +196,7 @@
                   size:'',
                     dispatch:'',
                     batch:'',
+                  com:'',
                     mName:'',
                     intTime: '',
                     intNumber: '',
@@ -270,6 +272,7 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true
+                          this.dataForm.sumPrice = this.dataForm.wxPrice * this.dataForm.wxNumber
                             let params = Object.assign({}, this.dataForm)
                             this.$api.accessMaterial.save(params).then((res) => {
                                 if(res.code == 200) {

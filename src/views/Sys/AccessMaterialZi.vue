@@ -35,7 +35,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <CaiLiaoZiTable :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <CaiLiaoZiTable :height="700" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </CaiLiaoZiTable>
@@ -147,6 +147,7 @@
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
+                  {prop:"com", label:"来源", minWidth:100},
                     {prop:"name", label:"材料名称", minWidth:100},
                     {prop:"mName", label:"模具名称", minWidth:100},
                   {prop:"size", label:"尺寸", minWidth:100},
@@ -170,7 +171,7 @@
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 200 },
                 pageResult: {},
                 operation: false, // true:新增, false:编辑
                 editDialogVisible: false, // 新增编辑界面是否显示
@@ -191,6 +192,7 @@
                     batch:'',
                     mName:'',
                     intTime: '',
+                  com:'',
                   size:'',
                     intNumber: '',
                     number: '',

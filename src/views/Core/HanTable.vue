@@ -56,11 +56,11 @@ export default {
     },
     maxHeight: {  // 表格最大高度
       type: Number,
-      default: 420
+      default: 42000
     },
     height: {  // 表格最大高度
       type: Number,
-      default: 600
+      default: 60000
     },
     showOperation: {  // 是否显示操作组件
       type: Boolean,
@@ -94,7 +94,7 @@ export default {
       // 分页信息
 			pageRequest: {
 				pageNum: 1,
-        pageSize: 10
+        pageSize: 700
       },
       loading: false,  // 加载标识
       selections: []  // 列表选中列

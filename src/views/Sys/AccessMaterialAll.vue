@@ -17,7 +17,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <ku-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
+    <ku-table :height="800" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </ku-table>
@@ -121,7 +121,7 @@
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 200 },
                 pageResult: {},
                 operation: false, // true:新增, false:编辑
                 editDialogVisible: false, // 新增编辑界面是否显示

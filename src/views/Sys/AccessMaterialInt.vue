@@ -32,7 +32,7 @@
       </el-form>
     </div>
     <!--表格内容栏-->
-    <Cai-liao-ru-table :height="500" permsEdit="sys:dict:edit" permsDelete="sys:accessMaterial:delete"
+    <Cai-liao-ru-table :height="700" permsEdit="sys:dict:edit" permsDelete="sys:accessMaterial:delete"
               :data="pageResult" :columns="columns"
               @findPage="findPage"  @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </Cai-liao-ru-table>
@@ -143,28 +143,29 @@
                 },
                 columns: [
                     {prop:"id", label:"ID", minWidth:70},
-                    {prop:"name", label:"材料名称", minWidth:100},
-                    {prop:"company", label:"单位", minWidth:100},
-                    {prop:"texture", label:"材质", minWidth:100},
-                  {prop:"size", label:"尺寸", minWidth:200},
-                    {prop:"mName", label:"模具名称", minWidth:100},
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"com", label:"材料来源", minWidth:100},
+                    {prop:"name", label:"材料名称", minWidth:100},
+                    {prop:"texture", label:"材质", minWidth:100},
+                    {prop:"size", label:"尺寸", minWidth:200},
                     {prop:"intNumber", label:"入库数量", minWidth:120},
+                    {prop:"wxPrice", label:"入库价格", minWidth:120},
+                    {prop:"company", label:"单位", minWidth:100},
+                    {prop:"mName", label:"模具名称", minWidth:100},
                     // {prop:"number", label:"模具自用数", minWidth:100},
                     // {prop:"trTime", label:"自用出库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"waixie", label:"外协单位", minWidth:100},
                     // {prop:"wxTime", label:"外协时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"wxNumber", label:"外协数量", minWidth:80},
-                    {prop:"wxPrice", label:"入库价格", minWidth:120},
-                    {prop:"type", label:"状态", minWidth:80},
-                    {prop:"remarks", label:"工艺备注", minWidth:120},
+                    // {prop:"type", label:"状态", minWidth:80},
+                    {prop:"remarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},
                     {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
                     // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
                     // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
                 ],
-                pageRequest: { pageNum: 1, pageSize: 10 },
+                pageRequest: { pageNum: 1, pageSize: 200 },
                 pageResult: {},
                 operation: false, // true:新增, false:编辑
                 editDialogVisible: false, // 新增编辑界面是否显示
@@ -186,6 +187,7 @@
                   texture:'',
                     mName:'',
                     name: '',
+                  com:'',
                     intTime: '',
                     intNumber: '',
                     number: '',

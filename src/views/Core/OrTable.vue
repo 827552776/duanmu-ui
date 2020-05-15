@@ -10,7 +10,7 @@
 	  <el-table-column type="selection" width="40" v-if="showBatchDelete & showOperation"></el-table-column>
       <el-table-column type="index" width="40" ></el-table-column>
       <el-table-column v-for="column in columns" header-align="center" align="center" show-overflow-tooltip	="true"
-        :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
+        :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth"
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
@@ -25,8 +25,8 @@
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-     
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize" style="float:right;">
       </el-pagination>
     </div>
@@ -56,11 +56,11 @@ export default {
     },
     maxHeight: {  // 表格最大高度
       type: Number,
-      default: 420
+      default: 80000
     },
     height: {  // 表格最大高度
       type: Number,
-      default: 250
+      default: 80000
     },
     showOperation: {  // 是否显示操作组件
       type: Boolean,
@@ -94,7 +94,7 @@ export default {
       // 分页信息
 			pageRequest: {
 				pageNum: 1,
-        pageSize: 10
+        pageSize: 1000
       },
       loading: false,  // 加载标识
       selections: []  // 列表选中列
@@ -125,7 +125,7 @@ export default {
 	  	}
 	  	const list = this.excelData
 	  	const data = this.formatJson(filterVal, list)
-	  
+
 	  	const filename = '锻造录入' + (new Date()).toLocaleDateString();
 	  	Export2Excel.export_json_to_excel({
 	  		header,
