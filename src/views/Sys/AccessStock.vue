@@ -141,7 +141,7 @@
                     {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     {prop:"price", label:"入库价格", minWidth:100},
                     {prop:"number", label:"入库数量", minWidth:100},
-                  {prop:"sumPrice", label:"金额", minWidth:100},
+                  {prop:"sumPrice", label:"入库总金额", minWidth:110},
                     {prop:"state", label:"状态", minWidth:80},
                     {prop:"remarks", label:"备注", minWidth:120},
                     {prop:"createBy", label:"创建人", minWidth:100},

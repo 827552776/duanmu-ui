@@ -8,6 +8,9 @@
 				<el-form-item>
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.lotNo" placeholder="产品批号"></el-input>
+        </el-form-item>
 				<el-form-item>
 					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:user:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
@@ -269,10 +272,10 @@
 							<el-input v-model.number="ware.wareNum" @blur="xianzhi" style="width:120px"></el-input>
 						</el-form-item>
 					</el-col>
-		
+
 				</el-row>
 				<el-row>
-		
+
 					<el-col :span="7" :offset="16">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveWare">保存</el-button>
@@ -306,7 +309,8 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: ''
+					mouldNm: '',
+          lotNo: ''
 				},
 				columns: [],
 				filterColumns: [],
@@ -406,7 +410,11 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					}
+					},
+          lotNo: {
+            name: 'lotNo',
+            value: this.filters.lotNo
+          }
 				}
 				this.$api.order.findPage1(this.pageRequest).then((res) => {
 					this.pageResult = res.data
@@ -441,9 +449,9 @@
 								type: 'error',
 								message: '删除失败!' + response.data.msg
 							});
-				
+
 						}
-				
+
 					})
 				})
 			},

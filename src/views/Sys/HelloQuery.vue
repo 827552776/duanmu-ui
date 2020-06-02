@@ -57,10 +57,10 @@
 							<el-input v-model="orderReg.billNo" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-		
+
 				</el-row>
 				<el-row>
-		
+
 					<el-col :span="7" :offset="16">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
@@ -94,7 +94,10 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: ''
+					mouldNm: '',
+          lotNo: '',
+          qianTime: '',
+          houTime: ''
 				},
 				columns: [],
 				filterColumns: [],
@@ -176,7 +179,19 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					}
+					},
+          lotNo: {
+            name: 'lotNo',
+            value: this.filters.lotNo
+          },
+          qianTime: {
+            name: 'qianTime',
+            value: this.filters.qianTime
+          },
+          houTime: {
+            name: 'houTime',
+            value: this.filters.houTime
+          }
 				}
 				this.$api.order.findPage(this.pageRequest).then((res) => {
 					this.pageResult = res.data
@@ -217,13 +232,13 @@
 								type: 'error',
 								message: '删除失败!' + response.data.msg
 							});
-			
+
 						}
-			
+
 					})
 				})
-			
-			
+
+
 			},
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {

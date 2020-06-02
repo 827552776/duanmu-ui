@@ -8,6 +8,23 @@
 				<el-form-item>
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.lotNo" placeholder="产品批号"></el-input>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="入库日期（前）">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="入库日期（后）">
+          </el-date-picker>
+        </el-form-item>
 				<el-form-item>
 					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:user:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
@@ -67,11 +84,20 @@
 				</el-row>
 				<el-row>
 					<el-col :span="5">
-
 						<el-form-item label="模具名称:" prop="mouldNm" v-if="operation">
 							<el-input v-model="orderReg.mouldNm" placeholder="" style="width:150px"></el-input>
 						</el-form-item>
 					</el-col>
+          <el-col :span="5">
+						<el-form-item label="出库单号:" prop="outNo">
+							<el-input v-model="orderReg.outNo" placeholder="" style="width:150px"></el-input>
+						</el-form-item>
+					</el-col>
+          <el-col :span="4">
+            <el-form-item label="入库单号:" prop="outNo">
+              <el-input v-model="orderReg.wareNo" placeholder="" style="width:150px"></el-input>
+            </el-form-item>
+          </el-col>
 					<!-- <el-col :span="4">
 						<el-form-item label="模具号:" prop="buyMaterial">
 							<el-input v-model="orderReg.buyMaterial" placeholder="" style="width:150px"></el-input>
@@ -291,8 +317,8 @@
 				</el-row>
 				<el-row>
 					<el-col :span="12">
-						<el-form-item label="出库单号:" prop="outNo" >
-							<el-input v-model="out.outNo"  style="width:160px"></el-input>
+						<el-form-item label="入库单号:" prop="wareNo" >
+							<el-input v-model="out.wareNo"  style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="7" :offset="2">
@@ -328,7 +354,10 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: ''
+					mouldNm: '',
+          lotNo: '',
+          qianTime:'',
+          houTime:''
 				},
 				ware:{
 					id:'',
@@ -342,7 +371,7 @@
 					outDate:'',
 					outNum:'',
 					quantity:'',
-					outNo:''
+          wareNo:''
 				},
 				columns: [],
 				filterColumns: [],
@@ -373,7 +402,9 @@
 					company: '',
 					dispatchNo: '',
 					buyMaterial: '',
-					remarks: ''
+					remarks: '',
+          outNo: '',
+          wareNo: ''
 				},
 				dispa: {
 					id: '',
@@ -445,7 +476,19 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					}
+					},
+          lotNo: {
+            name: 'lotNo',
+            value: this.filters.lotNo
+          },
+          qianTime: {
+					  name: 'qianTime',
+            value: this.filters.qianTime
+          },
+          houTime: {
+            name: 'houTime',
+            value: this.filters.houTime
+          }
 				}
 				this.$api.order.findPage(this.pageRequest).then((res) => {
 					this.pageResult = res.data

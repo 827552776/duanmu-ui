@@ -93,6 +93,61 @@
     <!--    //确认入库-->
     <el-dialog :title="'确认入库'" width="80%" :visible.sync="QueRen" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
+        <el-form-item label="ID" prop="id"  v-if="false">
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="入库数量" prop="label">
+          <el-input v-model="dataForm.inNumber" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="入库单" name="first" >
+            <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="名称" prop="label">
+                    <el-input v-model="dataFormInt.name" auto-complete="off" disabled="false"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="类型" prop="value">
+                    <el-input v-model="dataFormInt.type" auto-complete="off" disabled="false"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="细分" prop="value">
+                    <el-input v-model="dataFormInt.xiType" auto-complete="off" disabled="false"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="入库数量 " prop="description">
+                    <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="价格" prop="value">
+                    <el-input v-model="dataFormInt.price" auto-complete="off"  />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="入库时间" prop="sort">
+                    <el-date-picker
+                      v-model="dataFormInt.intTime"
+                      type="date"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="发票及备注信息" prop="type">
+                    <el-input v-model="dataFormInt.remarks " auto-complete="off" type="textarea" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </el-tab-pane>
+        </el-tabs>
       </el-form>
       <el-button :size="size" @click.native="QueRen = false" >{{$t('action.cancel')}}</el-button>
       <el-button :size="size" type="primary" @click.native="Warehous" :loading="editLoading" >{{$t('action.submit')}}</el-button>
@@ -167,9 +222,25 @@
                     number: '',
                     price:'',
                     mn:'',
-                    remarks:''
+                    remarks:'',
+                    inNumber: ''
                 },
-
+              dataFormInt:{
+                id: 0,
+                name: '',
+                type: '',
+                xiType:'',
+                price:'',
+                sumPrice:'',
+                modeBy: '',
+                mode: '',
+                outTime: '',
+                intTime: '',
+                outNumber:'',
+                state:0,
+                number:'',
+                remarks:''
+              }
             }
         },
         methods: {
@@ -260,20 +331,31 @@
           Warehous:function () {
             this.$refs.dataForm.validate((valid) => {
               if (valid) {
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
                   this.editLoading = true
-                  this.dataForm.mn = 4
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.shen.save(params).then((res) => {
+                  this.dataFormInt.name = this.dataForm.name
+                  this.dataFormInt.type = this.dataForm.type
+                  this.dataFormInt.xiType = this.dataForm.xiType
+                  this.dataFormInt.number = this.dataForm.number
+                  let params1 = Object.assign({}, this.dataFormInt)
+                  this.$api.access.save(params1).then((res) => {
                     if(res.code == 200) {
+
                       this.$message({ message: '操作成功', type: 'success' })
                     } else {
                       this.$message({message: '操作失败, ' + res.msg, type: 'error'})
                     }
                     this.editLoading = false
+                    this.$refs['dataFormInt'].resetFields()
+                  })
+                  let params = Object.assign({}, this.dataForm)
+                  this.$api.shen.save(params).then((res) => {
+                    this.editLoading = false
                     this.$refs['dataForm'].resetFields()
                     this.QueRen = false
                     this.findPage(null)
                   })
+                })
               }
             })
           },

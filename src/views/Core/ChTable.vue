@@ -1,11 +1,11 @@
 <template>
   <div>
     <!--表格栏-->
-    <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange" 
+    <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange"
           @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')" :border="border" :stripe="stripe"
           :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size" :align="align" style="width:100%;" >
       <el-table-column v-for="column in columns" header-align="center" align="center" show-overflow-tooltip	="true"
-        :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth" 
+        :prop="column.prop" :label="column.label" :width="column.width" :min-width="column.minWidth"
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
@@ -15,12 +15,12 @@
 					<el-button type="success" size="mini" v-if="scope.row.ordSts=='A1'" @click="handleEdit(scope.$index, scope.row)">预估费用</el-button>
 					<el-button type="success" size="mini" v-if="scope.row.ordSts=='B'" @click="trans(scope.$index, scope.row)">传递</el-button>
         </template>
-			
+
       </el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize" style="float:right;">
       </el-pagination>
     </div>
@@ -49,11 +49,11 @@ export default {
     },
     maxHeight: {  // 表格最大高度
       type: Number,
-      default: 420
+      default: 5020
     },
     height: {  // 表格最大高度
       type: Number,
-      default: 250
+      default: 5020
     },
     showOperation: {  // 是否显示操作组件
       type: Boolean,
@@ -85,7 +85,7 @@ export default {
       // 分页信息
 			pageRequest: {
 				pageNum: 1,
-        pageSize: 10
+        pageSize: 200
       },
       loading: false,  // 加载标识
       selections: []  // 列表选中列

@@ -8,6 +8,20 @@
 				<el-form-item>
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="入库日期（前）">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="入库日期（后）">
+          </el-date-picker>
+        </el-form-item>
 				<el-form-item>
 					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:user:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
@@ -40,6 +54,42 @@
 		<co-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
 		 @findPage="findPage" @handleEdit="handleEdit" @kaipiao="kaipiao" @handleDelete="handleDelete">
 		</co-table>
+    <el-dialog :title="'输入开票信息'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false" :show-close="false">
+      <el-form :inline="true" :model="orderReg" label-position="right" label-width="100px" size="mini" ref="orderReg">
+        <el-form-item label="ID" v-if="isShow" prop="id">
+          <el-input v-model="orderReg.id"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="开票时间:" prop="kaipiaoTime">
+              <el-date-picker style="width: 160px;" v-model="orderReg.kaipiaoTime" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="发票号:" prop="billNo" >
+              <el-input v-model="orderReg.billNo" style="width:160px"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="备注:"prop="remarks" >
+              <el-input v-model="orderReg.remarks" style="width:160px"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+
+          <el-col :span="7" :offset="16">
+            <el-form-item>
+              <el-button type="success" size="mini" @click="save">保存</el-button>
+              <el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
 	</div>
 
 </template>
@@ -64,7 +114,9 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: ''
+					mouldNm: '',
+          qianTime:'',
+          houTime:''
 				},
 				columns: [],
 				filterColumns: [],
@@ -117,13 +169,46 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					}
+					},
+          qianTime: {
+            name: 'qianTime',
+            value: this.filters.qianTime
+          },
+          houTime: {
+            name: 'houTime',
+            value: this.filters.houTime
+          }
 				}
 				this.$api.order.findPageCom(this.pageRequest).then((res) => {
 					this.pageResult = res.data
 				}).then(data != null ? data.callback : '')
 			},
+      off(){
+        this.dialogVisible = false
+      },
+      //保存订单
+      save() {
+        this.$confirm('是否执行本操作?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = Object.assign({}, this.orderReg)
+          this.$api.order.save(params).then((res) => {
+            if (res.code == 200) {
+              this.dialogVisible = false
+              this.findPage(null)
+            } else {
+              this.$message({
+                type: 'error',
+                message: '删除失败!' + response.data.msg
+              });
 
+            }
+
+          })
+        })
+      },
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {
 				this.$refs.tableColumnFilterDialog.setDialogVisible(true)
@@ -160,6 +245,11 @@
 										label: "派工数量",
 										minWidth: 100
 									},
+                  {
+                    prop: "wareNo",
+                    label: "入库单号",
+                    minWidth: 100
+                  },
 									{
 										prop: "wareNum",
 										label: "入库数量",

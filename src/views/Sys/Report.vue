@@ -67,7 +67,10 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: ''
+					mouldNm: '',
+          lotNo: '',
+          qianTime: '',
+          houTime: ''
 				},
 				columns: [],
 				filterColumns: [],
@@ -153,7 +156,19 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					}
+					},
+          lotNo: {
+            name: 'lotNo',
+            value: this.filters.lotNo
+          },
+          qianTime: {
+            name: 'qianTime',
+            value: this.filters.qianTime
+          },
+          houTime: {
+            name: 'houTime',
+            value: this.filters.houTime
+          }
 				}
 				this.$api.order.findPage(this.pageRequest).then((res) => {
 					this.pageResult = res.data
