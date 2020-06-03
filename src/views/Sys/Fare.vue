@@ -99,19 +99,47 @@
 				</el-row>
 			</el-form>
 		</el-dialog>
-		<el-dialog title="该订单运费列表" :visible.sync="dialogTableVisible" @close="close" width="57%">
+		<el-dialog title="该订单运费列表" :visible.sync="dialogTableVisible" @close="close" width="67%">
 			<el-tooltip content="导出" placement="top">
 					<el-button icon="fa fa-file-excel-o" size="mini" @click="leading"> 导出excel</el-button>
 				</el-tooltip>
 			<el-table :data="gridData" show-summary  @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" :show-overflow-tooltip="true"/>
         <el-table-column type="index" width="50"/>
-        <el-table-column prop="fareType" label="运费类型" width="120"/>
-        <el-table-column prop="descri" label="运费描述" width="180"/>
-        <el-table-column prop="logis" label="物流" width="150"/>
-        <el-table-column prop="remarks" label="运输备注" width="150"/>
-        <el-table-column prop="material" label="材料运费" width="150"/>
-        <el-table-column prop="delvDate" label="日期" width="150" :dateFormat="yyyy-MM-dd"/>
+        <el-table-column prop="fareType" label="运费类型" width="100">
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.fareType" placeholder="请选择" size="small">
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column prop="descri" label="运费描述" width="120">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.descri" placeholder="请输入运费描述" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="logis" label="物流" width="130">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.logis" placeholder="请输入物流" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="remarks" label="运输备注" width="130">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.remarks" placeholder="请输入运输备注" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="material" label="材料名称" width="130">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.material" placeholder="请输入材料名称" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="delvDate" label="日期" width="120" :dateFormat="yyyy-MM-dd">
+          <template slot-scope="scope">
+            <el-date-picker size="small" v-model="scope.row.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+            </el-date-picker>
+          </template>
+        </el-table-column>
 				<el-table-column prop="price" label="具体费用" width="120">
 					<template slot-scope="scope">
             <el-input v-model.number="scope.row.price" placeholder="请输入价格" size="small"/>
@@ -286,7 +314,13 @@
 				}, {
             value: '材料运费',
             label: '材料运费'
-          }],
+        }, {
+          value: '拉回返修',
+          label: '拉回返修'
+        }, {
+          value: '返修送回',
+          label: '返修送回'
+        }],
 				fare: {
 					id: '',
 					fId: '',
@@ -415,6 +449,8 @@
 					this.fare.fareType = row.fareType
 					this.fare.descri = row.descri
 					this.fare.logis = row.logis
+          this.fare.remarks = row.remarks
+          this.fare.material = row.material
 					this.fare.price = row.price
 					this.fare.delvDate = row.delvDate
 					let params = Object.assign({}, this.fare)

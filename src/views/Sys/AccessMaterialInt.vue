@@ -9,6 +9,9 @@
         <el-form-item>
           <el-input v-model="filters.mName" placeholder="模具"></el-input>
         </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.remarks" placeholder="来料/外协回来"></el-input>
+        </el-form-item>
         <el-form-item label="" prop="sort">
           <el-date-picker
             v-model="filters.qianTime"
@@ -141,6 +144,7 @@
                 filters: {
                   name: '',
                   mName:'',
+                  remarks:'',
                   qianTime:'',
                   houTime:''
                 },
@@ -244,9 +248,12 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName: {name:'mName', value:this.filters.mName}
-                  ,qianTime: {name:'qianTime', value:this.filters.qianTime},
-              houTime: {name:'houTime', value:this.filters.houTime}}
+                this.pageRequest.columnFilters = {
+                  name: {name:'name', value:this.filters.name},
+                  mName: {name:'mName', value:this.filters.mName},
+                  remarks: {name:'remarks', value:this.filters.remarks},
+                  qianTime: {name:'qianTime', value:this.filters.qianTime},
+                  houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.accessMaterial.findPageA(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
