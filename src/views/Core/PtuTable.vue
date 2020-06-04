@@ -116,8 +116,8 @@ export default {
       }
     },
     exportExcel() {
-      const header = ["名称", "类型","细分", "领用人","领用方式","出库时间","出库价格", "出库数量", "备注"] // 导出的表头名
-      const filterVal = ["name", "type","xiType","modeBy","mode","outTime", "price", "outNumber", "remarks"]
+      const header = ["名称", "类型","细分", "领用人","领用方式","出库时间","出库数量", "出库价格", "金额", "备注"] // 导出的表头名
+      const filterVal = ["name", "type","xiType","modeBy","mode","outTime", "outNumber", "price", "sumPrice", "remarks"]
       for (let i = 0; i < this.multipleSelection.length; i++) {
         this.excelData.push(this.multipleSelection[i]);
       }
@@ -202,6 +202,10 @@ export default {
 			}).catch(() => {
 			})
 		}
+  },
+  // 时间格式化
+  dateFormat: function (row, column, cellValue, index){
+    return format(row[column.property])
   },
   mounted() {
     this.refreshPageRequest(1)

@@ -116,8 +116,8 @@ export default {
       }
     },
     exportExcel() {
-      const header = ["名称", "类型","细分", "入库时间","入库价格", "入库数量", "备注"] // 导出的表头名
-      const filterVal = ["name", "type","xiType","intTime", "price", "number", "remarks"]
+      const header = ["名称", "类型","细分", "入库时间", "入库数量", "入库价格", "金额", "备注"] // 导出的表头名
+      const filterVal = ["name", "type","xiType","intTime", "number", "price", "sumPrice", "remarks"]
       for (let i = 0; i < this.multipleSelection.length; i++) {
         this.excelData.push(this.multipleSelection[i]);
       }

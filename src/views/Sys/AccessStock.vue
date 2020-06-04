@@ -138,7 +138,7 @@
                     {prop:"xiType", label:"细分", minWidth:100},
                     // {prop:"mode", label:"领用方式", minWidth:100},
                     // {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
-                    {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"intTime", label:"入库时间", minWidth:100},
                     {prop:"price", label:"入库价格", minWidth:100},
                     {prop:"number", label:"入库数量", minWidth:100},
                   {prop:"sumPrice", label:"入库总金额", minWidth:110},

@@ -149,7 +149,7 @@
                   {prop:"sumPrice", label:"金额", minWidth:100},
                     {prop:"modeBy", label:"领用人", minWidth:100},
                     {prop:"mode", label:"领用方式", minWidth:100},
-                    {prop:"outTime", label:"出库时间", minWidth:100,formatter:this.dateFormat},
+                    {prop:"outTime", label:"出库时间", minWidth:100},
                     // {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
                     // {prop:"number", label:"入库数量", minWidth:100},
                     // {prop:"state", label:"状态", minWidth:80},
