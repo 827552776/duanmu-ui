@@ -8,6 +8,20 @@
 				<el-form-item>
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.qianTime"
+            type="date"
+            placeholder="入库日期（前）">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="" prop="sort">
+          <el-date-picker
+            v-model="filters.houTime"
+            type="date"
+            placeholder="入库日期（后）">
+          </el-date-picker>
+        </el-form-item>
 				<el-form-item>
 					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
@@ -247,7 +261,9 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: ''
+					mouldNm: '',
+          qianTime:'',
+          houTime:''
 				},
 				columns: [],
 				filterColumns: [],
@@ -517,7 +533,15 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					}
+					},
+          qianTime: {
+            name: 'qianTime',
+            value: this.filters.qianTime
+          },
+          houTime: {
+            name: 'houTime',
+            value: this.filters.houTime
+          }
 				}
 				this.$api.order.findPageCom(this.pageRequest).then((res) => {
 					this.pageResult = res.data

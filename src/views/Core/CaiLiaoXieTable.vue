@@ -142,11 +142,6 @@ export default {
         }
       this.$emit('findPage', {pageRequest:this.pageRequest, callback:callback})
     },
-    // // 选择切换
-    // selectionChange: function (selections) {
-    //   this.selections = selections
-    //   this.$emit('selectionChange', {selections:selections})
-    // },
     // 选择切换
     handleCurrentChange: function (val) {
       this.$emit('handleCurrentChange', {val:val})
