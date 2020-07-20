@@ -4,7 +4,10 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.trName" placeholder="名称"></el-input>
+          <el-input v-model="filters.name" placeholder="名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.com" placeholder="材料来源"></el-input>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
@@ -13,8 +16,8 @@
     </div>
     <!--表格内容栏-->
     <kf-y-table :height="700" permsEdit="sys:dict:edit" permsDelete="sys:dict:delete"
-              :data="pageResult" :columns="columns"
-              @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
+                :data="pageResult" :columns="columns"
+                @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut"@handleEdit="handleEdit"  @handleDelete="handleDelete">
     </kf-y-table>
     <!--新增编辑界面-->
     <!-- 出库弹出界面   -->
@@ -55,154 +58,155 @@
   import { format } from "@/utils/datetime"
   import KfTable from "../Core/KfTable";
   import KfYTable from "../Core/KfYTable";
-    export default {
-        components:{
-            KfYTable,
-            KtButton
+  export default {
+    components:{
+      KfYTable,
+      KtButton
+    },
+    data() {
+      return {
+        size: 'small',
+        filters: {
+          name: '',
+          com: ''
         },
-        data() {
-            return {
-                size: 'small',
-                filters: {
-                    trName: ''
-                },
-                columns: [
-                    {prop:"id", label:"ID", minWidth:50},
-                    {prop:"name", label:"名称", minWidth:100},
-                    {prop:"number", label:"数量", minWidth:100},
-                    {prop:"size", label:"尺寸", minWidth:80},
-                    {prop:"price", label:"价格", minWidth:80},
-                    {prop:"state", label:"对账状态", minWidth:120},
-                    // {prop:"outNumber", label:"出库数量", minWidth:120},
-                    // {prop:"intNumber", label:"入库数量", minWidth:120},
-                    // {prop:"type", label:"预警状态", minWidth:120},
-                    {prop:"typeNumber", label:"预警数量", minWidth:120},
-                    {prop:"invoice", label:"发票信息", minWidth:120},
-                    {prop:"remarks", label:"备注", minWidth:120},
-                    {prop:"createBy", label:"创建人", minWidth:100},
-                    {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
-                    // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
-                    // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
-                ],
-                pageRequest: { pageNum: 1, pageSize: 200 },
-                pageResult: {},
+        columns: [
+          {prop:"id", label:"ID", minWidth:50},
+          {prop:"name", label:"名称", minWidth:100},
+          {prop:"number", label:"数量", minWidth:100},
+          {prop:"size", label:"尺寸", minWidth:80},
+          {prop:"price", label:"价格", minWidth:80},
+          {prop:"state", label:"对账状态", minWidth:120},
+          // {prop:"outNumber", label:"出库数量", minWidth:120},
+          // {prop:"intNumber", label:"入库数量", minWidth:120},
+          // {prop:"type", label:"预警状态", minWidth:120},
+          {prop:"typeNumber", label:"预警数量", minWidth:120},
+          {prop:"invoice", label:"发票信息", minWidth:120},
+          {prop:"remarks", label:"备注", minWidth:120},
+          {prop:"createBy", label:"创建人", minWidth:100},
+          {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
+          // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
+          // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
+        ],
+        pageRequest: { pageNum: 1, pageSize: 200 },
+        pageResult: {},
 
-                operation: false, // true:新增, false:编辑
-                operationStock: false,//true入库，false出库
-                editDialogVisible: false, // 新增编辑界面是否显示
-                editDialogVisibleIn:false,//入库界面是否显示
-                editDialogVisibleOut:false,//出库显示界面是否显示
-                editLoading: false,
-                dataFormRules: {
-                    trName: [
-                        { required: true, message: '请输入名称', trigger: 'blur' }
-                    ]
-                },
-                dataFrom1:{
-                    price:''
-                },
-                // 新增编辑界面数据
-                dataForm: {
-                    id: 0,
-                    name: '',
-                    number: '',
-                    size: '',
-                    price: '',
-                    outNumber: 0,
-                    intNumber: 0,
-                    type: 0,
-                    typeNumber: '',
-                    state: '',
-                    remarks: '',
-                    invoice:''
-
-                }
-            }
+        operation: false, // true:新增, false:编辑
+        operationStock: false,//true入库，false出库
+        editDialogVisible: false, // 新增编辑界面是否显示
+        editDialogVisibleIn:false,//入库界面是否显示
+        editDialogVisibleOut:false,//出库显示界面是否显示
+        editLoading: false,
+        dataFormRules: {
+          name: [
+            { required: true, message: '请输入名称', trigger: 'blur' }
+          ]
         },
-        methods: {
-            // 获取分页数据
-            findPage: function (data) {
-                if(data !== null) {
-                    this.pageRequest = data.pageRequest
-                }
-                this.pageRequest.columnFilters = {trName: {name:'trName', value:this.filters.trName}}
-                this.$api.material.findPageAb(this.pageRequest).then((res) => {
-                    this.pageResult = res.data
-                }).then(data!=null?data.callback:'')
-            },
-            // 批量删除
-            handleDelete: function (data) {
-                this.$api.dict.batchDelete(data.params).then(data!=null?data.callback:'')
-            },
-            // 显示新增界面
-            handleAdd: function () {
-                this.editDialogVisible = true
-                this.operation = true
-                this.dataForm = {
-                    id: 0,
-                    name: '',
-                    number: '',
-                    size: '',
-                    price: '',
-                    outNumber: 0,
-                    intNumber: 0,
-                    type: '',
-                    typeNumber: '',
-                    state: '',
-                    remarks: '',
-                    invoice:''
-                }
-            },
-            //入库显示界面
-            handleEditIt:function(params){
-                this.editDialogVisibleIn = true
-                this.operationStock = true
-                this.dataForm = Object.assign({},params.row)
-            },
-            //出库
-            handleEditOut:function(params){
-                this.editDialogVisibleOut =true
-                this.operationStock = false
-                this.dataForm = Object.assign({}, params.row)
-
-            },
-            // 显示编辑界面
-            handleEdit: function (params) {
-                this.editDialogVisible = true
-                this.operation = false
-                this.dataForm = Object.assign({}, params.row)
-            },
-            // 编辑
-            submitForm: function () {
-                this.$refs.dataForm.validate((valid) => {
-                    if (valid) {
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                            this.editLoading = true
-                            let params = Object.assign({}, this.dataForm)
-                            this.$api.material.save(params).then((res) => {
-                                if(res.code == 200) {
-                                    this.$message({ message: '操作成功', type: 'success' })
-                                } else {
-                                    this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                                }
-                                this.editLoading = false
-                                this.$refs['dataForm'].resetFields()
-                                this.editDialogVisible = false
-                                this.editDialogVisibleIn=false
-                                this.editDialogVisibleOut = false
-                                this.findPage(null)
-                            })
-                        })
-                    }
-                })
-            },
-            // 时间格式化
-            dateFormat: function (row, column, cellValue, index){
-                return format(row[column.property])
-            }
+        dataFrom1:{
+          price:''
         },
-        name: "StockManage"
-    }
+        // 新增编辑界面数据
+        dataForm: {
+          id: 0,
+          name: '',
+          number: '',
+          size: '',
+          price: '',
+          outNumber: 0,
+          intNumber: 0,
+          type: 0,
+          typeNumber: '',
+          state: '',
+          remarks: '',
+          invoice:''
+
+        }
+      }
+    },
+    methods: {
+      // 获取分页数据
+      findPage: function (data) {
+        if(data !== null) {
+          this.pageRequest = data.pageRequest
+        }
+        this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},com: {name:'com', value:this.filters.com}}
+        this.$api.material.findPageAb(this.pageRequest).then((res) => {
+          this.pageResult = res.data
+        }).then(data!=null?data.callback:'')
+      },
+      // 批量删除
+      handleDelete: function (data) {
+        this.$api.dict.batchDelete(data.params).then(data!=null?data.callback:'')
+      },
+      // 显示新增界面
+      handleAdd: function () {
+        this.editDialogVisible = true
+        this.operation = true
+        this.dataForm = {
+          id: 0,
+          name: '',
+          number: '',
+          size: '',
+          price: '',
+          outNumber: 0,
+          intNumber: 0,
+          type: '',
+          typeNumber: '',
+          state: '',
+          remarks: '',
+          invoice:''
+        }
+      },
+      //入库显示界面
+      handleEditIt:function(params){
+        this.editDialogVisibleIn = true
+        this.operationStock = true
+        this.dataForm = Object.assign({},params.row)
+      },
+      //出库
+      handleEditOut:function(params){
+        this.editDialogVisibleOut =true
+        this.operationStock = false
+        this.dataForm = Object.assign({}, params.row)
+
+      },
+      // 显示编辑界面
+      handleEdit: function (params) {
+        this.editDialogVisible = true
+        this.operation = false
+        this.dataForm = Object.assign({}, params.row)
+      },
+      // 编辑
+      submitForm: function () {
+        this.$refs.dataForm.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.editLoading = true
+              let params = Object.assign({}, this.dataForm)
+              this.$api.material.save(params).then((res) => {
+                if(res.code == 200) {
+                  this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.editLoading = false
+                this.$refs['dataForm'].resetFields()
+                this.editDialogVisible = false
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+                this.findPage(null)
+              })
+            })
+          }
+        })
+      },
+      // 时间格式化
+      dateFormat: function (row, column, cellValue, index){
+        return format(row[column.property])
+      }
+    },
+    name: "StockManage"
+  }
 </script>
 
 <style scoped>

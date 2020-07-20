@@ -10,6 +10,9 @@
           <el-input v-model="filters.mName" placeholder="模具名称"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-input v-model="filters.com" placeholder="材料来源"></el-input>
+        </el-form-item>
+        <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dict:view" type="primary" @click="findPage(null)"/>
         </el-form-item>
         <el-form-item>
@@ -482,7 +485,8 @@
               restaurants: [],
                 filters: {
                     name: '',
-                    mName:''
+                    mName:'',
+                    com:''
                 },
               // 新增编辑界面数据
               dataFormInt: {
@@ -664,7 +668,8 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName:{name:'mName',value:this.filters.mName}}
+                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName:{name:'mName',value:this.filters.mName},
+                  com:{name:'com',value:this.filters.com}}
                 this.$api.material.findPage(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
