@@ -12,6 +12,7 @@
       </el-table-column>
       <el-table-column :label="$t('action.operation')" width="185" fixed="right" v-if="showOperation" header-align="center" align="center">
         <template slot-scope="scope">
+          <el-button  size="mini"  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button  size="mini"  @click="kaipiao(scope.$index, scope.row)">开票</el-button>
         </template>
       </el-table-column>

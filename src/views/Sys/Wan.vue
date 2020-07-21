@@ -296,14 +296,19 @@
 				}, {
 					value: '其他',
 					label: '其他'
-				},
-          {
+				}, {
             value: '派工出库',
             label: '派工出库'
-          }, {
+        }, {
             value: '材料运费',
             label: '材料运费'
-          }],
+        }, {
+				    value: '拉回返修',
+            label: '拉回返修'
+        }, {
+				    value: '返修送回',
+            label: '返修送回'
+        }],
 				fare: {
 					id: '',
 					fId: '',
@@ -434,6 +439,8 @@
 					this.fare.logis = row.logis
 					this.fare.price = row.price
 					this.fare.delvDate = row.delvDate
+          this.fare.remarks = row.remarks
+          this.fare.material = row.material
 					let params = Object.assign({}, this.fare)
 					this.$api.order.saveFare(params).then((res) => {
 						if (res.code == 200) {

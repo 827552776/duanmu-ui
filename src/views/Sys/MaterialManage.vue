@@ -39,13 +39,13 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="模具名称" prop="label">
-             <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
-             remote :remote-method="remoteMethod" >
-                   	<el-option v-for="item in options4"  :key="item.value"
-               :label="item.label"
-               :value="item.value">
-                   	</el-option>
-                   </el-select>
+              <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
+                         remote :remote-method="remoteMethod" >
+                <el-option v-for="item in options4"  :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -215,13 +215,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="模具名称" prop="type">
-                   <el-select v-model="dataFormInt.mName" placeholder="请输入关键字"   filterable
-                  remote :remote-method="remoteMethod" >
-                        	<el-option v-for="item in options4"  :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                        	</el-option>
-                        </el-select>
+                  <el-select v-model="dataFormInt.mName" placeholder="请输入关键字"   filterable
+                             remote :remote-method="remoteMethod" >
+                    <el-option v-for="item in options4"  :key="item.value"
+                               :label="item.label"
+                               :value="item.value">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -280,8 +280,8 @@
         </el-form-item>
       </el-form>
       <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="自用出库表单" name="first">
-            <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
+        <el-tab-pane label="自用出库表单" name="first">
+          <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
             <el-row>
               <el-col :span="5">
                 <el-form-item label="材料名称" prop="label">
@@ -301,12 +301,12 @@
               <el-col :span="6">
                 <el-form-item label="模具名称" prop="type">
                   <el-select v-model="dataFormOut.mName" placeholder="请输入关键字"   filterable
-                 remote :remote-method="remoteMethod">
-                       	<el-option v-for="item in options4"  :key="item.value"
-                   :label="item.label"
-                   :value="item.value">
-                       	</el-option>
-                       </el-select>
+                             remote :remote-method="remoteMethod">
+                    <el-option v-for="item in options4"  :key="item.value"
+                               :label="item.label"
+                               :value="item.value">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -353,114 +353,114 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            </el-form>
-              <el-button :size="size" @click.native="editDialogVisibleOut = false">{{$t('action.cancel')}}</el-button>
-              <el-button :size="size" type="primary" @click.native="submitForm2" :loading="editLoading">{{$t('action.submit')}}</el-button>
-          </el-tab-pane>
-          <el-tab-pane label="外协出库表单" name="second">
-            <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
-              <el-row>
-                <el-col :span="5">
-                  <el-form-item label="材料名称" prop="label">
-                    <el-input  v-model="dataFormOut.name " auto-complete="off" disabled="false"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="材质" prop="label">
-                    <el-input  v-model="dataFormOut.texture " auto-complete="off" disabled="false"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="单位" prop="value">
-                    <el-input v-model="dataFormOut.company " auto-complete="off" disabled="false"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                  <el-form-item label="模具名称" prop="type">
-                     <el-select v-model="dataFormOut.mName" placeholder="请输入关键字"   filterable
-                    remote :remote-method="remoteMethod" >
-                          	<el-option v-for="item in options4"  :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                          	</el-option>
-                          </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="5">
-                  <el-form-item label="派工号" prop="label">
-                    <el-input  v-model="dataFormOut.dispatch " auto-complete="off" ></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="批号" prop="label">
-                    <el-input  v-model="dataFormOut.batch " auto-complete="off" ></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="外协数量" prop="value">
-                    <el-input v-model="dataFormOut.wxNumber " auto-complete="off" disabled="false"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                  <el-form-item label="外协时间" prop="sort">
-                    <el-date-picker
-                      v-model="dataFormOut.wxTime"
-                      type="date"
-                      placeholder="选择日期">
-                    </el-date-picker>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="5">
-                  <el-form-item label="外协单位" prop="label">
-                    <el-input  v-model="dataFormOut.waixie " auto-complete="off" ></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="外协入库时间" prop="sort">
-                    <el-date-picker
-                      v-model="dataForm.wxInt"
-                      type="date"
-                      placeholder="选择日期"
-                      disabled="false" >
-                    </el-date-picker>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="外协单价" prop="value">
-                    <el-input v-model="dataFormOut.wxPrice " auto-complete="off"/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                  <el-form-item label="备注" prop="type">
-                    <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="5">
-                  <el-form-item label="尺寸" prop="value">
-                    <el-input v-model="dataFormOut.size " auto-complete="off" disabled="false"/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="外协总价" prop="value">
-                    <el-input v-model="dataFormOut.sumPrice " auto-complete="off" disabled="false"/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item label="来源" prop="value">
-                    <el-input v-model="dataFormOut.com " auto-complete="off" disabled="false"/>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-            <el-button :size="size" @click.native="editDialogVisibleOut = false">{{$t('action.cancel')}}</el-button>
-            <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading">{{$t('action.submit')}}</el-button>
-          </el-tab-pane>
+          </el-form>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitForm2" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        </el-tab-pane>
+        <el-tab-pane label="外协出库表单" name="second">
+          <el-form :model="dataFormOut" label-width="80px" :rules="dataFormRules" ref="dataFormOut" :size="size">
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="材料名称" prop="label">
+                  <el-input  v-model="dataFormOut.name " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="材质" prop="label">
+                  <el-input  v-model="dataFormOut.texture " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="单位" prop="value">
+                  <el-input v-model="dataFormOut.company " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="模具名称" prop="type">
+                  <el-select v-model="dataFormOut.mName" placeholder="请输入关键字"   filterable
+                             remote :remote-method="remoteMethod" >
+                    <el-option v-for="item in options4"  :key="item.value"
+                               :label="item.label"
+                               :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="派工号" prop="label">
+                  <el-input  v-model="dataFormOut.dispatch " auto-complete="off" ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="批号" prop="label">
+                  <el-input  v-model="dataFormOut.batch " auto-complete="off" ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="外协数量" prop="value">
+                  <el-input v-model="dataFormOut.wxNumber " auto-complete="off" disabled="false"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="外协时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormOut.wxTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="外协单位" prop="label">
+                  <el-input  v-model="dataFormOut.waixie " auto-complete="off" ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="外协入库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataForm.wxInt"
+                    type="date"
+                    placeholder="选择日期"
+                    disabled="false" >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="外协单价" prop="value">
+                  <el-input v-model="dataFormOut.wxPrice " auto-complete="off"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="备注" prop="type">
+                  <el-input v-model="dataFormOut.remarks" auto-complete="off" type="textarea"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="尺寸" prop="value">
+                  <el-input v-model="dataFormOut.size " auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="外协总价" prop="value">
+                  <el-input v-model="dataFormOut.sumPrice " auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="来源" prop="value">
+                  <el-input v-model="dataFormOut.com " auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" type="primary" @click.native="submitForm3" :loading="editLoading">{{$t('action.submit')}}</el-button>
+        </el-tab-pane>
 
       </el-tabs>
 
@@ -469,512 +469,512 @@
 </template>
 
 <script>
-    import PopupTreeInput from "@/components/PopupTreeInput"
+  import PopupTreeInput from "@/components/PopupTreeInput"
   import KtButton from "../Core/KtButton";
   import { format } from "@/utils/datetime";
   import KfTable from "../Core/KfTable";
-    export default {
-        components:{
-            KfTable,
-            KtButton,
-            PopupTreeInput
+  export default {
+    components:{
+      KfTable,
+      KtButton,
+      PopupTreeInput
+    },
+    data() {
+      return {
+        size: 'small',
+        restaurants: [],
+        filters: {
+          name: '',
+          mName:'',
+          com:''
         },
-        data() {
-            return {
-                size: 'small',
-              restaurants: [],
-                filters: {
-                    name: '',
-                    mName:'',
-                    com:''
-                },
-              // 新增编辑界面数据
-              dataFormInt: {
-                id: 0,
-                company:'',
-                size:'',
-                texture:'',
-                mName:'',
-                com:'',
-                name: '',
-                intTime: '',
-                intNumber: '',
-                number: '',
-                trTime: '',
-                waixie: '',
-                wxTime:'',
-                type:2,
-                wxInt:'',
-                wxNumber:'',
-                wxPrice:'',
-                sumPrice:'',
-                remarks:''
-              },
-							loading:false,
-							selectInvTend: [],
-							list:[],
-              list1:'',
-							options4: [],
-              dataFormOut: {
-                id: 0,
-                name: '',
-                company:'',
-                size:'',
-                texture:'',
-                dispatch:'',
-                batch:'',
-                mName:'',
-                intTime: '',
-                com:'',
-                intNumber: '',
-                number: '',
-                trTime: '',
-                waixie: '',
-                wxTime:'',
-                type:0,
-                wxInt:'',
-                wxNumber:'',
-                wxPrice:'',
-                sumPrice:'',
-                remarks:''
-              },
-                columns: [
-                    {prop:"id", label:"ID", minWidth:50},
-                  {prop:"com", label:"材料来源", minWidth:100},
-                    {prop:"mName", label:"模具名称", minWidth:100},
-                    {prop:"name", label:"材料名称", minWidth:100},
-                    {prop:"number", label:"数量", minWidth:100},
-                  {prop:"texture", label:"材质", minWidth:100},
-                    {prop:"company", label:"单位", minWidth:100},
-                    {prop:"size", label:"尺寸", minWidth:200},
-                    {prop:"price", label:"单价", minWidth:80},
-                    {prop:"sumPrice", label:"总价", minWidth:100},
-                    {prop:"state", label:"对账状态", minWidth:120},
-                    // {prop:"outNumber", label:"出库数量", minWidth:120},
-                    // {prop:"intNumber", label:"入库数量", minWidth:120},
-                    // {prop:"type", label:"预警状态", minWidth:120},
-                    {prop:"typeNumber", label:"预警数量", minWidth:120},
-                    {prop:"invoice", label:"发票信息", minWidth:120},
-                    {prop:"remarks", label:"备注", minWidth:120},
-                    {prop:"createBy", label:"创建人", minWidth:100},
-                    {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
-                    // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
-                    // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
-                ],
-                pageRequest: { pageNum: 1, pageSize: 200 },
-                pageResult: {},
-
-                operation: false, // true:新增, false:编辑
-                operationStock: false,//true入库，false出库
-                editDialogVisible: false, // 新增编辑界面是否显示
-                editDialogVisibleIn:false,//入库界面是否显示
-                editDialogVisibleOut:false,//出库显示界面是否显示
-                editLoading: false,
-                dataFormRules: {
-                    trName: [
-                        { required: true, message: '请输入名称', trigger: 'blur' }
-                    ]
-                },
-                // 新增编辑界面数据
-                dataForm: {
-                    id: 0,
-                    name: '',
-                    company:'',
-                    texture:'',
-                    mName:'',
-                    number: '',
-                  com:'',
-                    size: '',
-                    price: '',
-                  sumPrice:'',
-                    outNumber: 0,
-                    intNumber: 0,
-                    type: 0,
-                    typeNumber: '',
-                    state: '',
-                    remarks: '',
-                    invoice:''
-
-                }
-            }
+        // 新增编辑界面数据
+        dataFormInt: {
+          id: 0,
+          company:'',
+          size:'',
+          texture:'',
+          mName:'',
+          com:'',
+          name: '',
+          intTime: '',
+          intNumber: '',
+          number: '',
+          trTime: '',
+          waixie: '',
+          wxTime:'',
+          type:2,
+          wxInt:'',
+          wxNumber:'',
+          wxPrice:'',
+          sumPrice:'',
+          remarks:''
         },
-        methods: {
-					remoteMethod(query) {
-					    if (query !== '') {
-					      this.loading = true;
-					      setTimeout(() => {
-					        this.loading = false;
-					        this.options4 = this.list.filter(item => {
-					          return item.label.toLowerCase()
-					            .indexOf(query.toLowerCase()) > -1;
-					        });
-					      }, 200);
-					    } else {
-					      this.options4 = [];
-					    }
-					},
-							getSelectInvTend(){
-								this.$api.order.queryMoudles().then((res) => {
-									if (res.code == 200) {
-										this.selectInvTend = res.data
-									} else {
-										this.$message({
-											type: 'error',
-											message: '查询失败!' + response.data.msg
-										});
-									}
-								})
-							},
-            // //导出Excel
-            // exportExcel:function (params){
-            //     // this.params = params
-            //     this.$api.material.exportExcel(params)
-            //         .then((res) =>{
-            //         if(res.code == 200){
-            //             this.$message({ message: '导出成功', type: 'success' })
-            //         }else{
-            //             this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-            //         }
-            //     })
-            // },
-          handleClick(tab, event) {
-            console.log(tab, event);
-          },
-          querySearch(queryString, cb) {
-            let restaurants = this.restaurants;
-            let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-            // 调用 callback 返回建议列表的数据
-            cb(results);
-          },
-          createFilter(queryString) {
-            return (restaurant) => {
-              return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-            };
-          },
-          loadAll() {
-            return [
-              { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" }
-            ];
-          },
-          handleSelect(item) {
-            console.log(item);
-          },
-          //模糊查询输入的材料名称
-          findAll:function() {
-            return this.$api.materialZi.findAll()
-          },
-            // 获取分页数据
-            findPage: function (data) {
-                if(data !== null) {
-                    this.pageRequest = data.pageRequest
-                }
-                this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName:{name:'mName',value:this.filters.mName},
-                  com:{name:'com',value:this.filters.com}}
-                this.$api.material.findPage(this.pageRequest).then((res) => {
-                    this.pageResult = res.data
-                }).then(data!=null?data.callback:'')
-            },
-            // 批量删除
-            handleDelete: function (data) {
-                this.$api.material.batchDelete(data.params).then(data!=null?data.callback:'')
-            },
-            // 显示新增界面
-            handleAdd: function () {
-                this.editDialogVisible = true
-								this.list = this.selectInvTend.map(item => {
-								  return { value: item, label: item };
-								});
-              //   console.log(this.selectInvTend[0])
-              // console.log(this.selectInvTend[1])
-                this.operation = true
-                this.dataForm = {
-                    id: 0,
-                    name: '',
-                    mName:'',
-                    company:'',
-                    texture:'',
-                    number: '',
-                  com:'',
-                    size: '',
-                    price: '',
-                  sumPrice:'',
-                    outNumber: 0,
-                    intNumber: 0,
-                    type: '',
-                    typeNumber: '',
-                    state: '',
-                    remarks: '',
-                    invoice:''
-                }
-                this.dataFormInt={
-                  id: 0,
-                  mName:'',
-                  company:'',
-                  texture:'',
-                  name: '',
-                  com:'',
-                  intTime: '',
-                  intNumber: '',
-                  size:'',
-                  number: '',
-                  trTime: '',
-                  waixie: '',
-                  wxTime:'',
-                  type:2,
-                  wxInt:'',
-                  wxNumber:'',
-                  wxPrice:'',
-                  sumPrice:'',
-                  remarks:''
-                }
-            },
-            //入库显示界面
-            handleEditIt:function(params){
-                this.editDialogVisibleIn = true
-                this.operationStock = true
-                this.dataForm = Object.assign({},params.row)
-            },
-            //出库
-            handleEditOut:function(params){
-                this.editDialogVisibleOut =true
-								this.list = this.selectInvTend.map(item => {
-								  return { value: item, label: item };
-								});
-                this.operationStock = false
-                this.dataForm = Object.assign({}, params.row)
-              this.dataFormOut =   {
-                  id: 0,
-                  name: '',
-                  company:'',
-                  texture:'',
-                  dispatch:'',
-                  batch:'',
-                  mName:'',
-                  intTime: '',
-                  intNumber: '',
-                size:'',
-                  number: '',
-                  trTime: '',
-                  waixie: '',
-                  wxTime:'',
-                  type:0,
-                  wxInt:'',
-                  wxNumber:'',
-                  wxPrice:'',
-                sumPrice:'',
-                  remarks:''
-              }
-
-            },
-            // 显示编辑界面
-            handleEdit: function (params) {
-                this.editDialogVisible = true
-                this.operation = false
-                this.dataForm = Object.assign({}, params.row)
-            },
-            // 编辑
-            submitForm: function () {
-            this.$refs.dataForm.validate((valid) => {
-              if (valid) {
-                this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                  this.editLoading = true
-                  this.dataForm.sumPrice = this.dataForm.number * this.dataForm.price
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.material.save(params).then((res) => {
-                    if(res.code == 200) {
-                      this.$message({ message: '操作成功', type: 'success' })
-                    } else {
-                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                    }
-                    this.editLoading = false
-                    this.$refs['dataForm'].resetFields()
-                    this.editDialogVisible = false
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                    this.findPage(null)
-                  })
-                })
-              }
-            })
-          },
-          //入库单点击事件
-          submitForm1: function () {
-            this.$refs.dataFormInt.validate((valid) => {
-              if (valid) {
-                this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                  this.editLoading = true
-                  this.dataFormInt.name = this.dataForm.name
-                  this.dataFormInt.texture = this.dataForm.texture
-                  this.dataFormInt.company = this.dataForm.company
-                  this.dataFormInt.mName = this.dataForm.mName
-                  this.dataFormInt.intNumber = this.dataForm.number
-                  this.dataFormInt.wxPrice = this.dataForm.price
-                  this.dataFormInt.size = this.dataForm.size
-                  this.dataFormInt.com = this.dataForm.com
-                  this.dataForm.sumPrice = this.dataForm.number * this.dataForm.price
-                  let params1 = Object.assign({}, this.dataFormInt)
-                  // let params1 = Object.assign({},this.dataFormInt)
-                  // this.$api.accessMaterial.save(params1)
-                  this.$api.accessMaterial.save(params1).then((res) => {
-                    if(res.code == 200) {
-
-                      this.$message({ message: '操作成功', type: 'success' })
-                    } else {
-                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                    }
-                    this.editLoading = false
-                    this.$refs['dataFormInt'].resetFields()
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                  })
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.material.save(params).then((res) => {
-                    this.editLoading = false
-                    this.$refs['dataForm'].resetFields()
-                    this.editDialogVisible = false
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                    this.findPage(null)
-                  })
-                })
-              }
-            })
-          },
-          //入库单点击事件
-          submitForm4: function () {
-            this.$refs.dataFormInt.validate((valid) => {
-              if (valid) {
-                this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                  this.editLoading = true
-                  this.dataFormInt.name = this.dataForm.name
-                  this.dataFormInt.texture = this.dataForm.texture
-                  this.dataFormInt.company = this.dataForm.company
-                  this.dataFormInt.mName = this.dataForm.mName
-                  this.dataFormInt.intNumber = this.dataForm.intNumber
-                  this.dataFormInt.wxPrice = this.dataForm.price
-                  this.dataFormInt.com = this.dataForm.com
-                  this.dataFormInt.size = this.dataForm.size
-                  let params1 = Object.assign({}, this.dataFormInt)
-                  // let params1 = Object.assign({},this.dataFormInt)
-                  // this.$api.accessMaterial.save(params1)
-                  this.$api.accessMaterial.save(params1).then((res) => {
-                    if(res.code == 200) {
-
-                      this.$message({ message: '操作成功', type: 'success' })
-                    } else {
-                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                    }
-                    this.editLoading = false
-                    this.$refs['dataFormInt'].resetFields()
-                    // this.editDialogVisibleIn=false
-                    // this.editDialogVisibleOut = false
-                  })
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.material.save(params).then((res) => {
-                    this.editLoading = false
-                    this.$refs['dataForm'].resetFields()
-                    this.editDialogVisible = false
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                    this.findPage(null)
-                  })
-                })
-              }
-            })
-          },
-          //自用出库单点击事件
-          submitForm2: function () {
-            this.$refs.dataFormOut.validate((valid) => {
-              if (valid) {
-                this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                  this.editLoading = true
-                  this.dataFormOut.name = this.dataForm.name
-                  this.dataFormOut.texture = this.dataForm.texture
-                  this.dataFormOut.company = this.dataForm.company
-                  this.dataFormOut.mName = this.dataForm.mName
-                  this.dataFormOut.number = this.dataForm.outNumber
-                  this.dataFormOut.size = this.dataForm.size
-                  this.dataFormOut.com = this.dataForm.com
-                  this.dataFormOut.type = 0
-                  let params1 = Object.assign({}, this.dataFormOut)
-                  // let params1 = Object.assign({},this.dataFormInt)
-                  // this.$api.accessMaterial.save(params1)
-                  this.$api.accessMaterial.save(params1).then((res) => {
-                    if(res.code == 200) {
-
-                      this.$message({ message: '操作成功', type: 'success' })
-                    } else {
-                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                    }
-                    this.editLoading = false
-                    this.$refs['dataFormOut'].resetFields()
-                  })
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.material.save(params).then((res) => {
-                    this.editLoading = false
-                    this.$refs['dataForm'].resetFields()
-                    this.editDialogVisible = false
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                    this.findPage(null)
-                  })
-                })
-              }
-            })
-          },
-          //外协出库单点击事件
-          submitForm3: function () {
-            this.$refs.dataFormOut.validate((valid) => {
-              if (valid) {
-                this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                  this.editLoading = true
-                  this.dataFormOut.name = this.dataForm.name
-                  this.dataFormOut.texture = this.dataForm.texture
-                  this.dataFormOut.company = this.dataForm.company
-                  this.dataFormOut.mName = this.dataForm.mName
-                  this.dataFormOut.wxNumber = this.dataForm.outNumber
-                  this.dataFormOut.size = this.dataForm.size
-                  this.dataFormOut.com = this.dataForm.com
-                  this.dataFormOut.sumPrice = this.dataFormOut.wxPrice * this.dataFormOut.wxNumber
-                  this.dataFormOut.type = 1
-                  let params1 = Object.assign({}, this.dataFormOut)
-                  // let params1 = Object.assign({},this.dataFormInt)
-                  // this.$api.accessMaterial.save(params1)
-                  this.$api.accessMaterial.save(params1).then((res) => {
-                    if(res.code == 200) {
-
-                      this.$message({ message: '操作成功', type: 'success' })
-                    } else {
-                      this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                    }
-                    this.editLoading = false
-                    this.$refs['dataFormOut'].resetFields()
-                  })
-                  let params = Object.assign({}, this.dataForm)
-                  this.$api.material.save(params).then((res) => {
-                    this.editLoading = false
-                    this.$refs['dataForm'].resetFields()
-                    this.editDialogVisible = false
-                    this.editDialogVisibleIn=false
-                    this.editDialogVisibleOut = false
-                    this.findPage(null)
-                  })
-                })
-              }
-            })
-          },
-
-            // 时间格式化
-            dateFormat: function (row, column, cellValue, index){
-                return format(row[column.property])
-            }
+        loading:false,
+        selectInvTend: [],
+        list:[],
+        list1:'',
+        options4: [],
+        dataFormOut: {
+          id: 0,
+          name: '',
+          company:'',
+          size:'',
+          texture:'',
+          dispatch:'',
+          batch:'',
+          mName:'',
+          intTime: '',
+          com:'',
+          intNumber: '',
+          number: '',
+          trTime: '',
+          waixie: '',
+          wxTime:'',
+          type:0,
+          wxInt:'',
+          wxNumber:'',
+          wxPrice:'',
+          sumPrice:'',
+          remarks:''
         },
-      mounted() {
-				this.getSelectInvTend()
-        this.restaurants = this.loadAll();
+        columns: [
+          {prop:"id", label:"ID", minWidth:50},
+          {prop:"com", label:"材料来源", minWidth:100},
+          {prop:"mName", label:"模具名称", minWidth:100},
+          {prop:"name", label:"材料名称", minWidth:100},
+          {prop:"number", label:"数量", minWidth:100},
+          {prop:"texture", label:"材质", minWidth:100},
+          {prop:"company", label:"单位", minWidth:100},
+          {prop:"size", label:"尺寸", minWidth:200},
+          {prop:"price", label:"单价", minWidth:80},
+          {prop:"sumPrice", label:"总价", minWidth:100},
+          {prop:"state", label:"对账状态", minWidth:120},
+          // {prop:"outNumber", label:"出库数量", minWidth:120},
+          // {prop:"intNumber", label:"入库数量", minWidth:120},
+          // {prop:"type", label:"预警状态", minWidth:120},
+          {prop:"typeNumber", label:"预警数量", minWidth:120},
+          {prop:"invoice", label:"发票信息", minWidth:120},
+          {prop:"remarks", label:"备注", minWidth:120},
+          {prop:"createBy", label:"创建人", minWidth:100},
+          {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
+          // {prop:"lastUpdateBy", label:"更新人", minWidth:100},
+          // {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
+        ],
+        pageRequest: { pageNum: 1, pageSize: 200 },
+        pageResult: {},
+
+        operation: false, // true:新增, false:编辑
+        operationStock: false,//true入库，false出库
+        editDialogVisible: false, // 新增编辑界面是否显示
+        editDialogVisibleIn:false,//入库界面是否显示
+        editDialogVisibleOut:false,//出库显示界面是否显示
+        editLoading: false,
+        dataFormRules: {
+          trName: [
+            { required: true, message: '请输入名称', trigger: 'blur' }
+          ]
+        },
+        // 新增编辑界面数据
+        dataForm: {
+          id: 0,
+          name: '',
+          company:'',
+          texture:'',
+          mName:'',
+          number: '',
+          com:'',
+          size: '',
+          price: '',
+          sumPrice:'',
+          outNumber: 0,
+          intNumber: 0,
+          type: 0,
+          typeNumber: '',
+          state: '',
+          remarks: '',
+          invoice:''
+
+        }
+      }
+    },
+    methods: {
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.options4 = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.options4 = [];
+        }
       },
-        name: "StockManage"
-    }
+      getSelectInvTend(){
+        this.$api.order.queryMoudles().then((res) => {
+          if (res.code == 200) {
+            this.selectInvTend = res.data
+          } else {
+            this.$message({
+              type: 'error',
+              message: '查询失败!' + response.data.msg
+            });
+          }
+        })
+      },
+      // //导出Excel
+      // exportExcel:function (params){
+      //     // this.params = params
+      //     this.$api.material.exportExcel(params)
+      //         .then((res) =>{
+      //         if(res.code == 200){
+      //             this.$message({ message: '导出成功', type: 'success' })
+      //         }else{
+      //             this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+      //         }
+      //     })
+      // },
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
+      querySearch(queryString, cb) {
+        let restaurants = this.restaurants;
+        let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (restaurant) => {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+      loadAll() {
+        return [
+          { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" }
+        ];
+      },
+      handleSelect(item) {
+        console.log(item);
+      },
+      //模糊查询输入的材料名称
+      findAll:function() {
+        return this.$api.materialZi.findAll()
+      },
+      // 获取分页数据
+      findPage: function (data) {
+        if(data !== null) {
+          this.pageRequest = data.pageRequest
+        }
+        this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name},mName:{name:'mName',value:this.filters.mName},
+          com:{name:'com',value:this.filters.com}}
+        this.$api.material.findPage(this.pageRequest).then((res) => {
+          this.pageResult = res.data
+        }).then(data!=null?data.callback:'')
+      },
+      // 批量删除
+      handleDelete: function (data) {
+        this.$api.material.batchDelete(data.params).then(data!=null?data.callback:'')
+      },
+      // 显示新增界面
+      handleAdd: function () {
+        this.editDialogVisible = true
+        this.list = this.selectInvTend.map(item => {
+          return { value: item, label: item };
+        });
+        //   console.log(this.selectInvTend[0])
+        // console.log(this.selectInvTend[1])
+        this.operation = true
+        this.dataForm = {
+          id: 0,
+          name: '',
+          mName:'',
+          company:'',
+          texture:'',
+          number: '',
+          com:'',
+          size: '',
+          price: '',
+          sumPrice:'',
+          outNumber: 0,
+          intNumber: 0,
+          type: '',
+          typeNumber: '',
+          state: '',
+          remarks: '',
+          invoice:''
+        }
+        this.dataFormInt={
+          id: 0,
+          mName:'',
+          company:'',
+          texture:'',
+          name: '',
+          com:'',
+          intTime: '',
+          intNumber: '',
+          size:'',
+          number: '',
+          trTime: '',
+          waixie: '',
+          wxTime:'',
+          type:2,
+          wxInt:'',
+          wxNumber:'',
+          wxPrice:'',
+          sumPrice:'',
+          remarks:''
+        }
+      },
+      //入库显示界面
+      handleEditIt:function(params){
+        this.editDialogVisibleIn = true
+        this.operationStock = true
+        this.dataForm = Object.assign({},params.row)
+      },
+      //出库
+      handleEditOut:function(params){
+        this.editDialogVisibleOut =true
+        this.list = this.selectInvTend.map(item => {
+          return { value: item, label: item };
+        });
+        this.operationStock = false
+        this.dataForm = Object.assign({}, params.row)
+        this.dataFormOut =   {
+          id: 0,
+          name: '',
+          company:'',
+          texture:'',
+          dispatch:'',
+          batch:'',
+          mName:'',
+          intTime: '',
+          intNumber: '',
+          size:'',
+          number: '',
+          trTime: '',
+          waixie: '',
+          wxTime:'',
+          type:0,
+          wxInt:'',
+          wxNumber:'',
+          wxPrice:'',
+          sumPrice:'',
+          remarks:''
+        }
+
+      },
+      // 显示编辑界面
+      handleEdit: function (params) {
+        this.editDialogVisible = true
+        this.operation = false
+        this.dataForm = Object.assign({}, params.row)
+      },
+      // 编辑
+      submitForm: function () {
+        this.$refs.dataForm.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.editLoading = true
+              this.dataForm.sumPrice = this.dataForm.number * this.dataForm.price
+              let params = Object.assign({}, this.dataForm)
+              this.$api.material.save(params).then((res) => {
+                if(res.code == 200) {
+                  this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.editLoading = false
+                this.$refs['dataForm'].resetFields()
+                this.editDialogVisible = false
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+                this.findPage(null)
+              })
+            })
+          }
+        })
+      },
+      //入库单点击事件
+      submitForm1: function () {
+        this.$refs.dataFormInt.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.editLoading = true
+              this.dataFormInt.name = this.dataForm.name
+              this.dataFormInt.texture = this.dataForm.texture
+              this.dataFormInt.company = this.dataForm.company
+              this.dataFormInt.mName = this.dataForm.mName
+              this.dataFormInt.intNumber = this.dataForm.number
+              this.dataFormInt.wxPrice = this.dataForm.price
+              this.dataFormInt.size = this.dataForm.size
+              this.dataFormInt.com = this.dataForm.com
+              this.dataForm.sumPrice = this.dataForm.number * this.dataForm.price
+              let params1 = Object.assign({}, this.dataFormInt)
+              // let params1 = Object.assign({},this.dataFormInt)
+              // this.$api.accessMaterial.save(params1)
+              this.$api.accessMaterial.save(params1).then((res) => {
+                if(res.code == 200) {
+
+                  this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.editLoading = false
+                this.$refs['dataFormInt'].resetFields()
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+              })
+              let params = Object.assign({}, this.dataForm)
+              this.$api.material.save(params).then((res) => {
+                this.editLoading = false
+                this.$refs['dataForm'].resetFields()
+                this.editDialogVisible = false
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+                this.findPage(null)
+              })
+            })
+          }
+        })
+      },
+      //入库单点击事件
+      submitForm4: function () {
+        this.$refs.dataFormInt.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.editLoading = true
+              this.dataFormInt.name = this.dataForm.name
+              this.dataFormInt.texture = this.dataForm.texture
+              this.dataFormInt.company = this.dataForm.company
+              this.dataFormInt.mName = this.dataForm.mName
+              this.dataFormInt.intNumber = this.dataForm.intNumber
+              this.dataFormInt.wxPrice = this.dataForm.price
+              this.dataFormInt.com = this.dataForm.com
+              this.dataFormInt.size = this.dataForm.size
+              let params1 = Object.assign({}, this.dataFormInt)
+              // let params1 = Object.assign({},this.dataFormInt)
+              // this.$api.accessMaterial.save(params1)
+              this.$api.accessMaterial.save(params1).then((res) => {
+                if(res.code == 200) {
+
+                  this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.editLoading = false
+                this.$refs['dataFormInt'].resetFields()
+                // this.editDialogVisibleIn=false
+                // this.editDialogVisibleOut = false
+              })
+              let params = Object.assign({}, this.dataForm)
+              this.$api.material.save(params).then((res) => {
+                this.editLoading = false
+                this.$refs['dataForm'].resetFields()
+                this.editDialogVisible = false
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+                this.findPage(null)
+              })
+            })
+          }
+        })
+      },
+      //自用出库单点击事件
+      submitForm2: function () {
+        this.$refs.dataFormOut.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.editLoading = true
+              this.dataFormOut.name = this.dataForm.name
+              this.dataFormOut.texture = this.dataForm.texture
+              this.dataFormOut.company = this.dataForm.company
+              this.dataFormOut.mName = this.dataForm.mName
+              this.dataFormOut.number = this.dataForm.outNumber
+              this.dataFormOut.size = this.dataForm.size
+              this.dataFormOut.com = this.dataForm.com
+              this.dataFormOut.type = 0
+              let params1 = Object.assign({}, this.dataFormOut)
+              // let params1 = Object.assign({},this.dataFormInt)
+              // this.$api.accessMaterial.save(params1)
+              this.$api.accessMaterial.save(params1).then((res) => {
+                if(res.code == 200) {
+
+                  this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.editLoading = false
+                this.$refs['dataFormOut'].resetFields()
+              })
+              let params = Object.assign({}, this.dataForm)
+              this.$api.material.save(params).then((res) => {
+                this.editLoading = false
+                this.$refs['dataForm'].resetFields()
+                this.editDialogVisible = false
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+                this.findPage(null)
+              })
+            })
+          }
+        })
+      },
+      //外协出库单点击事件
+      submitForm3: function () {
+        this.$refs.dataFormOut.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.editLoading = true
+              this.dataFormOut.name = this.dataForm.name
+              this.dataFormOut.texture = this.dataForm.texture
+              this.dataFormOut.company = this.dataForm.company
+              this.dataFormOut.mName = this.dataForm.mName
+              this.dataFormOut.wxNumber = this.dataForm.outNumber
+              this.dataFormOut.size = this.dataForm.size
+              this.dataFormOut.com = this.dataForm.com
+              this.dataFormOut.sumPrice = this.dataFormOut.wxPrice * this.dataFormOut.wxNumber
+              this.dataFormOut.type = 1
+              let params1 = Object.assign({}, this.dataFormOut)
+              // let params1 = Object.assign({},this.dataFormInt)
+              // this.$api.accessMaterial.save(params1)
+              this.$api.accessMaterial.save(params1).then((res) => {
+                if(res.code == 200) {
+
+                  this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.editLoading = false
+                this.$refs['dataFormOut'].resetFields()
+              })
+              let params = Object.assign({}, this.dataForm)
+              this.$api.material.save(params).then((res) => {
+                this.editLoading = false
+                this.$refs['dataForm'].resetFields()
+                this.editDialogVisible = false
+                this.editDialogVisibleIn=false
+                this.editDialogVisibleOut = false
+                this.findPage(null)
+              })
+            })
+          }
+        })
+      },
+
+      // 时间格式化
+      dateFormat: function (row, column, cellValue, index){
+        return format(row[column.property])
+      }
+    },
+    mounted() {
+      this.getSelectInvTend()
+      this.restaurants = this.loadAll();
+    },
+    name: "StockManage"
+  }
 </script>
 
 <style scoped>
