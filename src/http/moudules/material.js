@@ -29,6 +29,14 @@ export const findPage = (data) => {
   })
 }
 // 分页查询
+export const findPageZI = (data) => {
+  return axios({
+    url: '/material/findZI',
+    method: 'post',
+    data
+  })
+}
+// 分页查询
 export const findPageAb = (data) => {
   return axios({
     url: '/material/findAb',
