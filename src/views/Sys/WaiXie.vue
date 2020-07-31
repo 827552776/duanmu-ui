@@ -148,8 +148,11 @@
                 if(data !== null) {
                     this.pageRequest = data.pageRequest
                 }
-                this.pageRequest.columnFilters = {mould: {name:'mould', value:this.filters.mould}, qianTime: {name:'qianTime', value:this.filters.qianTime},
-                  houTime: {name:'houTime', value:this.filters.houTime},name: {name:'name', value:this.filters.name}}
+                this.pageRequest.columnFilters = {
+                  mould: {name:'mould', value:this.filters.mould},
+                  name: {name:'name', value:this.filters.name},
+                  qianTime: {name:'qianTime', value:this.filters.qianTime},
+                  houTime: {name:'houTime', value:this.filters.houTime}}
                 this.$api.order.findAllw(this.pageRequest).then((res) => {
                     this.pageResult = res.data
                 }).then(data!=null?data.callback:'')
