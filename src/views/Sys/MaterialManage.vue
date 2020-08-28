@@ -593,8 +593,10 @@
           typeNumber: '',
           state: '',
           remarks: '',
-          invoice:''
-
+          invoice:'',
+          perStatus: 0,
+          outStatus: 0,
+          totalOut: ''
         }
       }
     },
@@ -704,7 +706,9 @@
           typeNumber: '',
           state: '',
           remarks: '',
-          invoice:''
+          invoice:'',
+          perStatus: 0,
+          outStatus: 0
         }
         this.dataFormInt={
           id: 0,
@@ -950,6 +954,8 @@
                 this.editLoading = false
                 this.$refs['dataFormOut'].resetFields()
               })
+              this.dataForm.outStatus = 1
+              this.dataForm.totalOut = this.dataForm.outNumber
               let params = Object.assign({}, this.dataForm)
               this.$api.material.save(params).then((res) => {
                 this.editLoading = false
