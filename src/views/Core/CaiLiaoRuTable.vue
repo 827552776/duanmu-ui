@@ -116,8 +116,8 @@ export default {
       }
     },
     exportExcel() {
-      const header = ["模具名称", "材料名称","材质", "单位","入库时间", "入库数量", "入库价格",  "备注"] // 导出的表头名
-      const filterVal = ["mName", "name","texture","company", "intTime", "intNumber", "wxPrice", "remarks"]
+      const header = ["模具名称", "材料名称","材质", "尺寸", "单位","入库时间", "入库数量", "入库价格",  "备注"] // 导出的表头名
+      const filterVal = ["mName", "name","texture","size","company", "intTime", "intNumber", "wxPrice", "remarks"]
       for (let i = 0; i < this.multipleSelection.length; i++) {
         this.excelData.push(this.multipleSelection[i]);
       }
