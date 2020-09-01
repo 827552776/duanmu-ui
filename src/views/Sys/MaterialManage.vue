@@ -831,6 +831,9 @@
                 this.editDialogVisibleIn=false
                 this.editDialogVisibleOut = false
               })
+              this.dataForm.perStatus = 0
+              this.dataForm.outStatus = 0
+              this.dataForm.totalOut = 0
               let params = Object.assign({}, this.dataForm)
               this.$api.material.save(params).then((res) => {
                 this.editLoading = false
