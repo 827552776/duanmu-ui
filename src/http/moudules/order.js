@@ -134,6 +134,15 @@ export const findPage = (data) => {
     })
 }
 
+// 运费外协分页查询（全部）
+export const findPageY = (data) => {
+  return axios({
+    url: '/order/findPageY',
+    method: 'post',
+    data
+  })
+}
+
 // 分页查询（已完成）
 export const findPageCom = (data) => {
     return axios({

@@ -120,12 +120,40 @@
 			<el-table :data="gridData" show-summary  @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" :show-overflow-tooltip="true"/>
         <el-table-column type="index" width="50"/>
-        <el-table-column prop="fareType" label="运费类型" width="120"/>
-        <el-table-column prop="descri" label="运费描述" width="180"/>
-        <el-table-column prop="logis" label="物流" width="150"/>
-        <el-table-column prop="remarks" label="运输备注" width="150"/>
-        <el-table-column prop="material" label="材料运费" width="150"/>
-        <el-table-column prop="delvDate" label="日期" width="150" :dateFormat="yyyy-MM-dd"/>
+        <el-table-column prop="fareType" label="运费类型" width="120">
+          <template  slot-scope="scope">
+            <el-select v-model="scope.row.fareType" placeholder="请选择" size="small">
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column prop="" label="运费描述" width="180">
+          <template  slot-scope="scope">
+            <el-input v-model="scope.row.descri" placeholder="请输入运费描述" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="logis" label="物流" width="150">
+          <template  slot-scope="scope">
+            <el-input v-model="scope.row.logis" placeholder="请输入物流" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="remarks" label="运输备注" width="150">
+          <template  slot-scope="scope">
+            <el-input v-model="scope.row.remarks" placeholder="请输入运输备注" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="material" label="材料运费" width="150">
+          <template slot-scope="scope">
+            <el-input v-model.number="scope.row.material" placeholder="请输入材料运费" size="small"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="delvDate" label="日期" width="180">
+          <template slot-scope="scope">
+            <el-date-picker style="width: 170px;" v-model="scope.row.delvDate" type="date" size="small" placeholder="选择日期" value-format="yyyy-MM-dd">
+          </el-date-picker>
+          </template>
+        </el-table-column>
 				<el-table-column prop="price" label="具体费用" width="120">
 					<template slot-scope="scope">
             <el-input v-model.number="scope.row.price" placeholder="请输入价格" size="small"/>

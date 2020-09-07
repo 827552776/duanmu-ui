@@ -262,6 +262,14 @@
                   <el-input v-model="dataFormInt.com " auto-complete="off" disabled="false" />
                 </el-form-item>
               </el-col>
+              <el-col :span="5">
+                <el-form-item label="入库类型" prop="rkType">
+                  <el-select v-model="dataFormInt.rkType" placeholder="请选择">
+                    <el-option label="来料" value="来料"></el-option>
+                    <el-option label="外协回来" value="外协回来"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
           <el-button :size="size" @click.native="editDialogVisibleIn = false">{{$t('action.cancel')}}</el-button>
@@ -508,7 +516,8 @@
           wxNumber:'',
           wxPrice:'',
           sumPrice:'',
-          remarks:''
+          remarks:'',
+          rkType:''
         },
         loading:false,
         selectInvTend: [],

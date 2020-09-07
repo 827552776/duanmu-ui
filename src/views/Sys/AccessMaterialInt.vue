@@ -13,6 +13,16 @@
           <el-input v-model="filters.remarks" placeholder="来料/外协回来"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-select v-model="filters.rkType" clearable placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-input v-model="filters.com" placeholder="材料来源"></el-input>
         </el-form-item>
         <el-form-item label="" prop="sort">
@@ -82,6 +92,16 @@
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
+        <el-form-item label="入库类型" prop="rkType">
+          <el-select v-model="dataForm.rkType" clearable placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <!--        <el-form-item label="外协单位" prop="type">-->
         <!--          <el-input v-model="dataForm.waixie" auto-complete="off"></el-input>-->
         <!--        </el-form-item>-->
@@ -148,10 +168,18 @@
           name: '',
           mName:'',
           remarks:'',
+          rkType: '',
           com:'',
           qianTime:'',
           houTime:''
         },
+        options: [{
+          label: '来料',
+          value: '来料'
+        }, {
+          label: '外协回来',
+          value: '外协回来'
+        }],
         columns: [
           {prop:"id", label:"ID", minWidth:70},
           {prop:"intTime", label:"入库时间", minWidth:100,formatter:this.dateFormat},
@@ -170,6 +198,7 @@
           // {prop:"wxInt", label:"外协入库时间", minWidth:100,formatter:this.dateFormat},
           // {prop:"wxNumber", label:"外协数量", minWidth:80},
           // {prop:"type", label:"状态", minWidth:80},
+          {prop:"rkType", label:"入库类型", minWidth:120},
           {prop:"remarks", label:"备注", minWidth:120},
           {prop:"createBy", label:"创建人", minWidth:100},
           {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
@@ -210,7 +239,8 @@
           wxInt:'',
           wxNumber:'',
           wxPrice:'',
-          remarks:''
+          remarks:'',
+          rkType: ''
         }
       }
     },
@@ -260,6 +290,7 @@
           name: {name:'name', value:this.filters.name},
           mName: {name:'mName', value:this.filters.mName},
           remarks: {name:'remarks', value:this.filters.remarks},
+          rkType: {name:'rkType', value:this.filters.rkType},
           com: {name:'com', value:this.filters.com},
           qianTime: {name:'qianTime', value:this.filters.qianTime},
           houTime: {name:'houTime', value:this.filters.houTime}}
