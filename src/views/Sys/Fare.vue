@@ -8,16 +8,6 @@
 				<el-form-item>
 					<el-input v-model="filters.mouldNm" placeholder="模具名称"></el-input>
 				</el-form-item>
-<!--        <el-form-item>-->
-<!--          <el-select v-model="filters.isOut" placeholder="请选择">-->
-<!--            <el-option-->
-<!--              v-for="item in outOptions"-->
-<!--              :key="item.value"-->
-<!--              :label="item.label"-->
-<!--              :value="item.value">-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
 				<el-form-item>
 					<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)" />
 				</el-form-item>
@@ -285,10 +275,7 @@
 				size: 'mini',
 				filters: {
 					cust: '',
-					mouldNm: '',
-          lotNo: '',
-          qianTime:'',
-          houTime:''
+					mouldNm: ''
 				},
 				columns: [],
 				filterColumns: [],
@@ -309,13 +296,6 @@
 						trigger: 'blur'
 					}]
 				},
-        outOptions: [{
-				  value: '',
-          label: '未完全出库'
-        }, {
-				  value: '1',
-          label: '完全出库'
-        }],
 				options: [{
 					value: '派工拉货',
 					label: '派工拉货'
@@ -569,19 +549,7 @@
 					mouldNm: {
 						name: 'mouldNm',
 						value: this.filters.mouldNm
-					},
-          lotNo: {
-            name: 'lotNo',
-            value: this.filters.lotNo
-          },
-          qianTime: {
-            name: 'qianTime',
-            value: this.filters.qianTime
-          },
-          houTime: {
-            name: 'houTime',
-            value: this.filters.houTime
-          }
+					}
 				}
 				this.$api.order.findPageY(this.pageRequest).then((res) => {
 					this.pageResult = res.data
