@@ -13,13 +13,13 @@
         :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
         :sortable="column.sortable==null?true:column.sortable">
       </el-table-column>
-<!--      <el-table-column :label="$t('action.operation')" width="260" fixed="right" v-if="showOperation" header-align="center" align="center">-->
-<!--        <template slot-scope="scope">-->
+      <el-table-column :label="$t('action.operation')" width="260" fixed="right" v-if="showOperation" header-align="center" align="center">
+        <template slot-scope="scope">
 <!--&lt;!&ndash;          <kt-button icon="fa fa-edit" :label="$t('确认')" :perms="permsEdit" :size="size" @click="handleEditOut(scope.$index, scope.row)" />&ndash;&gt;-->
 <!--&lt;!&ndash;          <kt-button icon="fa fa-edit" :label="$t('action.edit')" :perms="permsEdit" :size="size" @click="handleEdit(scope.$index, scope.row)" />&ndash;&gt;-->
-<!--&lt;!&ndash;          <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />&ndash;&gt;-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+          <kt-button icon="fa fa-trash" :label="$t('action.delete')" :perms="permsDelete" :size="size" type="danger" @click="handleDelete(scope.$index, scope.row)" />
+        </template>
+      </el-table-column>
     </el-table>
     <!--分页栏-->
     <div class="toolbar" style="padding:10px;">

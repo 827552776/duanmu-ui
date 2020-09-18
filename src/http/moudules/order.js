@@ -125,6 +125,15 @@ export const deleteDispa = (data) => {
     })
 }
 
+// 删除 运费明细
+export const deleteYf = (data) => {
+  return axios({
+        url: '/fare/delete',
+        method: 'post',
+        data
+  })
+}
+
 // 分页查询（全部）
 export const findPage = (data) => {
     return axios({

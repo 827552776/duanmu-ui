@@ -154,7 +154,7 @@
             },
             // 批量删除
             handleDelete: function (data) {
-                this.$api.dict.batchDelete(data.params).then(data!=null?data.callback:'')
+                this.$api.order.deleteYf(data.params).then(data!=null?data.callback:'')
             },
             // 显示新增界面
             handleAdd: function () {
