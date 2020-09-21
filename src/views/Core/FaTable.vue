@@ -85,7 +85,7 @@ export default {
       // 分页信息
 			pageRequest: {
 				pageNum: 1,
-        pageSize: 200
+        pageSize: 500
       },
       loading: false,  // 加载标识
       selections: []  // 列表选中列
