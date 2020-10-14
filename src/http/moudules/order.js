@@ -143,6 +143,15 @@ export const findPage = (data) => {
     })
 }
 
+// 分页查询（出库记录）
+export const findPageOutQuery = (data) => {
+    return axios({
+        url: '/out/findPageOutQuery',
+        method: 'post',
+        data
+    })
+}
+
 // 运费外协分页查询（全部）
 export const findPageY = (data) => {
   return axios({

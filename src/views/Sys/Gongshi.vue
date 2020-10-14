@@ -52,17 +52,17 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7" :offset="2">
+					<el-col :span="7" :offset="16">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
 							<el-button :size="size" @click="off">{{$t('action.cancel')}}</el-button>
 						</el-form-item>
 					</el-col>
-		
+
 				</el-row>
 				<el-row>
-		
-					
+
+
 				</el-row>
 			</el-form>
 		</el-dialog>
@@ -180,7 +180,7 @@
 				}).then(data != null ? data.callback : '')
 			},
 
-		
+
 			off(){
 				this.dialogVisible = false
 			},
@@ -201,13 +201,13 @@
 								type: 'error',
 								message: '删除失败!' + response.data.msg
 							});
-			
+
 						}
-			
+
 					})
 				})
-			
-			
+
+
 			},
 			// 处理表格列过滤显示
 			displayFilterColumnsDialog: function() {
@@ -245,7 +245,7 @@
 										label: "派工数量",
 										minWidth: 80
 									},
-									
+
 									{
 										prop: "company",
 										label: "单位",
@@ -261,7 +261,7 @@
 										label: "属性",
 										minWidth: 80
 									},
-									
+
 									{
 										prop: "remarks",
 										label: "备注",

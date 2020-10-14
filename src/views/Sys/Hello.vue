@@ -309,8 +309,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="总出库数量:" prop="outNum" :rules="[{ type: 'number', message: '必须为数字值'}]">
-							<el-input v-model.number="out.outNum" @blur="xianzhi1" style="width:160px"></el-input>
+						<el-form-item label="出库数量:" prop="number" :rules="[{ type: 'number', message: '必须为数字值'}]">
+							<el-input v-model.number="out.number" @blur="xianzhi1" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
 
@@ -369,9 +369,18 @@
 				out:{
 					id:'',
 					outDate:'',
-					outNum:'',
-					quantity:'',
-          wareNo:''
+					outNum: '',
+          number: '',
+					quantity: '',
+          lotNo: '',
+          cust: '',
+          mouldNm: '',
+          company: '',
+          dispatchNo: '',
+          remarks: '',
+          wareNum: '',
+          wareNo: '',
+          outNo: ''
 				},
 				columns: [],
 				filterColumns: [],

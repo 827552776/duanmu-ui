@@ -26,7 +26,7 @@
               @findPage="findPage" @handleEditIt="handleEditIt" @handleEditOut="handleEditOut" @handleEdit="handleEdit"  @handleDelete="handleDelete">
     </kf-table>
     <!--新增编辑界面-->
-    <el-dialog :title="operation?'入库':'编辑'" width="90%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
+    <el-dialog :title="operation?'入库':'编辑'" width="70%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
@@ -145,14 +145,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="5">
-                <el-form-item label="入库时间" prop="sort">
-                  <el-date-picker
-                    v-model="dataFormInt.intTime"
-                    type="date"
-                    placeholder="选择日期">
-                  </el-date-picker>
+                <el-form-item label="来源" prop="label">
+                  <el-input v-model="dataFormInt.com " auto-complete="off" disabled="false" />
                 </el-form-item>
               </el-col>
+<!--              <el-col :span="5">-->
+<!--                <el-form-item label="入库时间" prop="sort">-->
+<!--                  <el-date-picker-->
+<!--                    v-model="dataFormInt.intTime"-->
+<!--                    type="date"-->
+<!--                    placeholder="选择日期">-->
+<!--                  </el-date-picker>-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
               <el-col :span="5">
                 <el-form-item label="入库价格" prop="value">
                   <el-input v-model="dataFormInt.wxPrice " auto-complete="off" disabled="false"></el-input>
@@ -171,10 +176,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="5">
-                <el-form-item label="来源" prop="label">
-                  <el-input v-model="dataFormInt.com " auto-complete="off" disabled="false" />
+                <el-form-item label="入库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormInt.intTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
+<!--              <el-col :span="5">-->
+<!--                <el-form-item label="来源" prop="label">-->
+<!--                  <el-input v-model="dataFormInt.com " auto-complete="off" disabled="false" />-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
             </el-row>
           </el-form>
         </el-tab-pane>
@@ -840,7 +854,7 @@
                 this.editDialogVisibleIn=false
                 this.editDialogVisibleOut = false
               })
-              this.dataForm.perStatus = 0
+              this.dataForm.perStatus = 0;
               this.dataForm.outStatus = 0
               this.dataForm.totalOut = 0
               let params = Object.assign({}, this.dataForm)

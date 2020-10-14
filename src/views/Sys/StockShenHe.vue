@@ -91,7 +91,7 @@
       <el-button :size="size" type="primary" @click.native="Outhous1" :loading="editLoading" >{{$t('action.submit')}}</el-button>
     </el-dialog>
     <!--    //确认入库-->
-    <el-dialog :title="'确认入库'" width="80%" :visible.sync="QueRen" :close-on-click-modal="false">
+    <el-dialog :title="'确认入库'" width="75%" :visible.sync="QueRen" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
         <el-form-item label="ID" prop="id"  v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
@@ -103,7 +103,7 @@
           <el-tab-pane label="入库单" name="first" >
             <el-form :model="dataFormInt" label-width="80px"  ref="dataFormInt" :size="size">
               <el-row>
-                <el-col :span="5">
+                <el-col :span="6">
                   <el-form-item label="名称" prop="label">
                     <el-input v-model="dataFormInt.name" auto-complete="off" disabled="false"/>
                   </el-form-item>
@@ -119,24 +119,24 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item label="入库数量 " prop="description">
-                    <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="5">
-                  <el-form-item label="价格" prop="value">
-                    <el-input v-model="dataFormInt.price" auto-complete="off"  />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
                   <el-form-item label="入库时间" prop="sort">
                     <el-date-picker
                       v-model="dataFormInt.intTime"
                       type="date"
                       placeholder="选择日期">
                     </el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="入库数量 " prop="description">
+                    <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="价格" prop="value">
+                    <el-input v-model="dataFormInt.price" auto-complete="off"  />
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">

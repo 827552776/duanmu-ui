@@ -110,24 +110,24 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="入库数量 " prop="description">
-                  <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="5">
-                <el-form-item label="价格" prop="value">
-                  <el-input v-model="dataFormInt.price" auto-complete="off" disabled="false" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="5">
                 <el-form-item label="入库时间" prop="sort">
                   <el-date-picker
                     v-model="dataFormInt.intTime"
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="5">
+                <el-form-item label="入库数量 " prop="description">
+                  <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="价格" prop="value">
+                  <el-input v-model="dataFormInt.price" auto-complete="off" disabled="false" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -171,8 +171,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="入库数量 " prop="description">
-                  <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
+                <el-form-item label="入库时间" prop="sort">
+                  <el-date-picker
+                    v-model="dataFormInt.intTime"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -190,17 +194,13 @@
               <!--&lt;!&ndash;                </el-form-item>&ndash;&gt;-->
               <!--              </el-col>-->
               <el-col :span="5">
-                <el-form-item label="价格" prop="value">
-                  <el-input v-model="dataFormInt.price" auto-complete="off"  />
+                <el-form-item label="入库数量 " prop="description">
+                  <el-input v-model="dataFormInt.number" auto-complete="off" disabled="false"/>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
-                <el-form-item label="入库时间" prop="sort">
-                  <el-date-picker
-                    v-model="dataFormInt.intTime"
-                    type="date"
-                    placeholder="选择日期">
-                  </el-date-picker>
+                <el-form-item label="价格" prop="value">
+                  <el-input v-model="dataFormInt.price" auto-complete="off"  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -260,6 +260,15 @@
                   <el-input v-model="dataFormInt.modeBy" auto-complete="off"  />
                 </el-form-item>
               </el-col>
+              <el-col :span="5">
+                <el-form-item label="领用类型">
+                  <el-select v-model="dataFormInt.mode" auto-complete="off" placeholder="请选择">
+                    <el-option label="借" value="借"/>
+                    <el-option label="换" value="换"/>
+                    <el-option label="领" value="领"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item label="出库时间" prop="sort">
                   <el-date-picker
@@ -267,15 +276,6 @@
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="领用类型">
-                  <el-select v-model="dataFormInt.mode" auto-complete="off" placeholder="请选择">
-                    <el-option label="借" value="借"/>
-                    <el-option label="换" value="换"/>
-                    <el-option label="领" value="领"/>
-                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -350,7 +350,7 @@
               </el-col>
             </el-row>
           </el-form>
-          <el-button :size="size" @click.native="editDialogVisible = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
+          <el-button :size="size" @click.native="editDialogVisibleOut = false" :disabled="operation?true:false">{{$t('action.cancel')}}</el-button>
           <el-button :size="size" type="primary" @click.native="submitForm4" :loading="editLoading" :disabled="operation?true:false">{{$t('action.submit')}}</el-button>
         </el-tab-pane>
       </el-tabs>

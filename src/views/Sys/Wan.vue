@@ -65,7 +65,7 @@
 				<el-row>
 					<el-col :span="8">
 						<el-form-item label="运费类型:" prop="fareType">
-							<el-select v-model="fare.fareType" placeholder="请选择" style="width:130px;">
+							<el-select v-model="fare.fareType" placeholder="请选择" style="width:170px;">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
 							</el-select>
@@ -78,33 +78,33 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="物流:" prop="logis">
-							<el-input v-model="fare.logis" placeholder="" style="width:103px"></el-input>
+							<el-input v-model="fare.logis" placeholder="" style="width:170px"></el-input>
 						</el-form-item>
 					</el-col>
-          <el-col :span="8" >
-            <el-form-item label="材料名称:" prop="material">
-              <el-input v-model="fare.material" placeholder="" style="width:103px"></el-input>
-            </el-form-item>
-          </el-col>
 				</el-row>
 				<el-row>
+          <el-col :span="8" >
+            <el-form-item label="材料名称:" prop="material">
+              <el-input v-model="fare.material" placeholder="" style="width:170px"></el-input>
+            </el-form-item>
+          </el-col>
 					<el-col :span="8">
 						<el-form-item label="具体费用:" prop="price" :rules="[{ type: 'number', message: '必须为数字值'}]">
-							<el-input v-model.number="fare.price" placeholder="" style="width:130px"></el-input>
+							<el-input v-model.number="fare.price" placeholder="" style="width:170px"></el-input>
 						</el-form-item>
 					</el-col>
           <el-col :span="8" >
             <el-form-item label="运输备注:" prop="remarks">
-              <el-input v-model="fare.remarks" placeholder="" style="width:103px"></el-input>
+              <el-input v-model="fare.remarks" placeholder="" style="width:170px"></el-input>
             </el-form-item>
           </el-col>
-					<el-col :span="9">
+					<el-col :span="8">
 						<el-form-item label="日期:" prop="delvDate">
 							<el-date-picker style="width: 170px;" v-model="fare.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="7" >
 						<el-form-item>
 							<el-button type="success" size="mini" @click="save">保存</el-button>
 							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -175,38 +175,37 @@
 					<el-input v-model="help.fId"></el-input>
 				</el-form-item>
 				<el-row>
-					<el-col :span="9">
+					<el-col :span="8">
 						<el-form-item label="具体业务:" prop="work">
 							<el-input v-model="help.work" style="width:160px;">
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="开始时间:" prop="startDate">
 							<el-date-picker style="width: 160px;" v-model="help.startDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="结束时间:" prop="endDate">
 							<el-date-picker style="width: 160px;" v-model="help.endDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-
 				</el-row>
 				<el-row>
-					<el-col :span="9">
+					<el-col :span="8">
 						<el-form-item label="数量:" prop="helpQuan">
 							<el-input v-model="help.helpQuan" placeholder="" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="价格:" prop="price">
               <el-input v-model="help.price" placeholder="" style="width:160px"/>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="付款时间:" prop="payDate">
 							<el-date-picker style="width: 160px;" v-model="help.payDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
 							</el-date-picker>
@@ -214,7 +213,7 @@
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="9">
+					<el-col :span="8">
 						<el-form-item label="外协厂家:" prop="helpNm">
 							<el-select v-model="help.helpNm" placeholder="请选择" style="width:160px;">
 								<el-option v-for="item in selectInvTend" :key="item.cmName" :label="item.cmName" :value="item.cmName">
@@ -222,7 +221,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="7">
+					<el-col :span="8">
 						<el-form-item label="外协备注:" prop="helpRemarks">
               <el-input v-model="help.helpRemarks" placeholder="" style="width:160px"/>
 						</el-form-item>
