@@ -549,6 +549,13 @@
 				})
 			},
 			saveOut(){
+			  if (this.out.wareNum - this.out.number -this.out.outNum < 0 ) {
+			    this.$message({
+            message: '出库数量不能超出库存',
+            type: 'warning'
+          })
+          return
+        }
 				this.$confirm('是否执行本操作?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
