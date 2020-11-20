@@ -112,7 +112,7 @@
 					<el-col :span="4">
 						<el-form-item>
 							<el-button type="success" size="mini" @click="saveButton">保存</el-button>
-							<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
+							<el-button :size="size" @click="offIn">{{$t('action.cancel')}}</el-button>
 							<el-button type="danger" size="mini" @click="reset">清空全部</el-button>
 						</el-form-item>
 					</el-col>
@@ -508,6 +508,11 @@
 				this.dialogVisible1 = true
 				this.ware = Object.assign({}, params.row)
 			},
+      offIn(){
+        this.$refs['orderReg'].resetFields()
+        this.$refs['dispa'].resetFields()
+        this.dialogVisible = false
+      },
 			off(){
 				this.$refs['ware'].resetFields()
 				this.dialogVisible1 = false
@@ -625,6 +630,7 @@
 					let params = Object.assign({}, this.orderReg)
 					this.$api.order.save(params).then((res) => {
 						if (res.code == 200) {
+              this.$refs['orderReg'].resetFields()
 							this.saveDispa()
 						} else {
 							this.$message({
@@ -664,7 +670,8 @@
 				let params = Object.assign({}, this.dispa)
 				this.$api.order.saveDispa(params).then((res) => {
 					if (res.code == 200) {
-						this.$message({
+            this.$refs['dispa'].resetFields()
+            this.$message({
 							message: '操作成功',
 							type: 'success'
 						})
