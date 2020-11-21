@@ -301,6 +301,9 @@
 				<el-form-item label="ID"  prop="id" v-if="isShow">
 					<el-input v-model="out.id"></el-input>
 				</el-form-item>
+        <el-form-item label="剩余数量" prop="reQuantity" v-if="isShow">
+          <el-input v-model="out.reQuantity"></el-input>
+        </el-form-item>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="出库时间:" prop="outDate">
@@ -313,7 +316,6 @@
 							<el-input v-model.number="out.number" @blur="xianzhi1" style="width:160px"></el-input>
 						</el-form-item>
 					</el-col>
-
 				</el-row>
 				<el-row>
 					<el-col :span="12">
@@ -380,7 +382,8 @@
           remarks: '',
           wareNum: '',
           wareNo: '',
-          outNo: ''
+          outNo: '',
+          reQuantity: ''
 				},
 				columns: [],
 				filterColumns: [],
@@ -755,6 +758,11 @@
 						label: "入库数量",
 						minWidth: 100
 					},
+          {
+            prop: "reQuantity",
+            label: "剩余数量",
+            minWidth: 100
+          },
           {
             prop: "company",
             label: "单位",
