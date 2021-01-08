@@ -43,7 +43,7 @@
 		<or-table :height="700" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult" :columns="filterColumns"
 		 @findPage="findPage" @handleEdit="handleEdit" @Warehous="Warehous" @Outhous="Outhous" @handleDelete="handleDelete">
 		</or-table>
-		<el-dialog :title="operation?'新增':'编辑'" width="100%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+		<el-dialog :title="operation?'新增':'编辑'" width="100%" :visible.sync="dialogVisible" @close="offIn">
 			<el-form :inline="true" :model="orderReg" label-position="right" label-width="80px" size="mini" ref="orderReg">
 				<el-form-item label="ID" prop="id" v-if="isShow">
 					<el-input v-model="orderReg.id"></el-input>
@@ -159,8 +159,7 @@
 						<el-row>
 							<el-col :span="5">
 								<el-form-item label="制单时间:" prop="dispaMakeTime">
-									<el-date-picker style="width: 140px;" v-model="dispa.dispaMakeTime" type="date" placeholder="选择日期"
-									 value-format="yyyy-MM-dd">
+									<el-date-picker style="width: 140px;" v-model="dispa.dispaMakeTime" type="datetime" placeholder="选择日期">
 									</el-date-picker>
 								</el-form-item>
 							</el-col>
@@ -215,7 +214,7 @@
 						<el-row>
 							<el-col :span="5">
 								<el-form-item label="交付日期:" prop="delvDate">
-									<el-date-picker style="width: 140px;" v-model="dispa.delvDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+									<el-date-picker style="width: 140px;" v-model="dispa.delvDate" type="datetime" placeholder="选择日期">
 									</el-date-picker>
 								</el-form-item>
 							</el-col>
@@ -513,7 +512,20 @@
 			},
       offIn(){
         this.$refs['orderReg'].resetFields()
+        this.orderReg.id = ''
+        this.orderReg.shuxing = ''
+        this.orderReg.lotNo = ''
+        this.orderReg.cust = ''
+        this.orderReg.mouldNm = ''
+        this.orderReg.quantity = ''
+        this.orderReg.company = ''
+        this.orderReg.dispatchNo = ''
+        this.orderReg.buyMaterial = ''
+        this.orderReg.remarks = ''
+        this.orderReg.outNo = ''
+        this.orderReg.wareNo = ''
         this.$refs['dispa'].resetFields()
+
         this.dialogVisible = false
       },
 			off(){
@@ -594,6 +606,8 @@
 			handleEdit: function(params) {
 				this.dialogVisible = true
 				this.operation = false
+        // this.dispa.dispaMakeTime = params.row.dispaMakeTime
+        // this.dispa.delvDate = params.row.delvDate
 				this.orderReg = Object.assign({}, params.row)
 				let reg = this.orderReg
 				this.queryDispa(reg)
@@ -715,6 +729,18 @@
 			},
 			reset() {
 				this.$refs['orderReg'].resetFields()
+        this.orderReg.id = ''
+        this.orderReg.shuxing = ''
+        this.orderReg.lotNo = ''
+        this.orderReg.cust = ''
+        this.orderReg.mouldNm = ''
+        this.orderReg.quantity = ''
+        this.orderReg.company = ''
+        this.orderReg.dispatchNo = ''
+        this.orderReg.buyMaterial = ''
+        this.orderReg.remarks = ''
+        this.orderReg.outNo = ''
+        this.orderReg.wareNo = ''
 				this.$refs['dispa'].resetFields()
 			},
 			// 处理表格列过滤显示
