@@ -39,13 +39,14 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="模具名称" prop="label">
-              <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable
-                         remote :remote-method="remoteMethod" >
-                <el-option v-for="item in options4"  :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
+              <el-input  v-model="dataForm.mName" auto-complete="off"></el-input>
+<!--              <el-select v-model="dataForm.mName" placeholder="请输入关键字"   filterable-->
+<!--                         remote :remote-method="remoteMethod" >-->
+<!--                <el-option v-for="item in options4"  :key="item.value"-->
+<!--                           :label="item.label"-->
+<!--                           :value="item.value">-->
+<!--                </el-option>-->
+<!--              </el-select>-->
             </el-form-item>
           </el-col>
           <el-col :span="5">
